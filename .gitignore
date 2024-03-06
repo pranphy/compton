@@ -1,0 +1,80 @@
+images
+__gen/
+
+# random seed files
+*.rndm
+
+# output from createHTML
+*.html
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# backups etc
+*~
+*.swp
+
+# Mac
+*.DS_Store
+
+#ignore libraries and helper files
+*.so
+*.d
+
+#ignore output files
+*.root
+*.out
+*.pdf
+*.log
+*.dot
+*.lst
+
+#ignore kdev files
+*.kdev4
+
+#install directories
+bin/
+lib/
+lib64/
+share/
+map_directory/
+
+#ignore build, output
+build*
+bldXcode
+output
+.vscode
+
+#ignore rad_dose radiation analysis work (another repository on sbujlab github)
+rad_analysis
+
+#ignore log files directory
+log/
+
+#ignore project files for eclipse
+.cproject
+.project
+.settings
+
+#ignore build type file
+.buildtype
+
+#ignore dot files
+*.dot
+
+#sample_gdml output
+sample_gdml.*
+
+#ignore log files
+*.log
+callgrind.*
+
+# jekyll
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
+Gemfile.lock
+.ccls-cache
+compile_commands.json

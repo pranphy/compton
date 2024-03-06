@@ -1,0 +1,72 @@
+/compton/setgeofile geometries/ComptonGeometry.gdml
+/compton/parallel/setfile geometries/ComptonParallel.gdml
+
+/compton/physlist/parallel/enable
+/physics_lists/em/SyncRadiation true
+
+/run/initialize
+/compton/printgeometry false
+/run/verbose 0
+#/tracking/verbose 3
+
+/compton/addfield map_directory/dipole_magnetic_field_1_13.txt
+/compton/addfield map_directory/dipole_magnetic_field_2_13.txt
+/compton/addfield map_directory/dipole_magnetic_field_3_13.txt
+/compton/addfield map_directory/dipole_magnetic_field_4_13.txt
+
+/compton/evgen/beam/origin 0  215.49 -8249.76 mm
+/compton/evgen/beam/xspread 60 um
+/compton/evgen/beam/yspread 60 um
+/compton/evgen/beam/rasx 0 um
+/compton/evgen/beam/rasy 0 um
+/compton/evgen/beam/corrx 0
+/compton/evgen/beam/corry 0
+
+
+/compton/beamene 11 GeV
+/compton/beamcurr 65 microampere
+
+
+/compton/evgen/set beam
+
+/compton/evgen/beamPolarization +L
+/compton/field/equationtype 2
+/compton/field/steppertype 2
+
+
+/compton/SD/disable_all
+/compton/SD/enable 11
+/compton/SD/detect lowenergyneutral 11
+/compton/SD/detect secondaries 11
+/compton/SD/detect boundaryhits 11
+
+/compton/SD/enable 12
+/compton/SD/detect lowenergyneutral 12
+/compton/SD/detect secondaries 12
+/compton/SD/detect boundaryhits 12
+
+/compton/SD/enable 13
+/compton/SD/detect lowenergyneutral 13
+/compton/SD/detect secondaries 13
+/compton/SD/detect boundaryhits 13
+
+/compton/SD/enable 14
+/compton/SD/detect lowenergyneutral 14
+/compton/SD/detect secondaries 14
+/compton/SD/detect boundaryhits 14
+
+
+/compton/SD/enable 15
+/compton/SD/detect lowenergyneutral 15
+/compton/SD/detect secondaries 15
+/compton/SD/detect boundaryhits 15
+
+
+
+/process/list
+
+/compton/seed 112135637
+/compton/filename output/aga_full_chicane_bend_sync_008.root
+
+/run/beamOn 500000
+

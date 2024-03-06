@@ -1,0 +1,17 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = lf
+trim_trailing_whitespace = true
+indent_style = space
+insert_final_newline = true
+
+# 2 space indentation for gdmls
+[*.{gdml,xml,xsd}]
+indent_size = 2
+
+# 4 space indentation
+[*.{hh,cc,cpp,c,h}]
+indent_size = 4
+

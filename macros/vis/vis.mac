@@ -1,0 +1,121 @@
+#
+# Create a new empty scene
+#
+/vis/scene/create
+
+#
+# Draw both real and parallel worlds
+#
+/vis/drawVolume worlds
+
+#
+# Declare that the world volume should be added to the scene
+#
+/vis/scene/add/volume
+#
+#
+# Attach scene to scenehandler
+#
+/vis/sceneHandler/attach
+
+# Add axis (has to be after /vis/scene/create )
+#
+/vis/scene/add/axes 0 0 0 100 cm
+
+
+#
+# Draw a picture that has just the detector (no trajectories or hits).
+#
+/vis/viewer/flush
+
+#
+# Declare that trajectories and hits should be added to the scene
+#
+/vis/scene/add/trajectories rich
+/vis/scene/add/hits
+
+#
+# Set camera
+#
+/vis/viewer/reset
+# Specify view angle:
+#updated setting
+/vis/viewer/set/viewpointThetaPhi 90. 0.
+#old value
+#/vis/viewer/set/viewpointThetaPhi 35 15 deg
+#/vis/viewer/zoom 2.0
+
+#
+# Set surface
+#
+/vis/viewer/set/style surface
+
+#updated setting from PREX vis.mac
+/vis/viewer/set/viewpointThetaPhi 90 180 deg
+#/vis/viewer/panTo 100 3000 cm
+/vis/viewer/zoom 3.0
+/vis/viewer/set/lightsThetaPhi 40 50
+#New cutaway plane setting
+#/vis/viewer/set/cutawayMode intersection
+# ---> Uncomment this /vis/viewer/addCutawayPlane 0.0 0.0 0.0 m 1.0 0.0 0.0
+/vis/viewer/set/targetPoint 0 0 -7500 mm
+#old value
+#/vis/viewer/set/lightsMove with-camera
+#
+/vis/scene/add/axes 0 220 -7549.977 10 mm
+/vis/scene/add/axes 0 210 -7549.977 10 mm
+/vis/scene/add/axes 0 218.49 -8249.76 10 mm
+/vis/scene/add/axes 0 218.49 -7549.977 10 mm
+
+/vis/scene/add/axes 0 50 -2154.08 10 mm
+/vis/scene/add/axes 0 0  -2154.08 10 mm
+/vis/scene/add/axes 0 50 -1154.08 10 mm
+/vis/scene/add/axes 0 0  -1154.08 10 mm
+
+/vis/scene/add/axes 0 210 7541.642 10 mm
+/vis/scene/add/axes 0 210 6541.642 10 mm
+
+/vis/scene/add/axes 0 218.49 7541.642 10 mm
+/vis/scene/add/axes 0 218.49 6541.642 10 mm
+
+
+#
+# Create style
+#
+/vis/modeling/trajectories/create/drawByParticleID MollerStyle
+/vis/modeling/trajectories/MollerStyle/set e- red
+/vis/modeling/trajectories/MollerStyle/set e+ blue
+/vis/modeling/trajectories/MollerStyle/set gamma green
+/vis/modeling/trajectories/MollerStyle/set neutron white
+/vis/modeling/trajectories/MollerStyle/set opticalphoton yellow
+/vis/modeling/trajectories/MollerStyle/set proton magenta
+#
+/vis/modeling/trajectories/select MollerStyle
+
+#
+# Create filters
+#
+/vis/filtering/trajectories/create/particleFilter HideAllGammas
+/vis/filtering/trajectories/HideAllGammas/add gamma
+/vis/filtering/trajectories/HideAllGammas/invert true
+/vis/filtering/trajectories/HideAllGammas/active 0
+
+/vis/filtering/trajectories/create/chargeFilter ShowOnlyCharged
+/vis/filtering/trajectories/ShowOnlyCharged/add 0
+/vis/filtering/trajectories/ShowOnlyCharged/invert true
+/vis/filtering/trajectories/ShowOnlyCharged/active 0
+
+/vis/filtering/trajectories/create/encounteredVolumeFilter ShowOnlyPionDetectorHits
+/vis/filtering/trajectories/ShowOnlyPionDetectorHits/add pionDetectorLuciteAllPlanesWedgeGlue_physical
+/vis/filtering/trajectories/ShowOnlyPionDetectorHits/active 0
+
+#
+# Event action
+#
+/vis/scene/endOfEventAction accumulate
+
+#
+# Run action
+#
+/vis/scene/endOfRunAction refresh
+

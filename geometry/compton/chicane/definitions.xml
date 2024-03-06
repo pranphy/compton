@@ -1,0 +1,22 @@
+
+<variable name="laser_gap" value="215.4936" />
+<variable name="pipe_radius" value="27.998"/>
+<variable name="pipe_thickness" value="10"/>
+
+<variable name="pipe_radius_in" value="pipe_radius-pipe_thickness"/>
+<variable name="drift_pipe_length" value="(2*212.43+65.12+64.80)*25.4"/>
+<variable name="drift_pipe2_length" value="(65.12+64.80)*25.4"/>
+
+
+<variable name="bend_angle" value="2.29"/>
+<position name="beam_pos" x="0" y="-laser_gap" z="-(212.43+65.12)*25.4+1200"/>
+
+
+
+<position name="chicane_position" x="0" y="laser_gap" z="0.0" unit="mm" />
+
+<!-- ChicaneWorld Dimiensions -->
+<variable name="chicane_wx" value="1500"/>
+<variable name="chicane_wy" value="1500"/>
+<variable name="chicane_wz" value="17000"/>
+

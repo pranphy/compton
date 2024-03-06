@@ -1,0 +1,53 @@
+# Use this open statement to create an OpenGL view:
+/control/macroPath macros
+/vis/open OGL 600x600-0+0
+
+/compton/physlist/optical/enable
+
+# This is the current working geometry
+/compton/setgeofile geometry/compton/ComptonGeometry.gdml
+/compton/parallel/setfile geometry/compton/ComptonParallel.gdml
+
+#/compton/setphysicslist QGSP_BERT_EMV
+#/physics_lists/em/SyncRadiation true
+
+/run/initialize
+
+/control/execute vis/vis.mac
+
+
+/compton/beamene 110.0 GeV
+/compton/beamcurr 65 microampere
+
+/compton/evgen/beam/rasx 0 um
+/compton/evgen/beam/rasy 0 um
+
+/compton/SD/disable_all
+/compton/SD/enable 25
+/compton/SD/detect boundaryhits 25
+#/compton/SD/detect boundaryhits 25
+#/compton/SD/detect incomingonly 25
+
+
+
+/compton/addfield map_directory/dipole_magnetic_field_1_17.txt
+/compton/addfield map_directory/dipole_magnetic_field_2_17.txt
+/compton/addfield map_directory/dipole_magnetic_field_3_17.txt
+/compton/addfield map_directory/dipole_magnetic_field_4_17.txt
+
+## Beam generator
+/compton/evgen/set beam
+/compton/evgen/beam/origin 0  218.49 -8249.76 mm
+#/compton/evgen/beam/xspread 60 um
+#/compton/evgen/beam/yspread 60 um
+/compton/evgen/beam/direction 0 0.0000 1
+
+/compton/seed 42
+
+/run/beamOn 8
+
+/vis/enable
+/vis/viewer/flush
+
+/compton/filename output/inc_all_comptonout_r5o_beam_default.root
+

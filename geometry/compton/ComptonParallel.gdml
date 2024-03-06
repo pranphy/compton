@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!DOCTYPE gdml [
+<!ENTITY world SYSTEM "common/solids.xml">
+]>
+
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+<solids>
+  &world;
+  <tube name="thin_disc" lunit="mm" rmin="0" rmax="400" z="1"  aunit="degree" deltaphi="360" startphi="0" />
+  <!--tube name="long_pipe" lunit="mm" rmin="0" rmax="50" z="1000"  aunit="degree" deltaphi="360" startphi="0" /-->
+</solids>
+
+
+<structure>
+  <volume name="First_vp" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="11"/>
+  </volume>
+
+  <volume name="Valve_vp" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="12"/>
+  </volume>
+
+  <volume name="Second_vp" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+     <auxiliary auxtype="DetNo" auxvalue="13"/>
+  </volume>
+
+  <volume name="VRight_vp" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="14"/>
+  </volume>
+
+  <volume name="Third_vp" >
+      <materialref ref="G4_Na" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+     <auxiliary auxtype="DetNo" auxvalue="15"/>
+  </volume>
+
+
+
+
+  <volume name="ParallelWorld_logical">
+    <materialref ref="G4_Galactic"/>
+    <solidref ref="ParallelSolid"/>
+    <auxiliary auxtype="Color" auxvalue="Green" />
+    <auxiliary auxtype="Alpha" auxvalue="0.2" />
+
+
+      <!--physvol name="FVP_phy">
+        <volumeref ref="First_vp" />
+        <position  unit="mm" x="0" y="215" z="-7800" />
+      </physvol-->
+
+      <physvol name="VVP_phy">
+        <volumeref ref="Valve_vp" />
+        <position  unit="mm" x="0" y="215" z="-165.12*25.4" />
+      </physvol>
+
+
+      <physvol name="SVP_phy">
+        <volumeref ref="Second_vp" />
+        <position  unit="mm" x="0" y="0" z="0" />
+      </physvol>
+
+      <physvol name="VRVP_phy">
+        <volumeref ref="VRight_vp" />
+        <position  unit="mm" x="0" y="215" z="165.12*25.4" />
+      </physvol>
+
+      <physvol name="TVP_phy">
+        <volumeref ref="Third_vp" />
+        <position unit="mm" x="0" y="215" z="7800" />
+      </physvol>
+
+  </volume>
+</structure>
+
+<setup name="Default" version="1.0">
+  <world ref="ParallelWorld_logical"/>
+</setup>
+
+</gdml>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE gdml [
+<!ENTITY definitions SYSTEM "common/definitions.xml">
+<!ENTITY materials SYSTEM "common/materials.xml">
+<!ENTITY world SYSTEM "common/solids.xml">
+<!--ENTITY chicane "chicane/chicane.gdml"-->
+]>
+
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  <!-- Definitions for the World Volume -->
+  <define>
+    &definitions;
+  </define>
+
+  <!-- Common materials -->
+  <materials>
+    &materials;
+  </materials>
+
+  <!-- The World Solid -->
+  <solids>
+    &world;
+  </solids>
+
+  <structure>
+
+    <!-- World Volume Reference -->
+    <volume name="World">
+      <materialref ref="Air" />
+
+      <solidref ref="WorldSolid" />
+      <auxiliary auxtype="Color" auxvalue="white" />
+      <auxiliary auxtype="Alpha" auxvalue="0.3" />
+
+
+      <!-- Construct Photon Detector -->
+      <!--
+      <physvol>
+        <file name="&ComptonPhotonDetector;" />
+        <positionref ref="ComptonPhotonDetectorPos" />
+      </physvol>
+      -->
+
+      <physvol>
+        <file name="chicane/chicane.gdml"/>
+        <position unit="mm" x="0" y="0" z="0" />
+      </physvol>
+
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="World" />
+  </setup>
+</gdml>

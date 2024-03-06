@@ -1,0 +1,2 @@
+<box lunit="mm" name="WorldSolid" x="2000" y="2000" z="20000" />
+<box lunit="mm" name="ParallelSolid" x="1999.99" y="1999.99" z="19999.99" />
