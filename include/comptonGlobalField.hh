@@ -107,12 +107,12 @@ class comptonGlobalField : public G4MagneticField {
         G4GenericMessenger fMessenger{
             this,
             "/compton/",
-            "Remoll properties"
+            "compton properties"
         };
         G4GenericMessenger fGlobalFieldMessenger{
             this,
             "/compton/field/",
-            "Remoll global field properties"
+            "compton global field properties"
         };
 
         G4int fVerboseLevel;

@@ -77,7 +77,7 @@ comptonGlobalField::comptonGlobalField()
     fGlobalFieldMessenger.DeclareProperty("deltaonestep",fDeltaOneStep,"Set delta one step for the field manager");
     fGlobalFieldMessenger.DeclareProperty("deltaintersection",fMinStep,"Set delta intersection for the field manager");
     fGlobalFieldMessenger.DeclareMethod("interpolation",&comptonGlobalField::SetInterpolationType,"Set magnetic field interpolation type");
-    fGlobalFieldMessenger.DeclareMethod("zoffset",&comptonGlobalField::SetZOffset,"Set magnetic field z offset");
+    //fGlobalFieldMessenger.DeclareMethod("zoffset",&comptonGlobalField::SetZOffset,"Set magnetic field z offset");
     fGlobalFieldMessenger.DeclareMethod("scale",&comptonGlobalField::SetFieldScale,"Scale magnetic field by factor");
     fGlobalFieldMessenger.DeclareMethod("current",&comptonGlobalField::SetMagnetCurrent,"Scale magnetic field by current");
     fGlobalFieldMessenger.DeclareMethod("value",&comptonGlobalField::PrintFieldValue,"Print the field value at a given point (in m)");
@@ -230,6 +230,7 @@ comptonMagneticField* comptonGlobalField::GetFieldByName(const G4String& name) c
         if ((*it)->GetName() == name)
           return (*it);
 
+    //for(auto field: fFields) if (field->GetName() == name) return field;
     return 0;
 }
 
@@ -251,10 +252,20 @@ void comptonGlobalField::GetFieldValue(const G4double p[], G4double *field) cons
     field[0] = 0.0;
     field[1] = 0.0;
     field[2] = 0.0;
-    for (auto it = fFields.begin(); it != fFields.end(); it++)
-        (*it)->AddFieldValue(p, field);
+    G4double k[3] = {0,0,0};
+    //for (auto it = fFields.begin(); it != fFields.end(); it++){
+    for(auto mfield: fFields){
+        mfield->GetFieldValue(p,k);
+        //if( k[0] != 0 ){
+            //std::cout<<"For the "<<mfield->GetName();
+            //std::cout<<"FFF, "<<p[0]<<","<<p[1]<<", "<<p[2]<<",   "<<k[0]<<","<<k[1]<<", "<<k[2]<<std::endl;
+            //std::cout<<"For the "<<mfield->GetName()<<" got "<<k[0]<<","<<k[1]<<", "<<k[2]<<std::endl;
+        //}
+        mfield->AddFieldValue(p, field);
+    }
 }
 
+/*
 void comptonGlobalField::SetZOffset(const G4String& name, G4double offset)
 {
   comptonMagneticField *field = GetFieldByName(name);
@@ -266,6 +277,7 @@ void comptonGlobalField::SetZOffset(const G4String& name, G4double offset)
            << ": field " << name << " offset failed" << G4endl;
   }
 }
+*/
 
 void comptonGlobalField::SetInterpolationType(const G4String& name, const G4String& type)
 {

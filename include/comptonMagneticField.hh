@@ -15,30 +15,14 @@
 
 class comptonMagneticField : public G4MagneticField {
     /*!
-     * Moller spectrometer magnetic field class
-     *
-     * Use trilinear interpolation in cylindrical coordinates
-     * Might be nice to use some kind of spline someday?
-     * Use vectors to store multidimensional arrays
-     *
-     * Units are meters, degrees, and Tesla
-     * Coordinate ordering will be r, phi, z
-     * We will only deal with phi interval [-pi,pi]
-     *
-     * Field maps are of the form
-     *
-     * #Rpoints		rmin	rmax
-     * #Phipoints	phimin	phimax
-     * #Zpoints		zmin	zmax
-     * # xtants (7 for septant form, 1 for full geometry)
-     * r   phi   z    br   bphi   bz
-     * ......
-     *
+     * Nx  xmin xman xoffset
+     * Ny  ymin yman yoffset
+     * Nz  zmin zman zoffset
      */
 
     private:
 
-        enum EInterpolationType {kLinear, kCubic};
+    enum EInterpolationType {kLinear, kCubic};
 
     public:
 
@@ -52,36 +36,39 @@ class comptonMagneticField : public G4MagneticField {
 	void SetRefCurrent(G4double current) { fRefCurrent = current; }
 	void SetCurrent(G4double current) { SetFieldScale(current/fRefCurrent); }
 
-	void SetZoffset(G4double z) { fZoffset = z; }
+	void SetXOffset(G4double x) { fOffset[kX] = x; }
+	void SetYOffset(G4double y) { fOffset[kY] = y; }
+	void SetZOffset(G4double z) { fOffset[kZ] = z; }
 
 	const G4String& GetName() const { return fName; }
 
-	enum Coord_t { kR, kPhi, kZ };
+	enum Coord_t { kX=0, kY, kZ };
 
-        G4bool IsInBoundingBox(const G4double* p) const {
-          if (p[2] - fZoffset < fMin[kZ] || p[2] - fZoffset > fMax[kZ]) return false;
-          if (p[0] < -fMax[kR] || p[0] > fMax[kR]) return false;
-          if (p[1] < -fMax[kR] || p[1] > fMax[kR]) return false;
-          return true;
-        }
+    G4bool IsInBoundingBox(const G4double* p) const {
+      if( p[0] < fMin[kX] + fOffset[kX] or p[0] > fMax[kX] + fOffset[kX] ) return false;
+      if( p[1] < fMin[kY] + fOffset[kY] or p[1] > fMax[kY] + fOffset[kY] ) return false;
+      if( p[2] < fMin[kZ] + fOffset[kZ] or p[2] > fMax[kZ] + fOffset[kZ] ) return false;
+      return true;
+    }
 
     private:
 	G4String fName;
 	G4String fFilename;
 
 	size_t fN[__NDIM];
+	G4double fOffset[__NDIM];
 	G4double fUnit[__NDIM], fMin[__NDIM], fMax[__NDIM], fStep[__NDIM];
 	G4double fFileMin[__NDIM], fFileMax[__NDIM];
 
-	G4int fNxtant; // Number of *tants (septants, or whatever)
-	G4double fPhi0, fPhiLow, fxtantSize;
+	//G4int fNxtant; // Number of *tants (septants, or whatever)
+	//G4double fY0, fYLow, fxtantSize;
 
 	// Storage space for the table
 	std::vector< std::vector< std::vector< G4double > > > fBFieldData[__NDIM];
 
-	G4double fZoffset, fPhiOffset;
-	G4double fZMapOffset, fPhiMapOffset;
+	G4double fZMapOffset, fYMapOffset;
 
+	G4double fFieldValue;
 	G4double fFieldScale; // Scale overall field by this amount
 	G4double fRefCurrent; // Reference current for magnetic field
 
