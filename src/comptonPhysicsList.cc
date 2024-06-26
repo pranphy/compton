@@ -32,7 +32,7 @@ comptonPhysicsList::comptonPhysicsList()
 
   // Set and print default reference physics list
   //RegisterReferencePhysList("QGSP_BERT");
-  RegisterReferencePhysList("FTFP_BERT");
+  RegisterReferencePhysList("FTFP_BERT_EMZ");
   G4cout << "compton: loaded reference physics list " << fReferencePhysListName << G4endl;
 
   // Set and print default status of other physics
