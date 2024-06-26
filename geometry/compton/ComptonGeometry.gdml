@@ -26,7 +26,7 @@
 
     <!-- World Volume Reference -->
     <volume name="World">
-      <materialref ref="Air" />
+      <materialref ref="G4_Galactic" />
 
       <solidref ref="WorldSolid" />
       <auxiliary auxtype="Color" auxvalue="white" />

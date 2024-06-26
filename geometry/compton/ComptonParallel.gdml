@@ -43,7 +43,7 @@
   </volume>
 
   <volume name="Third_vp" >
-      <materialref ref="G4_Na" />
+      <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
       <auxiliary auxtype="SensDet" auxvalue="planeDet" />
      <auxiliary auxtype="DetNo" auxvalue="15"/>
@@ -53,22 +53,22 @@
 
 
   <volume name="ParallelWorld_logical">
-    <materialref ref="G4_Galactic"/>
+    <materialref ref="G4_Pb"/>
     <solidref ref="ParallelSolid"/>
     <auxiliary auxtype="Color" auxvalue="Green" />
     <auxiliary auxtype="Alpha" auxvalue="0.2" />
 
 
-      <!--physvol name="FVP_phy">
+      <physvol name="FVP_phy">
         <volumeref ref="First_vp" />
         <position  unit="mm" x="0" y="215" z="-7800" />
-      </physvol-->
+      </physvol>
+
 
       <physvol name="VVP_phy">
         <volumeref ref="Valve_vp" />
-        <position  unit="mm" x="0" y="215" z="-165.12*25.4" />
+        <position  unit="mm" x="0" y="215" z="-225.12*25.4" />
       </physvol>
-
 
       <physvol name="SVP_phy">
         <volumeref ref="Second_vp" />
@@ -77,7 +77,7 @@
 
       <physvol name="VRVP_phy">
         <volumeref ref="VRight_vp" />
-        <position  unit="mm" x="0" y="215" z="165.12*25.4" />
+        <position  unit="mm" x="0" y="0" z="165.12*25.4" />
       </physvol>
 
       <physvol name="TVP_phy">

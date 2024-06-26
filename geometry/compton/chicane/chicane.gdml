@@ -5,6 +5,7 @@
 <!ENTITY volumes SYSTEM "volumes.xml">
 <!ENTITY definitions SYSTEM "definitions.xml">
 <!ENTITY pipes SYSTEM "pipes.xml">
+<!ENTITY dipoles SYSTEM "dipoles.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
@@ -25,27 +26,8 @@
       <auxiliary auxtype="Color" auxvalue="white" />
       <auxiliary auxtype="Alpha" auxvalue="0.2" />
 
-      <!--&pipes; -->
-
-      <physvol name="dipole_1">
-        <volumeref ref="dipole_magnet_lv" />
-        <position x="0.0" y="laser_gap-00" z="-(212.43+65.12)*25.4"/>
-      </physvol>
-
-      <physvol name="dipole_2">
-        <volumeref ref="dipole_magnet_lv" />
-        <position x="0.0" y="0.0-00"     z="-65.12*25.4"/>
-      </physvol>
-
-      <physvol name="dipole_3">
-        <volumeref ref="dipole_magnet_lv" />
-        <position x="0.0" y="0.0-00"     z="64.80*25.4"/>
-      </physvol>
-
-      <physvol name="dipole_4">
-        <volumeref ref="dipole_magnet_lv" />
-        <position x="0.0" y="laser_gap-00"  z="(64.80+212.43)*25.4"/>
-      </physvol>
+      &pipes;
+      &dipoles;
 
     </volume>
 
