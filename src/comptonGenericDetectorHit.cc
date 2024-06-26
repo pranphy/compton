@@ -84,10 +84,10 @@ G4int comptonGenericDetectorHit::operator==(const comptonGenericDetectorHit &rig
 
 void comptonGenericDetectorHit::Print(){
 
-  G4cout << "  det[" << fDetID << "] : Hit[" << fCopyID 
-	 << "] : Trid " << fTrID 
-         << " --- global (x,y,z) [mm] " 
-         << f3X.x()/mm << ", " 
-         << f3X.y()/mm << ", " 
+  G4cout << "  det[" << fDetID << "] : Hit[" << fCopyID
+	 << "] : Trid " << fTrID
+         << " --- global (x,y,z) [mm] "
+         << f3X.x()/mm << ", "
+         << f3X.y()/mm << ", "
          << f3X.z()/mm << G4endl;
 }
