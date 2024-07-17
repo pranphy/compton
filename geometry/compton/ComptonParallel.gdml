@@ -28,6 +28,27 @@
       <auxiliary auxtype="DetNo" auxvalue="12"/>
   </volume>
 
+  <volume name="dipole_three_US" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="301"/>
+  </volume>
+
+  <volume name="dipole_three_DS" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="302"/>
+  </volume>
+
+  <volume name="midway_dipole_three_ed">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="303"/>
+  </volume>
+
   <volume name="Second_vp" >
       <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
@@ -73,6 +94,21 @@
       <physvol name="SVP_phy">
         <volumeref ref="Second_vp" />
         <position  unit="mm" x="0" y="0" z="0" />
+      </physvol>
+
+      <physvol name="dipole_tree_US_phy">
+        <volumeref ref="dipole_three_US" />
+        <position  unit="mm" x="0" y="0" z="1144.92" />
+      </physvol>
+
+      <physvol name="dipole_three_ds_phy">
+        <volumeref ref="dipole_three_DS" />
+        <position  unit="mm" x="0" y="0" z="2146.92" />
+      </physvol>
+
+      <physvol name="midway_dipole_three_ed_phy">
+        <volumeref ref="midway_dipole_three_ed" />
+        <position  unit="mm" x="0" y="0" z="2346.92" />
       </physvol>
 
       <physvol name="VRVP_phy">

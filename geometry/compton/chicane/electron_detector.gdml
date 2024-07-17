@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!DOCTYPE gdml [
+<!ENTITY definitions SYSTEM "definitions.xml">
+]>
+
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  <define>
+      &definitions;
+  </define>
+
+  <solids>
+
+    <box lunit="mm" name="edet_world" x="35" y="90" z="600" />
+    <xtru name="test_geom_full" lunit="mm">
+      <twoDimVertex x="0" y="32.283"/>
+      <twoDimVertex x="1196.44" y="32.383"/>
+      <twoDimVertex x="1196.44" y="-101.06"/>
+      <twoDimVertex x="0.0" y="-146.964"/>
+      <section zOrder="1" zPosition="0" xOffset="0" yOffset="0" scalingFactor="1"/>
+      <section zOrder="2" zPosition="66.49" xOffset="0" yOffset="0" scalingFactor="1"/>
+    </xtru>
+
+    <xtru name="test_geom_cut" lunit="mm">
+      <twoDimVertex x="4.0" y="28.283"/>
+      <twoDimVertex x="1192.44" y="28.383"/>
+      <twoDimVertex x="1192.44" y="-97.06"/>
+      <twoDimVertex x="4.0" y="-142.964"/>
+      <section zOrder="1" zPosition="0" xOffset="0" yOffset="0" scalingFactor="1"/>
+      <section zOrder="2" zPosition="58.49" xOffset="0" yOffset="0" scalingFactor="1"/>
+    </xtru>
+    <subtraction name="test_geom">
+      <first ref="test_geom_full"/>
+      <second ref="test_geom_cut"/>
+    </subtraction>
+  </solids>
+
+  <structure>
+
+    <volume name="test_geom_log">
+        <materialref ref="G4_Galactic"/>
+        <solidref ref="test_geom"/>
+        <auxiliary auxtype="Color" auxvalue="Green"/>
+        <auxiliary auxtype="SensDet" auxvalue="collDet"/>
+        <auxiliary auxtype="DetNo" auxvalue="2005"/>
+        <!--<physvol name="phys_Col5_accep">
+        <volumeref ref="logic_Col5_accep"/>
+        </physvol>-->
+    </volume>
+
+    <volume name="ElectronDetector">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="edet_world" />
+      <auxiliary auxtype="Color" auxvalue="white" />
+      <auxiliary auxtype="Alpha" auxvalue="0.2" />
+
+
+        <physvol>
+            <volumeref ref="test_geom_log"/>
+            <position unit="mm" x="0" y="0" z="0"/>
+            <rotation unit="deg" x="0" y="90" z="0"/>
+        </physvol>
+
+    </volume>
+
+  </structure>
+
+  <setup name="Default" version="1.1">
+    <world ref="ElectronDetector" />
+  </setup>
+
+</gdml>

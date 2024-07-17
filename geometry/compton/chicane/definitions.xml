@@ -3,14 +3,17 @@
 <variable name="pipe_radius" value="27.998"/>
 <variable name="pipe_thickness" value="10"/>
 
+<variable name="dipole1_z" value="-7049.77"/>
+<variable name="dipole2_z" value="-1654.05"/>
+<variable name="dipole3_z" value="1645.91"/>
+<variable name="dipole4_z" value="7041.54"/>
+
 <variable name="pipe_radius_in" value="pipe_radius-pipe_thickness"/>
-<variable name="drift_pipe_length" value="(2*212.43+65.12+64.80)*25.4"/>
-<variable name="drift_pipe2_length" value="(65.12+64.80)*25.4"/>
+<variable name="drift_pipe_length" value="9991.41"/>
+<variable name="drift_pipe2_length" value="1700.00"/>
 
 
 <variable name="bend_angle" value="2.29"/>
-<position name="beam_pos" x="0" y="-laser_gap" z="-(212.43+65.12)*25.4+1200"/>
-
 
 
 <position name="chicane_position" x="0" y="laser_gap" z="0.0" unit="mm" />
@@ -19,4 +22,10 @@
 <variable name="chicane_wx" value="1500"/>
 <variable name="chicane_wy" value="1500"/>
 <variable name="chicane_wz" value="17000"/>
+
+
+<position name="dipole1_position" x="0.0" y="laser_gap-80" z="dipole1_z"/>
+<position name="dipole2_position" x="0.0" y="0.0-80"  z="dipole2_z"/>
+<position name="dipole3_position" x="0.0" y="0.0-80"  z="dipole3_z"/>
+<position name="dipole4_position" x="0.0" y="laser_gap-80"  z="dipole4_z"/>
 

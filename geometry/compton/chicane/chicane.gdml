@@ -1,24 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 
 <!DOCTYPE gdml [
-<!ENTITY solids SYSTEM "solids.xml">
-<!ENTITY volumes SYSTEM "volumes.xml">
 <!ENTITY definitions SYSTEM "definitions.xml">
-<!ENTITY pipes SYSTEM "pipes.xml">
-<!ENTITY dipoles SYSTEM "dipoles.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
   <define>
-    &definitions;
+      &definitions;
   </define>
 
   <solids>
-    &solids;
+    <!-- Define the "Chicane" solids  -->
+
+    <!-- tube and box segments defined here -->
+    <box name="ChicaneWorld" lunit="mm" x="chicane_wx" y="chicane_wy" z="chicane_wz" />
+
+    <!-- Dipole Box -->
+    <box lunit="mm" name="magnet_bound" x="300" y="300" z="1000"/>
+    <box lunit="mm" name="dipole_magnet2" x="300" y="300" z="1000"/>
+    <box lunit="mm" name="magnet_gap" x="100" y="210" z="1200"/>
+    <subtraction name="dipole_magnet">
+      <first ref="magnet_bound"/>
+      <second ref="magnet_gap"/>
+      <position unit="mm" x="0" y="50" z="0"/>
+    </subtraction>
+
+
+    <tube name="entry_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="1000" deltaphi="360"/>
+    <tube name="exit_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="1000" deltaphi="360"/>
+    <tube name="drift_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="drift_pipe_length" deltaphi="360"/>
+    <tube name="drift_pipe2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="drift_pipe2_length" deltaphi="360"/>
+    <tube name="bend_pipe_1" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="5393.08" deltaphi="360"/>
+    <tube name="bend_pipe_2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="2913.00" deltaphi="360"/>
   </solids>
 
   <structure>
-    &volumes;
+
+    <volume name="dipole_magnet_lv" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="dipole_magnet" />
+      <auxiliary auxtype="Color" auxvalue="Blue" />
+    </volume>
+
+    <volume name="entry_pipe_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="entry_pipe" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+
+    <volume name="exit_pipe_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="exit_pipe" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="drift_pipe_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="drift_pipe" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="drift_pipe2_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="drift_pipe2" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="bend_pipe_1_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="bend_pipe_1" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="bend_pipe_2_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="bend_pipe_2" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+
+
 
     <volume name="ComptonChicane">
       <materialref ref="G4_Galactic" />
@@ -26,15 +88,73 @@
       <auxiliary auxtype="Color" auxvalue="white" />
       <auxiliary auxtype="Alpha" auxvalue="0.2" />
 
-      &pipes;
-      &dipoles;
+      <!--Begin pipes -->
+      <!--
+        <physvol name="entry_pipe_phy">
+        <volumeref ref="entry_pipe_log" />
+        <position x="0" y="laser_gap" z="-7549.77"/>
+        </physvol>
 
-    </volume>
+        <physvol name="exit_pipe_phy">
+        <volumeref ref="exit_pipe_log" />
+        <position x="0" y="laser_gap" z="7541.642"/>
+        </physvol>
 
-  </structure>
+        <physvol name="Filler">
+        <volumeref ref="drift_pipe_log" />
+        <positionref ref="chicane_position" />
+        </physvol>
 
-  <setup name="Default" version="1.1">
-    <world ref="ComptonChicane" />
-  </setup>
+        <physvol name="drift_pipe2_phy">
+        <volumeref ref="drift_pipe2_log" />
+        </physvol>
 
-</gdml>
+        <physvol name="bend_pipe_1_phy">
+        <volumeref ref="bend_pipe_1_log" />
+        <position x="0" y="107.7468" z="-4324.885"/>
+        <rotation unit="degree" x="-bend_angle" y="0" z="0"/>
+        </physvol>
+
+        <physvol name="bend_pipe_2_phy">
+        <volumeref ref="bend_pipe_2_log" />
+        <position x="0" y="50.83" z="3690.82"/>
+        <rotation unit="degree" x="bend_angle" y="0" z="0"/>
+        </physvol>
+      -->
+        <!-- End pipes -->
+
+        <!-- Begin dipoles -->
+        <physvol name="dipole_1">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole1_position"/>
+        </physvol>
+
+        <physvol name="dipole_2">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole2_position"/>
+        </physvol>
+
+        <physvol name="dipole_3">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole3_position"/>
+        </physvol>
+
+        <physvol name="dipole_4">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole4_position"/>
+        </physvol>
+        <!-- End dipoles -->
+        <physvol>
+          <file name="chicane/electron_detector.gdml"/>
+          <position unit="mm" x="33.24" y="220.00" z="4359.402"/>
+        </physvol>
+
+      </volume>
+
+    </structure>
+
+    <setup name="Default" version="1.1">
+      <world ref="ComptonChicane" />
+    </setup>
+
+  </gdml>
