@@ -22,6 +22,7 @@
 #include "comptontypes.hh"
 #include "globals.hh"
 
+#include "comptonGenCompton.hh"
 #include "comptonGenMoller.hh"
 #include "comptonGenpElastic.hh"
 #include "comptonGenpInelastic.hh"
@@ -48,21 +49,22 @@ comptonPrimaryGeneratorAction::comptonPrimaryGeneratorAction()
     }
 
     // Populate map with all possible event generators
-    fEvGenMap["moller"] = std::make_shared<comptonGenMoller>();
-    fEvGenMap["elastic"] = std::make_shared<comptonGenpElastic>();
-    fEvGenMap["inelastic"] = std::make_shared<comptonGenpInelastic>();
-    fEvGenMap["pion"] = std::make_shared<comptonGenPion>();
+    fEvGenMap["compton"] = std::make_shared<comptonGenCompton>();
     fEvGenMap["beam"] = std::make_shared<comptonGenBeam>();
-    fEvGenMap["flat"] = std::make_shared<comptonGenFlat>();
-    fEvGenMap["elasticAl"] = std::make_shared<comptonGenAl>(0);
-    fEvGenMap["quasielasticAl"] = std::make_shared<comptonGenAl>(1);
-    fEvGenMap["inelasticAl"] = std::make_shared<comptonGenAl>(2);
-    fEvGenMap["external"] = std::make_shared<comptonGenExternal>();
-    fEvGenMap["pion_LUND"] = std::make_shared<comptonGenLUND>();
-    fEvGenMap["elasticC12"] = std::make_shared<comptonGenC12>(0);
-    fEvGenMap["quasielasticC12"] = std::make_shared<comptonGenC12>(1);
-    fEvGenMap["inelasticC12"] = std::make_shared<comptonGenC12>(2);
-    fEvGenMap["hyperon"] = std::make_shared<comptonGenHyperon>();
+    //fEvGenMap["moller"] = std::make_shared<comptonGenMoller>();
+    //fEvGenMap["elastic"] = std::make_shared<comptonGenpElastic>();
+    //fEvGenMap["inelastic"] = std::make_shared<comptonGenpInelastic>();
+    //fEvGenMap["pion"] = std::make_shared<comptonGenPion>();
+    //fEvGenMap["flat"] = std::make_shared<comptonGenFlat>();
+    //fEvGenMap["elasticAl"] = std::make_shared<comptonGenAl>(0);
+    //fEvGenMap["quasielasticAl"] = std::make_shared<comptonGenAl>(1);
+    //fEvGenMap["inelasticAl"] = std::make_shared<comptonGenAl>(2);
+    //fEvGenMap["external"] = std::make_shared<comptonGenExternal>();
+    //fEvGenMap["pion_LUND"] = std::make_shared<comptonGenLUND>();
+    //fEvGenMap["elasticC12"] = std::make_shared<comptonGenC12>(0);
+    //fEvGenMap["quasielasticC12"] = std::make_shared<comptonGenC12>(1);
+    //fEvGenMap["inelasticC12"] = std::make_shared<comptonGenC12>(2);
+    //fEvGenMap["hyperon"] = std::make_shared<comptonGenHyperon>();
 
     // Populate map with all possible primary generators
     fPriGenMap["particlegun"] = std::make_shared<G4ParticleGun>();
