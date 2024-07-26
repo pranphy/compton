@@ -146,7 +146,7 @@
         <!-- End dipoles -->
         <physvol>
           <file name="chicane/electron_detector.gdml"/>
-          <position unit="mm" x="33.24" y="220.00" z="4359.402"/>
+          <position unit="mm" x="0" y="215.4936" z="4359.402"/>
         </physvol>
 
       </volume>

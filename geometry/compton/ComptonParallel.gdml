@@ -8,7 +8,7 @@
 
 <solids>
   &world;
-  <tube name="thin_disc" lunit="mm" rmin="0" rmax="400" z="1"  aunit="degree" deltaphi="360" startphi="0" />
+  <tube name="thin_disc" lunit="mm" rmin="0" rmax="800" z="1"  aunit="degree" deltaphi="360" startphi="0" />
   <!--tube name="long_pipe" lunit="mm" rmin="0" rmax="50" z="1000"  aunit="degree" deltaphi="360" startphi="0" /-->
 </solids>
 
@@ -47,6 +47,28 @@
       <solidref ref="thin_disc" />
       <auxiliary auxtype="SensDet" auxvalue="planeDet" />
       <auxiliary auxtype="DetNo" auxvalue="303"/>
+  </volume>
+
+  <volume name="weldmend_3_exit">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="304"/>
+  </volume>
+
+
+  <volume name="weldmend_US_lower_entry">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="305"/>
+  </volume>
+
+  <volume name="weldmend_US_lower_exit">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="306"/>
   </volume>
 
   <volume name="Second_vp" >
@@ -108,6 +130,24 @@
 
       <physvol name="midway_dipole_three_ed_phy">
         <volumeref ref="midway_dipole_three_ed" />
+        <position  unit="mm" x="0" y="0" z="5552.38" />
+      </physvol>
+
+      <physvol>
+        <volumeref ref="weldmend_US_lower_entry" />
+        <position  unit="mm" x="0" y="0" z="4265.00" />
+        <rotation unit="deg" x="2.31" y="0.00" z="0.00"/>
+      </physvol>
+
+      <physvol>
+        <volumeref ref="weldmend_US_lower_exit" />
+        <position  unit="mm" x="0" y="0" z="4276.32" />
+        <rotation unit="deg" x="2.31" y="0.00" z="0.00"/>
+      </physvol>
+
+
+      <physvol>
+        <volumeref ref="weldmend_3_exit" />
         <position  unit="mm" x="0" y="0" z="2346.92" />
       </physvol>
 
