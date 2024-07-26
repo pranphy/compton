@@ -1,5 +1,5 @@
-#ifndef __REMOLLGENPINELASTIC_HH 
-#define __REMOLLGENPINELASTIC_HH 
+#ifndef __COMPTONGENPINELASTIC_HH 
+#define __COMPTONGENPINELASTIC_HH 
 /*!
  * Inelastic ep event generator
  *
@@ -21,4 +21,4 @@ class comptonGenpInelastic : public comptonVEventGen {
 
 };
 
-#endif//__REMOLLGENMOLLER_HH 
+#endif//__COMPTONGENMOLLER_HH 

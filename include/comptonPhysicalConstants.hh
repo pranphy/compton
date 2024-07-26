@@ -1,5 +1,5 @@
-#ifndef __REMOLLPHYSICALCONSTANTS_HH
-#define __REMOLLPHYSICALCONSTANTS_HH
+#ifndef __COMPTONPHYSICALCONSTANTS_HH
+#define __COMPTONPHYSICALCONSTANTS_HH
 
 #include <G4PhysicalConstants.hh>
 
@@ -23,4 +23,4 @@ const double QWp = 0.0707;
 
 const double QWn = -0.988;
 
-#endif // __REMOLLPHYSICALCONSTANTS_HH
+#endif // __COMPTONPHYSICALCONSTANTS_HH

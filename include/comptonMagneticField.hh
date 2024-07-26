@@ -1,5 +1,5 @@
-#ifndef __REMOLLMAGNETICFIELD_HH
-#define __REMOLLMAGNETICFIELD_HH
+#ifndef __COMPTONMAGNETICFIELD_HH
+#define __COMPTONMAGNETICFIELD_HH
 
 #include <vector>
 
@@ -135,4 +135,4 @@ class comptonMagneticField : public G4MagneticField {
 };
 
 
-#endif//__REMOLLMAGNETICFIELD_HH
+#endif//__COMPTONMAGNETICFIELD_HH

@@ -1,5 +1,5 @@
-#ifndef __REMOLLTEXTFILE_HH
-#define __REMOLLTEXTFILE_HH
+#ifndef __COMPTONTEXTFILE_HH
+#define __COMPTONTEXTFILE_HH
 
 #define __STRLEN 1024
 
@@ -36,4 +36,4 @@ class comptonTextFile : public TObject {
 	ClassDef(comptonTextFile, 1);
 };
 
-#endif//__REMOLLTEXTFILE_HH
+#endif//__COMPTONTEXTFILE_HH

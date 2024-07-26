@@ -1,6 +1,6 @@
 
-#ifndef __REMOLLSTEPPINGACTION_HH
-#define __REMOLLSTEPPINGACTION_HH
+#ifndef __COMPTONSTEPPINGACTION_HH
+#define __COMPTONSTEPPINGACTION_HH
 
 #include "G4UserSteppingAction.hh"
 #include "globals.hh"
@@ -19,4 +19,4 @@ class comptonSteppingAction : public G4UserSteppingAction
     virtual void UserSteppingAction(const G4Step*);
 };
 
-#endif//__REMOLLSTEPPINGACTION_HH
+#endif//__COMPTONSTEPPINGACTION_HH

@@ -1,5 +1,5 @@
-#ifndef __REMOLLSEARCHPATH_HH
-#define __REMOLLSEARCHPATH_HH
+#ifndef __COMPTONSEARCHPATH_HH
+#define __COMPTONSEARCHPATH_HH
 
 /*!
     --------------------------------------------------------------------------------------------
@@ -57,4 +57,4 @@ public:
     }
 };
 
-#endif //__REMOLLSEARCHPATH_HH
+#endif //__COMPTONSEARCHPATH_HH

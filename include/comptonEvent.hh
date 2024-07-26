@@ -1,5 +1,5 @@
-#ifndef __REMOLLEVENT_HH
-#define __REMOLLEVENT_HH
+#ifndef __COMPTONEVENT_HH
+#define __COMPTONEVENT_HH
 
 /*!
    Event information class.  This needs to
@@ -78,4 +78,4 @@ class comptonEvent {
         std::vector<comptonEventParticle_t> GetEventParticleIO() const;
 };
 
-#endif//__REMOLLEVENT_HH
+#endif//__COMPTONEVENT_HH

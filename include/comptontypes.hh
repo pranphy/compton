@@ -1,5 +1,5 @@
-#ifndef __REMOLL_TYPES_HH
-#define __REMOLL_TYPES_HH
+#ifndef __COMPTON_TYPES_HH
+#define __COMPTON_TYPES_HH
 
 /*
    comptontypes.hh
@@ -144,4 +144,4 @@ struct comptonUnits_t
   const double GHz;
 };
 
-#endif // __REMOLL_TYPES_HH
+#endif // __COMPTON_TYPES_HH

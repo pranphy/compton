@@ -1,5 +1,5 @@
-#ifndef __REMOLLVERTEX_HH
-#define __REMOLLVERTEX_HH
+#ifndef __COMPTONVERTEX_HH
+#define __COMPTONVERTEX_HH
 
 #include "G4ThreeVector.hh"
 
@@ -25,4 +25,4 @@ class comptonVertex {
 	G4Material* fMaterial;
 };
 
-#endif//__REMOLLVERTEX_HH
+#endif//__COMPTONVERTEX_HH

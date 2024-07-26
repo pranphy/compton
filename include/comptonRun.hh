@@ -1,5 +1,5 @@
-#ifndef __REMOLLRUN_HH
-#define __REMOLLRUN_HH
+#ifndef __COMPTONRUN_HH
+#define __COMPTONRUN_HH
 
 /*!
  * All the information on the run
@@ -26,4 +26,4 @@ class comptonRun: public G4Run {
     static comptonRunData* GetRunData();
 };
 
-#endif //__REMOLLRUN_HH
+#endif //__COMPTONRUN_HH

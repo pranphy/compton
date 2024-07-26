@@ -1,5 +1,5 @@
-#ifndef __REMOLLGENERICDETECTORSUM_HH
-#define __REMOLLGENERICDETECTORSUM_HH
+#ifndef __COMPTONGENERICDETECTORSUM_HH
+#define __COMPTONGENERICDETECTORSUM_HH
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -67,4 +67,4 @@ inline void comptonGenericDetectorSum::operator delete(void *aHit){
   comptonGenericDetectorSumAllocator->FreeSingle( (comptonGenericDetectorSum*) aHit);
 }
 
-#endif//__REMOLLGENERICDETECTORSUM_HH
+#endif//__COMPTONGENERICDETECTORSUM_HH

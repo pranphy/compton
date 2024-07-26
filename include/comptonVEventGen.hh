@@ -1,5 +1,5 @@
-#ifndef __REMOLLVEVENTGEN_HH
-#define __REMOLLVEVENTGEN_HH
+#ifndef __COMPTONVEVENTGEN_HH
+#define __COMPTONVEVENTGEN_HH
 
 #include "comptontypes.hh"
 #include "comptonglobs.hh"
@@ -106,4 +106,4 @@ public:
 };
 
 
-#endif//__REMOLLVEVENTGEN_HH
+#endif//__COMPTONVEVENTGEN_HH

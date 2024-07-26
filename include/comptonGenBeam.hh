@@ -1,5 +1,5 @@
-#ifndef __REMOLLGENBEAM_HH 
-#define __REMOLLGENBEAM_HH 
+#ifndef __COMPTONGENBEAM_HH 
+#define __COMPTONGENBEAM_HH 
 /*!
  * Boring beam event generator
  *
@@ -79,4 +79,4 @@ class comptonGenBeam : public comptonVEventGen {
     G4String fParticleName;
 };
 
-#endif//__REMOLLGENBEAM_HH 
+#endif//__COMPTONGENBEAM_HH 

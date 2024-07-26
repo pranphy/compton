@@ -5,8 +5,8 @@
  *      Author: wdconinc
  */
 
-#ifndef __REMOLLGENEXTERNAL_HH
-#define __REMOLLGENEXTERNAL_HH
+#ifndef __COMPTONGENEXTERNAL_HH
+#define __COMPTONGENEXTERNAL_HH
 
 /*!
  * External event generator
@@ -71,4 +71,4 @@ class comptonGenExternal : public comptonVEventGen {
 
 };
 
-#endif //__REMOLLGENEXTERNAL_HH
+#endif //__COMPTONGENEXTERNAL_HH

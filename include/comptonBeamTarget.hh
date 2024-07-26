@@ -1,5 +1,5 @@
-#ifndef __REMOLLBEAMTARGET_HH
-#define __REMOLLBEAMTARGET_HH
+#ifndef __COMPTONBEAMTARGET_HH
+#define __COMPTONBEAMTARGET_HH
 
 #include "comptontypes.hh"
 #include "comptonglobs.hh"
@@ -144,4 +144,4 @@ class comptonBeamTarget {
 };
 
 
-#endif//__REMOLLBEAMTARGET_HH
+#endif//__COMPTONBEAMTARGET_HH
