@@ -1,5 +1,5 @@
-#ifndef __REMOLLMULTSCATT_HH
-#define __REMOLLMULTSCATT_HH
+#ifndef __COMPTONMULTSCATT_HH
+#define __COMPTONMULTSCATT_HH
 
 /*
    -------------------------------------------------
@@ -118,4 +118,4 @@ class comptonMultScatt {
 	void   InitInternal();
 };
 
-#endif//__REMOLLMULTSCATT_HH
+#endif//__COMPTONMULTSCATT_HH

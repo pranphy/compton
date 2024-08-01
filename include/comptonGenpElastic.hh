@@ -1,5 +1,5 @@
-#ifndef __REMOLLGENPELASTIC_HH 
-#define __REMOLLGENPELASTIC_HH 
+#ifndef __COMPTONGENPELASTIC_HH 
+#define __COMPTONGENPELASTIC_HH 
 /*!
  * ep elastic event generator
  *
@@ -23,4 +23,4 @@ class comptonGenpElastic : public comptonVEventGen {
 	G4double EnergNumInt(G4double,G4double,G4double);
 };
 
-#endif//__REMOLLGENPELASTIC_HH 
+#endif//__COMPTONGENPELASTIC_HH 

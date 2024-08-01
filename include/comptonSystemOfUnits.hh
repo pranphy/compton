@@ -1,5 +1,5 @@
-#ifndef __REMOLLSYSTEMOFUNITS_HH
-#define __REMOLLSYSTEMOFUNITS_HH
+#ifndef __COMPTONSYSTEMOFUNITS_HH
+#define __COMPTONSYSTEMOFUNITS_HH
 
 #include "G4Types.hh"
 #include "G4SystemOfUnits.hh"
@@ -14,4 +14,4 @@ namespace compton {
 using compton::ppm;
 using compton::ppb;
 
-#endif // __REMOLLSYSTEMOFUNITS_HH
+#endif // __COMPTONSYSTEMOFUNITS_HH

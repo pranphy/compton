@@ -1,5 +1,5 @@
-#ifndef __REMOLLRUNDATA_HH
-#define __REMOLLRUNDATA_HH
+#ifndef __COMPTONRUNDATA_HH
+#define __COMPTONRUNDATA_HH
 
 #include "TObject.h"
 
@@ -78,4 +78,4 @@ class comptonRunData : public TObject {
 	ClassDef(comptonRunData, 2);
 };
 
-#endif//__REMOLLRUNDATA_HH
+#endif//__COMPTONRUNDATA_HH

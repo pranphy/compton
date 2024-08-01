@@ -1,5 +1,5 @@
-#ifndef __REMOLLGENERICDETECTOR_HH
-#define __REMOLLGENERICDETECTOR_HH
+#ifndef __COMPTONGENERICDETECTOR_HH
+#define __COMPTONGENERICDETECTOR_HH
 
 #include "G4VSensitiveDetector.hh"
 #include "G4TwoVector.hh"
@@ -266,4 +266,4 @@ class comptonGenericDetector : public G4VSensitiveDetector {
 
 };
 
-#endif//__REMOLLGENERICDETECTOR_HH
+#endif//__COMPTONGENERICDETECTOR_HH

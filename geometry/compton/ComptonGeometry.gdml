@@ -1,39 +1,213 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE gdml [
-<!ENTITY world SYSTEM "common/solids.xml">
+<!ENTITY definitions SYSTEM "common/definitions.xml">
+<!ENTITY solids SYSTEM "common/solids.xml">
 <!--ENTITY chicane "chicane/chicane.gdml"-->
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
 
-  <!-- The World Solid -->
+  <define>
+      &definitions;
+  </define>
+
   <solids>
-      &world;
+      &solids;
   </solids>
 
   <structure>
 
+    <volume name="ds_flange_log">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="ds_flange"/>
+      <auxiliary auxtype="Color" auxvalue="Green"/>
+    </volume>
+
+    <volume name="upper_flange_log">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="upper_flange"/>
+      <auxiliary auxtype="Color" auxvalue="Blue"/>
+    </volume>
+
+    <volume name="lower_flange_log">
+      <materialref ref="G4_Al"/>
+      <solidref ref="lower_flange_final"/>
+      <auxiliary auxtype="Color" auxvalue="Blue"/>
+    </volume>
+
+    <volume name="leftmost_part_no_17_log">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="part_no_17_box"/>
+      <auxiliary auxtype="Color" auxvalue="Green"/>
+    </volume>
+
+    <volume name="leftmost_weldment_log">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="weldment_box"/>
+      <auxiliary auxtype="Color" auxvalue="Green"/>
+    </volume>
+
+    <volume name="rightmost_weldment_log">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="weldment_box"/>
+      <auxiliary auxtype="Color" auxvalue="Green"/>
+    </volume>
+
+    <volume name="dipole_magnet_lv" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="dipole_magnet" />
+      <auxiliary auxtype="Color" auxvalue="Blue" />
+    </volume>
+
+    <volume name="entry_pipe_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="entry_pipe" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+
+    <volume name="exit_pipe_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="exit_pipe" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="drift_pipe_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="drift_pipe" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="drift_pipe2_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="drift_pipe2" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="bend_pipe_1_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="bend_pipe_1" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume name="bend_pipe_2_log">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="bend_pipe_2" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+
     <!-- World Volume Reference -->
     <volume name="World">
       <materialref ref="G4_Galactic" />
-
       <solidref ref="WorldSolid" />
-      <auxiliary auxtype="Color" auxvalue="white" />
-      <auxiliary auxtype="Alpha" auxvalue="0.3" />
 
+      <!--Begin pipes -->
+      <physvol name="entry_pipe_phy">
+        <volumeref ref="entry_pipe_log" />
+        <position x="0" y="laser_gap" z="-7841.77"/>
+      </physvol>
 
-      <!-- Construct Photon Detector -->
+      <physvol name="exit_pipe_phy">
+        <volumeref ref="exit_pipe_log" />
+        <position x="0" y="laser_gap" z="7841.642"/>
+      </physvol>
+
+      <physvol name="Filler">
+        <volumeref ref="drift_pipe_log" />
+        <positionref ref="chicane_position" />
+      </physvol>
+
+      <physvol name="drift_pipe2_phy">
+        <volumeref ref="drift_pipe2_log" />
+      </physvol>
+
+      <physvol name="bend_pipe_1_phy">
+        <volumeref ref="bend_pipe_1_log" />
+        <position x="0" y="59.83" z="-3205.89"/>
+        <rotation unit="degree" x="-bend_angle" y="0" z="0"/>
+      </physvol>
+
+      <physvol name="bend_pipe_2_phy">
+        <volumeref ref="bend_pipe_2_log" />
+        <position x="0" y="59.83" z="3205.82"/>
+        <rotation unit="degree" x="bend_angle" y="0" z="0"/>
+      </physvol>
+      <!-- End pipes -->
       <!--
         <physvol>
-        <file name="&ComptonPhotonDetector;" />
-        <positionref ref="ComptonPhotonDetectorPos" />
+        <volumeref ref="leftmost_weldment_log"/>
+        <position unit="mm" x="-33.25" y="laser_gap" z="-4359.402"/>
+        <rotation unit="deg" x="0" y="270" z="0"/>
         </physvol>
       -->
+        <physvol>
+          <volumeref ref="leftmost_part_no_17_log"/>
+          <position unit="mm" x="-33.25" y="laser_gap" z="-5859.402"/>
+          <rotation unit="deg" x="0" y="270" z="0"/>
+        </physvol>
 
         <physvol>
-          <file name="chicane/chicane.gdml"/>
-          <position unit="mm" x="0" y="0" z="0" />
+          <volumeref ref="leftmost_part_no_17_log"/>
+          <position unit="mm" x="-33.25" y="0.0" z="-4859.402"/>
+          <rotation unit="deg" x="0" y="90" z="0"/>
         </physvol>
+
+        <physvol>
+          <volumeref ref="rightmost_weldment_log"/>
+          <position unit="mm" x="33.25" y="laser_gap" z="4359.40"/>
+          <rotation unit="deg" x="0" y="90" z="0"/>
+        </physvol>
+
+        <!-- Begin dipoles -->
+        <physvol name="dipole_1">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole1_position"/>
+        </physvol>
+
+        <physvol name="dipole_2">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole2_position"/>
+        </physvol>
+
+        <physvol name="dipole_3">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole3_position"/>
+        </physvol>
+
+        <physvol name="dipole_4">
+          <volumeref ref="dipole_magnet_lv" />
+          <positionref ref="dipole4_position"/>
+        </physvol>
+        <!-- End dipoles -->
+        <physvol>
+          <volumeref ref="upper_flange_log"/>
+          <position unit="mm" x="0.00" y="215.49" z="4317.34" />
+        </physvol>
+
+        <physvol>
+          <volumeref ref="lower_flange_log"/>
+          <position unit="mm" x="0.00" y="106.34" z="4265.65"/>
+          <rotation unit="deg" x="2.31" y="0.0" z="0.0"/>
+        </physvol>
+
+        <physvol>
+          <volumeref ref="ds_flange_log"/>
+          <position unit="mm" x="0" y="177.66" z="5537.69"/>
+        </physvol>
+
+        <physvol>
+          <file name="electron_detector/electron_detector.gdml"/>
+          <position unit="mm" x="0" y="215.4936" z="6064.66"/>
+        </physvol>
+
+        <physvol>
+          <file name="photon_detector/photon_detector.gdml"/>
+          <position unit="mm" x="0" y="-150.0" z="5564"/>
+        </physvol>
+
+        <auxiliary auxtype="Color" auxvalue="Green" />
+        <auxiliary auxtype="Alpha" auxvalue="0.5" />
 
       </volume>
     </structure>

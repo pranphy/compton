@@ -1,0 +1,416 @@
+<!-- Start Define _collimator Volumes -->
+<volume name="vol_photon_det_collimator5mm">
+  <!--  <materialref ref="AluminumMaterial"/> -->
+  <materialref ref="leadMaterial"/>
+  <solidref ref="sol_photon_det_collimator5mm"/>
+  <auxiliary auxtype="Color" auxvalue="#0000CDFF"/>
+</volume>
+
+<!-- End Define _collimator Volumes -->
+
+<!-- PMT Volume -->
+<volume name="comptonPMTCathode_log">
+  <materialref ref="Bialkali"/>
+  <solidref ref="comptonPMTCathode_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#54545455"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4PMTCathode"/>
+</volume>
+
+<volume name="comptonPMT_glassSide_log">
+  <materialref ref="Silica"/>
+  <solidref ref="comptonPMT_glassSide_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#ABABAB77"/>
+</volume>
+
+<volume name="comptonPMT_glass_log">
+  <materialref ref="Silica"/>
+  <solidref ref="comptonPMT_glass_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#ABABAB22"/>
+</volume>
+
+<volume name="comptonPMT_log">
+  <materialref ref="Air_vacuum_optical"/>
+  <solidref ref="comptonPMT_solid"/>
+
+  <physvol name="PMT_glassSide1">
+    <volumeref ref="comptonPMT_glassSide_log"/>
+    <position name="comptonPMT_glassSide1_position" unit="mm" x="0" y="0" z="-102"/>
+  </physvol>
+
+  <physvol name="PMT_glassSide2">
+    <volumeref ref="comptonPMT_glassSide_log"/>
+    <position name="comptonPMT_glassSide2_position" unit="mm" x="0" y="0" z="102"/>
+  </physvol>
+
+  <physvol name="PMTCathode">
+    <volumeref ref="comptonPMTCathode_log"/>
+    <position name="comptonPMTCathode_position" unit="mm" x="0" y="0" z="-101.45"/>
+  </physvol>
+
+  <physvol name="PMT_glass">
+    <volumeref ref="comptonPMT_glass_log"/>
+    <position name="comptonPMT_glass_position" unit="mm" x="0" y="0" z="0.0"/>
+  </physvol>
+
+  <auxiliary auxtype="Color" auxvalue="#ABABAB00"/>
+</volume>
+
+<volume name="GSOCrystal_log">
+  <materialref ref="G4_Galactic"/>
+  <solidref ref="GSOCrystal_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E77"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+<volume name="syncshield_log">
+  <materialref ref="leadMaterial"/>
+  <solidref ref="syncshield"/>
+  <auxiliary auxtype="Color" auxvalue="#0000EF44"/>
+</volume>
+
+<volume name="compton_vacuum_detector1_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_vacuum_detector1_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E76"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+<volume name="compton_vacuum_detector2_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_vacuum_detector2_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E74"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+<volume name="compton_vacuum_detector3_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_vacuum_detector3_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E75"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+
+<volume name="compton_vacuum_detector4_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_vacuum_detector4_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E73"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+
+<volume name="compton_vacuum_detector5_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_vacuum_detector5_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E72"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+
+<volume name="compton_vacuum_detector6_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_vacuum_detector6_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E72"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+
+<volume name="compton_vacuum_detector7_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_vacuum_detector7_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#9B111E72"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+
+<!--
+<volume name="GSOFoilWrap_log" >
+
+  <materialref ref="BoPET"/>
+  <solidref ref="GSOFoilWrap_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#C0C0C055"/>
+</volume>
+  -->
+
+<volume name="GSOPMT_grease_log">
+  <!--  <materialref ref="optical_grease"/> -->
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="GSOPMT_grease_solid"/>
+  <auxiliary auxtype="Color" auxvalue="Yellow"/>
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+
+<volume name="compton_photon_detector_log">
+  <materialref ref="Air_optical"/>
+  <solidref ref="compton_photon_detector_solid"/>
+
+  <physvol name="GSOCrystal_phy">
+    <volumeref ref="GSOCrystal_log"/>
+    <position name="GSOCrystal_position" unit="mm" x="0" y="0" z="-(compton_photon_detector_dimZ-150.0)/2.0"/>
+  </physvol>
+
+  <physvol name="compton_vacuum_detector7">
+    <volumeref ref="compton_vacuum_detector7_log"/>
+    <position name="compton_vacuum_detector7_position" unit="mm" x="0" y="0" z="-(compton_photon_detector_dimZ-150.0)/2.0"/>
+  </physvol>
+
+  <physvol name="GSOPMT_grease_phy">
+    <volumeref ref="GSOPMT_grease_log"/>
+    <position name="GSOPMT_grease_position" unit="mm" x="0" y="0" z="(compton_photon_detector_dimZ-(2*comptonPMT_dimZ+1.0))/2.0"/>
+  </physvol>
+
+  <!--
+  <physvol name="GSOFoilWrap_phy">
+    <volumeref ref="GSOFoilWrap_log"/>
+    <position name="GSOFoilWrap_position" unit="mm" x="0.0" y="0.0" z="-103.0"/>
+  </physvol>
+  -->
+  <physvol name="comptonPMT_phy">
+    <volumeref ref="comptonPMT_log"/>
+    <position name="comptonPMT_position" unit="mm" x="0" y="0" z="(compton_photon_detector_dimZ-comptonPMT_dimZ)/2.0"/>
+  </physvol>
+
+  <!--<auxiliary auxtype="Color" auxvalue="#00336600"/>-->
+  <auxiliary auxtype="Color" auxvalue="#00FA0559"/>
+</volume>
+
+<!-- End: Define _lead_tungstate 4crystal detector used in QWeak 2011-2012 -->
+
+<!-- Start: Define _beampipe -->
+<volume name="compton_beampipe_log">
+  <materialref ref="AluminumMaterial"/>
+  <solidref ref="compton_beampipe_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#ADB2BD"/>
+</volume>
+
+
+<volume name="compton_beampipe_exit_window_log">
+  <materialref ref="Copper"/>
+  <solidref ref="compton_beampipe_exit_window_solid"/>
+  <auxiliary auxtype="Color" auxvalue="Orange"/>
+</volume>
+
+
+<volume name="compton_beamline_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="compton_beamline_solid"/>
+
+  <physvol>
+    <volumeref ref="compton_beampipe_log"/>
+    <position name="compton_beampipe_position" unit="mm" x="0." y="0." z="0."/>
+  </physvol>
+
+  <physvol>
+    <volumeref ref="compton_beampipe_exit_window_log"/>
+    <position name="compton_beampipe_exit_windowUpstream_position" unit="mm" x="0" y="0" z="-(beampipe_dimZ-beampipe_exit_window_dimZ-air_gap)/2."/>
+  </physvol>
+
+  <physvol>
+    <volumeref ref="compton_beampipe_exit_window_log"/>
+    <position name="compton_beampipe_exit_window_downstream_position" unit="mm" x="0" y="0" z="(beampipe_dimZ-beampipe_exit_window_dimZ-air_gap)/2."/>
+  </physvol>
+
+  <auxiliary auxtype="Color" auxvalue="#00000000"/>
+</volume>
+
+<!-- End: Define _beampipe -->
+
+<!-- _tungsten _fingers 7/6/16 -->
+<volume name="tungsten_finger_log">
+  <materialref ref="G4_Galactic"/>
+  <solidref ref="tungsten_finger_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+
+<volume name="tungsten_fingers_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="tungsten_fingers_solid"/>
+
+  <physvol>
+    <volumeref ref="tungsten_finger_log"/>
+    <position name="pos_Vertical_tungsten" unit="mm" x="fingerto_center+tungsten_finger_dimX/2.0" y="0" z="0"/>
+  </physvol>
+
+  <physvol>
+    <volumeref ref="tungsten_finger_log"/>
+    <position name="pos_Horizontal_tungsten" unit="mm" x="fingerto_center-tungsten_finger_dimY/2.0" y="fingerto_center+tungsten_finger_dimX/2.0" z="0"/>
+    <rotation name="rot_Horizontal_tungsten" z="90" unit="deg"/>
+  </physvol>
+  <auxiliary auxtype="Color" auxvalue="#00000000"/>
+</volume>
+
+<!-- End: _tungsten _fingers -->
+
+<!-- _tungsten _finger scintillator  -->
+<volume name="tungsten_finger_scintillator_log">
+  <!--  <materialref ref="tungsten_finger"/> -->
+  <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
+  <solidref ref="tungsten_finger_scintillator_solid"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+
+<volume name="tungsten_fingers_scintillator_log">
+  <materialref ref="Air_vacuum"/>
+  <solidref ref="tungsten_fingers_scintillator_solid"/>
+   <physvol>
+    <volumeref ref="tungsten_finger_scintillator_log"/>
+    <position name="pos_Vertical_tungsten_scintillator" unit="mm"
+    x="fingerto_center+7/2.0" y="0" z="0"/>
+  </physvol>
+  <!--
+  <physvol>
+    <volumeref ref="tungsten_finger_scintillator_log"/>
+    <position name="pos_Horizontal_tungsten_scintillator" unit="mm"
+    x="fingerto_center-80/2.0" y="fingerto_center+7/2.0" z="0"/>
+    <rotation name="rot_Horizontal_tungsten_scintillator" z="90"
+    unit="deg"/>
+  </physvol>
+  -->
+  <auxiliary auxtype="Color" auxvalue="#00000000"/>
+</volume>
+
+<!-- End: _tungsten _finger scintillators -->
+<!-- _shields 7/25/16 -->
+<volume name="Copper_log">
+  <materialref ref="Copper"/>
+  <solidref ref="sol_Copper_shield"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFCD22"/>
+</volume>
+
+<volume name="AlCover_log">
+  <materialref ref="AluminumMaterial"/>
+  <solidref ref="sol_AlCover"/>
+  <auxiliary auxtype="Color" auxvalue="#0000CD22"/>
+</volume>
+
+<volume name="Al_shield_log">
+  <materialref ref="AluminumMaterial"/>
+  <solidref ref="sol_Al_shield"/>
+  <auxiliary auxtype="Color" auxvalue="#0000CD22"/>
+</volume>
+
+<volume name="styrofoam_log">
+  <materialref ref="Polystyrene"/>
+  <solidref ref="styrofoam"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="shields_log">
+  <materialref ref="Air"/>
+  <solidref ref="shields_solid"/>
+  <physvol>
+    <volumeref ref="Copper_log"/>
+    <position name="Copper_position"
+              unit="mm" x="0" y="0" z="shields_dimZ/2.-Copper_shield_dimZ/2."/>
+  </physvol>
+  <physvol>
+    <volumeref ref="AlCover_log"/>
+    <position name="AlCover_position"
+              unit="mm" x="0" y="0" z="shields_dimZ/2.-Copper_shield_dimZ-LEDSpace_dimZ-AlCover_dimZ/2."/>
+  </physvol>
+  <physvol>
+    <volumeref ref="Al_shield_log"/>
+    <position name="Al_shield_position"
+              unit="mm" x="0" y="0" z="-shields_dimZ/2.+Al_shield_dimZ/2."/>
+  </physvol>
+  <physvol>
+    <volumeref ref="styrofoam_log"/>
+    <position name="styrofoam_position"
+              unit="mm" x="0" y="0" z="-shields_dimZ/2.+Al_shield_dimZ+Cover_to_shield_dimZ/2."/>
+ </physvol>
+  <auxiliary auxtype="Color" auxvalue="#00000000"/>
+</volume>
+<!-- End: _shields -->
+<volume name="jaw_log">
+  <materialref ref="G4_Galactic"/>
+  <solidref ref="jaw_solid"/>
+  <!--  <auxiliary auxtype="Color" auxvalue="#00FFCD22"/> -->
+  <auxiliary auxtype="Sens_det" auxvalue="comptonG4Crystal"/>
+</volume>
+
+<volume name="window_flange1_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="window_flange"/>
+  <auxiliary auxtype="Color" auxvalue="#FF000022"/>
+</volume>
+
+<volume name="window_flange2_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="window_flange"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="window_flange3_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="window_flange"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="window_flange4_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="window_flange"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="window_flange5_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="window_flange"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="window_flange6_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="window_flange"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="window_flange7_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="window_flange"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="BP_window_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="sol_BP_window"/>
+  <auxiliary auxtype="Color" auxvalue="#ABFF2C22"/>
+</volume>
+
+<volume name="BP_window2_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="sol_BP_window"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="BP_window3_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="sol_BP_window"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="BP_window4_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="sol_BP_window"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="BP1_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="BP1"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="BP2_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="BP2"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+
+<volume name="BP3_log">
+  <materialref ref="StainlessSteel"/>
+  <solidref ref="BP3"/>
+  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+</volume>
+

@@ -1,2 +1,115 @@
 <box lunit="mm" name="WorldSolid" x="2000" y="2000" z="20000" />
 <box lunit="mm" name="ParallelSolid" x="1999.99" y="1999.99" z="19999.99" />
+<box name="ChicaneWorld" lunit="mm" x="chicane_wx" y="chicane_wy" z="chicane_wz" />
+
+<!-- Dipole Box -->
+<box lunit="mm" name="magnet_bound" x="300" y="300" z="1000"/>
+<box lunit="mm" name="dipole_magnet2" x="300" y="300" z="1000"/>
+<box lunit="mm" name="magnet_gap" x="100" y="210" z="1200"/>
+<subtraction name="dipole_magnet">
+  <first ref="magnet_bound"/>
+  <second ref="magnet_gap"/>
+  <position unit="mm" x="0" y="50" z="0"/>
+</subtraction>
+
+
+<tube name="entry_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="500" deltaphi="360"/>
+<tube name="exit_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="500" deltaphi="360"/>
+<tube name="drift_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="drift_pipe_length" deltaphi="360"/>
+<tube name="drift_pipe2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="drift_pipe2_length" deltaphi="360"/>
+<tube name="bend_pipe_1" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="2083.08" deltaphi="360"/>
+<tube name="bend_pipe_2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="2083.00" deltaphi="360"/>
+
+
+<!-- weldmen box -->
+<xtru name="weldment_box_full" lunit="mm">
+  <twoDimVertex x="0" y="32.28"/>
+  <twoDimVertex x="1173.59" y="32.28"/>
+  <twoDimVertex x="1173.59" y="-108.68"/>
+  <twoDimVertex x="0.0" y="-156.18"/>
+  <section zOrder="1" zPosition="0" xOffset="0" yOffset="0" scalingFactor="1"/>
+  <section zOrder="2" zPosition="66.50" xOffset="0" yOffset="0" scalingFactor="1"/>
+</xtru>
+
+<xtru name="weldment_box_cut" lunit="mm">
+  <twoDimVertex x="-0.10" y="28.28"/>
+  <twoDimVertex x="1173.59" y="28.28"/>
+  <twoDimVertex x="1173.59" y="-104.68"/>
+  <twoDimVertex x="-0.1" y="-152.18"/>
+  <section zOrder="1" zPosition="0" xOffset="0" yOffset="0" scalingFactor="1"/>
+  <section zOrder="2" zPosition="58.50" xOffset="0" yOffset="0" scalingFactor="1"/>
+</xtru>
+
+<subtraction name="weldment_box">
+  <first ref="weldment_box_full"/>
+  <second ref="weldment_box_cut"/>
+</subtraction>
+<!-- weldmen box -->
+<!-- part-no-17 box -->
+<xtru name="part_no_17_full" lunit="mm">
+  <twoDimVertex x="0" y="32.28"/>
+  <twoDimVertex x="609.59" y="32.28"/>
+  <twoDimVertex x="609.59" y="-56.62"/>
+  <twoDimVertex x="0.0" y="-83.29"/>
+  <section zOrder="1" zPosition="0" xOffset="0" yOffset="0" scalingFactor="1"/>
+  <section zOrder="2" zPosition="44.45" xOffset="0" yOffset="0" scalingFactor="1"/>
+</xtru>
+
+<xtru name="part_no_17_cut" lunit="mm">
+  <twoDimVertex x="-0.10" y="28.28"/>
+  <twoDimVertex x="609.59" y="28.28"/>
+  <twoDimVertex x="609.59" y="-52.62"/>
+  <twoDimVertex x="-0.1" y="-79.32"/>
+  <section zOrder="1" zPosition="0" xOffset="0" yOffset="0" scalingFactor="1"/>
+  <section zOrder="2" zPosition="36.45" xOffset="0" yOffset="0" scalingFactor="1"/>
+</xtru>
+
+<subtraction name="part_no_17_box">
+  <first ref="part_no_17_full"/>
+  <second ref="part_no_17_cut"/>
+</subtraction>
+<!-- part-no-17 box -->
+
+<!-- box flanges -->
+
+<!-- end joint with squqare hole -->
+<tube name="end_joint" aunit="deg" startphi="0" deltaphi="360" lunit="mm" rmin="0" rmax="101.22" z="9.398" />
+<box name="right_box" lunit="mm" x="79.502" y="147.32" z="9.398" />
+<box name="left_box" lunit="mm" x="66.04" y="133.35" z="29.70" />
+
+<subtraction name="tube_minus_box">
+  <first ref="end_joint" />
+  <second ref="right_box" />
+  <position lunit="mm" x="0.00" y="0.00" z="4.70" />
+</subtraction>
+
+<subtraction name="ds_flange">
+  <first ref="tube_minus_box" />
+  <second ref="left_box" />
+  <position lunit="mm" x="0.0" y="-0.635" z="-4.70" />
+</subtraction>
+
+<tube name="upper_flange" aunit="deg" startphi="0" deltaphi="360" lunit="mm" rmin="23.75" rmax="25.4" z="8.74" />
+<tube name="lower_flange" aunit="deg" startphi="0" deltaphi="360" lunit="mm" rmin="0" rmax="56.769" z="8.74" />
+<tube name="top_cut" aunit="deg" startphi="0" deltaphi="180" lunit="mm" rmin="0" rmax="30.23" z="10.00" />
+<tube name="bottom_cut" aunit="deg" startphi="180" deltaphi="360" lunit="mm" rmin="0" rmax="30.23" z="10.00" />
+<box name="middle_cut" lunit="mm" x="60.45" y="9.75" z="10.00" />
+
+<subtraction name="lower_flange_minus_top">
+  <first ref="lower_flange"/>
+  <second ref="top_cut"/>
+  <position lunit="mm" x="0.00" y="4.78" z="0.00"/>
+</subtraction>
+
+<subtraction name="lower_flange_minus_bottom">
+  <first ref="lower_flange_minus_top"/>
+  <second ref="bottom_cut"/>
+  <position lunit="mm" x="0.00" y="-4.78" z="0.00"/>
+</subtraction>
+
+<subtraction name="lower_flange_final">
+  <first ref="lower_flange_minus_bottom"/>
+  <second ref="middle_cut"/>
+  <position lunit="mm" x="0.00" y="0.00" z="0.00"/>
+</subtraction>
+<!-- box flanges end -->

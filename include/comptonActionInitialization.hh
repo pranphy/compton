@@ -5,8 +5,8 @@
  *      Author: wdconinc
  */
 
-#ifndef __REMOLLACTIONINITIALIZATION_HH
-#define __REMOLLACTIONINITIALIZATION_HH
+#ifndef __COMPTONACTIONINITIALIZATION_HH
+#define __COMPTONACTIONINITIALIZATION_HH
 
 #include "G4VUserActionInitialization.hh"
 
@@ -19,4 +19,4 @@ class comptonActionInitialization : public G4VUserActionInitialization {
     virtual void BuildForMaster() const;
 };
 
-#endif // __REMOLLACTIONINITIALIZATION_HH
+#endif // __COMPTONACTIONINITIALIZATION_HH
