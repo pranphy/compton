@@ -1,35 +1,35 @@
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
-  <!-- Sync Shield specific definitions -->
+  <!-- _sync _shield specific definitions -->
   <define>
-    <variable name="SyncShieldThick6mm_old" value="6.27" />
-    <!--<variable name="SyncShieldThick6mm" value="6.4" />-->
-    <variable name="SyncShieldThick6mm" value="1.64" />  <!-- for 8GeV -->
-  <!--  <variable name="SyncShieldThick6mm" value="0.1" /> -->
-    <variable name="SyncShieldRadius" value="25"/> <!-- Radius is a guess -->
-    <variable name="SyncShieldLength" value="3*25.4"/>
-    <variable name="i_SyncShield" value="0" />
+    <variable name="sync_shield_thick6mm_old" value="6.27" />
+    <!--<variable name="sync_shield_thick6mm" value="6.4" />-->
+    <variable name="sync_shield_thick6mm" value="1.64" />  <!-- for 8GeV -->
+  <!--  <variable name="sync_shield_thick6mm" value="0.1" /> -->
+    <variable name="sync_shield_radius" value="25"/> <!-- _radius is a guess -->
+    <variable name="sync_shield_length" value="3*25.4"/>
+    <variable name="i_sync_shield" value="0" />
   </define>
 
-  <!-- Sync Shield specific solids -->
+  <!-- _sync _shield specific solids -->
   <solids>
-    <tube name="sol_PhDet_SyncShield0mm" lunit="mm" aunit="degree" rmin="0.0" rmax="SyncShieldRadius" z="0.001" startphi="0" deltaphi="360" />
-    <tube name="sol_PhDet_SyncShield6mm_tube" lunit="mm" aunit="degree" rmin="0.0" rmax="SyncShieldRadius" z="SyncShieldThick6mm" startphi="0" deltaphi="360" />
-    <box lunit="mm" name="sol_PhDet_SyncShield6mm" x="SyncShieldLength" y="SyncShieldLength" z="SyncShieldThick6mm" />
+    <tube name="sol_photon_det_sync_shield0mm" lunit="mm" aunit="degree" rmin="0.0" rmax="sync_shield_radius" z="0.001" startphi="0" deltaphi="360" />
+    <tube name="sol_photon_det_sync_shield6mm_tube" lunit="mm" aunit="degree" rmin="0.0" rmax="sync_shield_radius" z="sync_shield_thick6mm" startphi="0" deltaphi="360" />
+    <box lunit="mm" name="sol_photon_det_sync_shield6mm" x="sync_shield_length" y="sync_shield_length" z="sync_shield_thick6mm" />
   </solids>
 
-  <!-- Sync Shield specific volumes -->
+  <!-- _sync _shield specific volumes -->
   <structure>
-    <!-- Default Sync Shield (empty) -->
-    <volume name="vol_PhDet_SyncShield0mm">
+    <!-- Default _sync _shield (empty) -->
+    <volume name="vol_photon_det_sync_shield0mm">
       <materialref ref="Air" />
-      <solidref ref="sol_PhDet_SyncShield0mm" />
+      <solidref ref="sol_photon_det_sync_shield0mm" />
       <auxiliary auxtype="Color" auxvalue="#0000CD00"/>
     </volume>
 
     <!-- 6 mm version -->
-    <volume name="vol_PhDet_SyncShield6mm">
+    <volume name="vol_photon_det_sync_shield6mm">
       <materialref ref="LeadMaterial" />
-      <solidref ref="sol_PhDet_SyncShield6mm" />
+      <solidref ref="sol_photon_det_sync_shield6mm" />
       <auxiliary auxtype="Color" auxvalue="#0000EF44"/>
     </volume>
 
@@ -37,6 +37,6 @@
 
   <!-- Default is no sync shield (or 0mm) -->
   <setup name="Default" version="1.0">
-    <world ref="vol_PhDet_SyncShield0mm" />
+    <world ref="vol_photon_det_sync_shield0mm" />
   </setup>
 </gdml>

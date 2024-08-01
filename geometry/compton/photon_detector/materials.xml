@@ -30,7 +30,8 @@
   <atom value="207.20" unit="g/mole"/>
 </element>
 
-<element Z="74" formula="W" name="Tungsten" >
+
+<element Z="74" formula="W" name="tungsten" >
   <atom value="183.84" unit="g/mole" />
 </element>
 
@@ -58,6 +59,12 @@
   <atom value="26.9815" unit="g/mole" />
 </element>
 
+
+<material Z="29" name="Polystyrene" state="solid" >
+  <D unit="g/cm3" value="8.96" />
+  <atom unit="g/mole" value="63.546" />
+</material>
+
 <material Z="29" name="StainlessSteel" state="solid" >
   <D unit="g/cm3" value="8.96" />
   <atom unit="g/mole" value="63.546" />
@@ -82,10 +89,10 @@
 <material name="LeadTungstate" formula="PbWO4" state="solid">
   <property name="RINDEX" ref="LeadTungstateRIndex" />
   <property name="TRANSMITTANCE" ref="LeadTungstateTransmittance" />
-  <property name="ABSLENGTH" ref="LeadTungstateAbsorptionLength" />
+  <property name="ABSLENGTH" ref="LeadTungstateAbsorption_length" />
   <property name="FASTTIMECONSTANT" ref="LeadTungstateFastTimeConstant" />
   <property name="SLOWTIMECONSTANT" ref="LeadTungstateSlowTimeConstant" />
-  <property name="SCINTILLATIONYIELD" ref="LeadTungstateScintillationYield" />
+  <property name="SCINTILLATIONYIELD" ref="LeadTungstate_scintillationYield" />
   <property name="YIELDRATIO" ref="LeadTungstateYieldRatio" />
   <property name="RESOLUTIONSCALE" ref="LeadTungstateResolutionScale" />
   <property name="FASTCOMPONENT" ref="LeadTungstateEmission" />
@@ -95,15 +102,15 @@
   <!-- <T value="287.15" unit="K" /> -->
   <D value="8.3" unit="g/cm3" />
   <composite n="1" ref="Lead" />
-  <composite n="1" ref="Tungsten" />
+  <composite n="1" ref="tungsten" />
   <composite n="4" ref="Oxygen" />
 </material>
 
 
-<!-- Bicron Optical Grease (Saint-Gobian BC-630) -->
-<material name="OpticalGrease" >
-  <property name="RINDEX" ref="OpticalGreaseIndex" />
-  <property name="TRANSMITTANCE" ref="OpticalGreaseTransmittance" />
+<!-- Bicron Optical _grease (Saint-Gobian BC-630) -->
+<material name="Optical_grease" >
+  <property name="RINDEX" ref="Optical_greaseIndex" />
+  <property name="TRANSMITTANCE" ref="Optical_greaseTransmittance" />
   <D unit="g/cm3" value="1.060" />
   <composite n="2" ref="Carbon" />
   <composite n="6" ref="Hydrogen" />
@@ -125,13 +132,13 @@
   <fraction n="0.3" ref="Oxygen" />
 </material>
 
-<material name="AirVacuum" >
+<material name="Air_vacuum" >
   <D unit="g/cm3" value="1.0e-25" />
   <fraction n="0.7" ref="Nitrogen" />
   <fraction n="0.3" ref="Oxygen" />
 </material>
 
-<material name="AirVacuumOptical" >
+<material name="Air_vacuumOptical" >
   <property name="RINDEX" ref="AirIndex" />
   <D unit="g/cm3" value="1.0e-25" />
   <fraction n="0.7" ref="Nitrogen" />
