@@ -7,7 +7,6 @@
 #include "G4GenericMessenger.hh"
 #include "G4Types.hh"
 #include "G4Version.hh"
-#include "comptonGDMLReadStructure.hh"
 
 #include <vector>
 #include <set>
@@ -26,8 +25,7 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
 
-    //comptonDetectorConstruction(const G4String& name, const G4String& gdmlfile);
-    comptonDetectorConstruction(const G4String& name, const G4String& gdmlfile,comptonGDMLReadStructure* rs);
+    comptonDetectorConstruction(const G4String& name, const G4String& gdmlfile);
     virtual ~comptonDetectorConstruction();
 
   private:
@@ -53,7 +51,6 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
 
   private:
 
-    G4GDMLParser *fGDMLParserp;
     G4GDMLParser fGDMLParser;
 
     G4bool fGDMLValidate;

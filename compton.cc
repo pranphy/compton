@@ -28,7 +28,6 @@ typedef G4RunManager RunManager;
 #include "comptonActionInitialization.hh"
 #include "comptonDetectorConstruction.hh"
 #include "comptonParallelConstruction.hh"
-#include "comptonGDMLReadStructure.hh"
 
 #include "comptonSearchPath.hh"
 
@@ -156,10 +155,8 @@ int main(int argc, char** argv) {
         comptonIO::GetInstance();
 
     // Detector geometry
-    comptonGDMLReadStructure *rs = new comptonGDMLReadStructure();
     G4String material_name = "material";
-    //comptonDetectorConstruction* detector = new comptonDetectorConstruction(material_name, geometry_gdmlfile);
-    comptonDetectorConstruction* detector = new comptonDetectorConstruction(material_name, geometry_gdmlfile,rs);
+    comptonDetectorConstruction* detector = new comptonDetectorConstruction(material_name, geometry_gdmlfile);
     // Parallel world geometry
     G4String parallel_name = "parallel"; // Note: name must correspond with name of G4ParallelWorldPhysics
     comptonParallelConstruction* parallel = new comptonParallelConstruction(parallel_name, parallel_gdmlfile);

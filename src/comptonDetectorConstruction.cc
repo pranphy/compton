@@ -53,9 +53,8 @@ G4ThreadLocal comptonGlobalField* comptonDetectorConstruction::fGlobalField = 0;
 
 G4UserLimits* comptonDetectorConstruction::fKryptoniteUserLimits = new G4UserLimits(0,0,0,DBL_MAX,DBL_MAX);
 
-comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, const G4String& gdmlfile, comptonGDMLReadStructure* rs)
+comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, const G4String& gdmlfile)
 : fVerboseLevel(0),
-  fGDMLParser(rs),
   fGDMLValidate(false),
   fGDMLOverlapCheck(true),
   fGDMLPath(""),
@@ -571,8 +570,7 @@ G4VPhysicalVolume* comptonDetectorConstruction::ParseGDMLFile()
     }
 
     // Parse GDML file
-    //fGDMLParser.SetOverlapCheck(fGDMLOverlapCheck);
-    fGDMLParser.SetOverlapCheck(false);
+    fGDMLParser.SetOverlapCheck(fGDMLOverlapCheck);
     // hide output if not validating or checking overlaps
     // https://bugzilla-geant4.kek.jp/show_bug.cgi?id=2358
     if (! fGDMLOverlapCheck && ! fGDMLValidate)
@@ -884,7 +882,7 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
           // Construct detector name
           std::stringstream det_name_ss;
           //det_name_ss << "compton/det_" << det_no<<myvol->GetName();
-          det_name_ss << "compton/" <<myvol->GetName(); //<<"_"<<det_no;
+          det_name_ss << "compton/det_" <<myvol->GetName(); //<<"_"<<det_no;
           std::string det_name = det_name_ss.str();
 
           // Check for duplication when not a shared detector number
