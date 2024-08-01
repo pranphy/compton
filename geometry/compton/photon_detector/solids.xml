@@ -38,7 +38,7 @@ of the PhDet.
 
 
 <box lunit="mm" name="ComptonPhotonDetectorSolid" x="ComptonPhotonDetectorDimX" y="ComptonPhotonDetectorDimY" z="ComptonPhotonDetectorDimZ" />
-<box lunit="mm" name="sol_PhDetWorld" x="dim_PhDetWorldX" y="dim_PhDetWorldY" z="2.*dim_PhDetWorldZ" />
+<box lunit="mm" name="sol_PhDetWorld" x="dim_PhDetWorldX" y="dim_PhDetWorldY" z="9.*dim_PhDetWorldZ" />
 
 <!-- <box lunit="mm" name="sol_PhDetWorldPiece2" -->
 <!--      x="2.*dim_PhDetWorldX" -->
@@ -96,8 +96,8 @@ of the PhDet.
 <tube lunit="mm" name="ComptonBeampipeExitWindowSolid" rmin="BeampipeExitWindowDimRMin" rmax="BeampipeExitWindowDimRMax" z="BeampipeExitWindowDimZ" startphi="0" deltaphi="360" aunit="degree" />
 
 <tube lunit="mm" name="ComptonPMTCathodeSolid" rmin="0" rmax="38.5" z="0.1" startphi="0" deltaphi="360" aunit="degree" />
-<tube lunit="mm" name="ComptonPMTGlassSolid" rmin="41.25" rmax="42.25" z="205.0" startphi="0" deltaphi="360" aunit="degree" />
-<tube lunit="mm" name="ComptonPMTGlassSideSolid" rmin="0.0" rmax="41.25" z="1.0" startphi="0" deltaphi="360" aunit="degree" />
+<tube lunit="mm" name="ComptonPMTGlassSolid" rmin="40.25" rmax="40.85" z="201.0" startphi="0" deltaphi="360" aunit="degree" />
+<tube lunit="mm" name="ComptonPMTGlassSideSolid" rmin="0.0" rmax="40.25" z="0.2" startphi="0" deltaphi="360" aunit="degree" />
 
 <opticalsurface name="GSOPolishedSurface" model="UNIFIED" finish="polished" type="dielectric_dielectric" value="0.1"/>
 <opticalsurface name="GSOFoilSurface" model="UNIFIED" finish="polished" type="dielectric_metal" value="0.1"/>

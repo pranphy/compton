@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!DOCTYPE gdml [
+<!ENTITY definitions SYSTEM "../common/definitions.xml">
+<!ENTITY solids SYSTEM "../common/solids.xml">
+]>
+
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  <define>
+      &definitions;
+  </define>
+
+  <solids>
+    &solids;
+
+    <box lunit="mm" name="edet_world" x="500" y="390" z="800"/>
+
+  </solids>
+
+
+  <structure>
+
+
+    <volume name="electron_detector">
+      <materialref ref="G4_Galactic" />
+      <solidref ref="edet_world" />
+      <auxiliary auxtype="Color" auxvalue="black" />
+      <auxiliary auxtype="Alpha" auxvalue="0.2" />
+
+    </volume>
+
+  </structure>
+
+  <setup name="Default" version="1.1">
+    <world ref="electron_detector" />
+  </setup>
+
+</gdml>

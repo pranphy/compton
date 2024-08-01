@@ -2,9 +2,13 @@
 
 <!DOCTYPE gdml [
 <!ENTITY world SYSTEM "common/solids.xml">
+<!ENTITY definitions SYSTEM "common/definitions.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  <define>
+      &definitions;
+  </define>
 
 <solids>
   &world;
@@ -92,14 +96,11 @@
      <auxiliary auxtype="DetNo" auxvalue="15"/>
   </volume>
 
-
-
-
   <volume name="ParallelWorld_logical">
     <materialref ref="G4_Pb"/>
     <solidref ref="ParallelSolid"/>
     <auxiliary auxtype="Color" auxvalue="Green" />
-    <auxiliary auxtype="Alpha" auxvalue="0.2" />
+    <auxiliary auxtype="Alpha" auxvalue="0.8" />
 
 
       <physvol name="FVP_phy">

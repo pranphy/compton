@@ -56,7 +56,7 @@
 </volume>
 
 <volume name="GSOCrystalLogical">
-  <materialref ref="GSO"/>
+  <materialref ref="G4_Galactic"/>
   <solidref ref="GSOCrystalSolid"/>
   <auxiliary auxtype="Color" auxvalue="#9B111E77"/>
   <auxiliary auxtype="SensDet" auxvalue="ComptonG4Crystal"/>
@@ -135,7 +135,7 @@
   <!--  <materialref ref="OpticalGrease"/> -->
   <materialref ref="AirVacuum"/>
   <solidref ref="GSOPMTGreaseSolid"/>
-  <auxiliary auxtype="Color" auxvalue="#9B111E76"/>
+  <auxiliary auxtype="Color" auxvalue="Yellow"/>
   <auxiliary auxtype="SensDet" auxvalue="ComptonG4Crystal"/>
 </volume>
 
@@ -171,7 +171,7 @@
   </physvol>
 
   <!--<auxiliary auxtype="Color" auxvalue="#00336600"/>-->
-  <auxiliary auxtype="Color" auxvalue="#CEFA0500"/>
+  <auxiliary auxtype="Color" auxvalue="#00FA0559"/>
 </volume>
 
 <!-- End: Define LeadTungstate 4crystal detector used in QWeak 2011-2012 -->
@@ -217,7 +217,7 @@
 
 <!-- Tungsten Fingers 7/6/16 -->
 <volume name="TungstenFingerLogical">
-  <materialref ref="TungstenFinger"/>
+  <materialref ref="G4_Galactic"/>
   <solidref ref="TungstenFingerSolid"/>
   <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
 </volume>
@@ -254,11 +254,12 @@
 <volume name="TungstenFingersScintillatorLogical">
   <materialref ref="AirVacuum"/>
   <solidref ref="TungstenFingersScintillatorSolid"/>
-  <physvol>
+   <physvol>
     <volumeref ref="TungstenFingerScintillatorLogical"/>
     <position name="pos_Vertical_Tungsten_Scintillator" unit="mm"
     x="FingertoCenter+7/2.0" y="0" z="0"/>
   </physvol>
+  <!--
   <physvol>
     <volumeref ref="TungstenFingerScintillatorLogical"/>
     <position name="pos_Horizontal_Tungsten_Scintillator" unit="mm"
@@ -266,6 +267,7 @@
     <rotation name="rot_Horizontal_Tungsten_Scintillator" z="90"
     unit="deg"/>
   </physvol>
+  -->
   <auxiliary auxtype="Color" auxvalue="#00000000"/>
 </volume>
 
@@ -332,7 +334,7 @@
   -->
 <!-- End: Shields -->
 <volume name="JawLogical">
-  <materialref ref="TungstenFinger"/>
+  <materialref ref="G4_Galactic"/>
   <solidref ref="JawSolid"/>
   <!--  <auxiliary auxtype="Color" auxvalue="#00FFCD22"/> -->
   <auxiliary auxtype="SensDet" auxvalue="ComptonG4Crystal"/>
@@ -341,7 +343,7 @@
 <volume name="WindowFlange1Logical">
   <materialref ref="StainlessSteel"/>
   <solidref ref="WindowFlange"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#FF000022"/>
 </volume>
 
 <volume name="WindowFlange2Logical">
@@ -383,7 +385,7 @@
 <volume name="BPWindowLogical">
   <materialref ref="StainlessSteel"/>
   <solidref ref="sol_BPWindow"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#ABFF2C22"/>
 </volume>
 
 <volume name="BPWindow2Logical">

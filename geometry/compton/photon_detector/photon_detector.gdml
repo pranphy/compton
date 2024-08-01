@@ -1,51 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE gdml [
-<!--  The ENTITY definition will configure the detector template -->
-<!--  If you do not want to include a component, set the file name
-to ../Common/blank.gdml -->
-
-<!-- Sync Shield raidus to use (must be value already known by geometry) -->
-<!--<!ENTITY PhotonDetectorSyncShield "6mm"> -->
-
-<!-- Collimator to use -->
-<!ENTITY PhotonDetectorCollimator "5mm">
-
-<!-- The remainder of the file should be left unmodified. It just sets up
-the template that pulls from the above defined entities to construct
-a Photon Detector Geant4 volume. -->
-
-<!-- Standard Photon Detector Geometry -->
-<!ENTITY PhotonDetectorGeometryTemplate SYSTEM "PhotonDetectorGeometryTemplate.gdml">
-<!--ENTITY PhotonDetectorGeometryTemplate SYSTEM "PhotonDetectorGeometryTemplate_jaw.gdml"> -->
-
-<!-- File Containing Photon Detector Specific Definitions -->
-<!ENTITY PhotonDetectorDefinitions SYSTEM "PhotonDetectorDefinitions.gdml">
-
-<!-- File Containing the Photon Detector (Actual) -->
-<!ENTITY PhotonDetector SYSTEM "Detectors/LeadTungstate.gdml">
-
-<!-- File Containing the Solids -->
-<!ENTITY PhotonDetectorSolids SYSTEM "PhotonDetectorSolids.gdml">
-
-<!-- File Containing the Volumes -->
-<!ENTITY PhotonDetectorVolumes SYSTEM "PhotonDetectorVolumes.gdml">
-
+<!ENTITY definitions SYSTEM "definitions.xml">
+<!ENTITY materials SYSTEM "materials.xml">
+<!ENTITY solids SYSTEM "solids.xml">
+<!ENTITY volumes SYSTEM "volumes.xml">
+<!ENTITY leadtungstate SYSTEM "Detectors/LeadTungstate.gdml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
 
 <!-- Definitions specific for the Photon Detector -->
   <define>
-      &PhotonDetectorDefinitions;
+      &definitions;
   </define>
+  <materials>
+      &materials;
+  </materials>
 
   <solids>
-      &PhotonDetectorSolids;
+      &solids;
   </solids>
 
   <structure>
     <!-- Include all the Photon Detector Volume Definitions -->
-      &PhotonDetectorVolumes;
+      &volumes;
     <!-- Construc the Photon Detector Volume -->
     <volume name="ComptonPhotonDetector">
       <materialref ref="Air" />
@@ -58,16 +36,21 @@ a Photon Detector Geant4 volume. -->
         z="dim_PhDetWorldZ-ComptonPhotonDetectorDimZ-ShieldsDimZ-AlShieldToSync-6.4/2." />
       </physvol> -->
       <!-- Include Photon Detector Collimator Volume -->
-      <physvol name="phys_PhDet_Collimator">
-        <volumeref ref="vol_PhDet_Collimator&PhotonDetectorCollimator;" />
-        <position name="pos_PhDet_Collimator" unit="mm" x="7.0" y="0" z="dim_ColThick/2." />
-      </physvol>
-      <!-- Include Beam Pipe Window 9/6/16 -->
+
       <physvol name="phys_BPWindow">
         <volumeref ref="BPWindowLogical" />
         <position name="pos_BPWindow" unit="mm" x="0" y="0" z="-ColToBPWindow-BPWindowThickness/2." />
       </physvol>
+
+      <physvol name="phys_PhDet_Collimator">
+        <volumeref ref="vol_PhDet_Collimator5mm" />
+        <position name="pos_PhDet_Collimator" unit="mm" x="7.0" y="0" z="dim_ColThick/2." />
+      </physvol>
+
       <!--
+        <position name="pos_BP2Window" unit="mm" x="0" y="0" z="20" />
+      -->
+      <!-- Include Beam Pipe Window 9/6/16 -->
         <physvol name="phys_BPWindow2">
         <volumeref ref="BPWindow2Logical" />
         <position name="pos_BP2Window" unit="mm" x="0" y="0" z="-ColToBPWindow-BPWindowThickness-2*606.171-0.5/2" />
@@ -133,12 +116,12 @@ a Photon Detector Geant4 volume. -->
         <volumeref ref="BP3Logical" />
         <position name="pos_BP1" unit="mm" x="0" y="0" z="-ColToBPWindow-3*BPWindowThickness-2*606.171-2*130.683-418.1221" />
         </physvol>
-      -->
         <physvol name="Syncshield">
           <volumeref ref="SyncshieldLogical" />
           <position name="Syncshield_Position" unit="mm" x="0" y="0" z="297.0" />
         </physvol>
 
+        <!--
         <physvol name="ComptonVacuumDetector1">
           <volumeref ref="ComptonVacuumDetector1Logical" />
           <position name="ComptonVacuumDetector1_Position" unit="mm" x="0" y="0" z="-15.0" />
@@ -169,16 +152,14 @@ a Photon Detector Geant4 volume. -->
           <position name="ComptonVacuumDetector6_Position" unit="mm" x="0" y="0" z="297.0" />
         </physvol>
 
-        <!--
-          <physvol name="ComptonVacuumDetector7">
+        <physvol name="ComptonVacuumDetector7">
           <volumeref ref="ComptonVacuumDetector7Logical" />
           <position name="ComptonVacuumDetector7_Position" unit="mm" x="0" y="0" z="370.0" />
-          </physvol>
+        </physvol>
         -->
           <!-- Include LeadTungstate Volume -->
-            &PhotonDetector;
-          <!-- Do not draw the Photon Detector World Volume -->
-          <auxiliary auxtype="Color" auxvalue="#FFFFFF00" />
+          &leadtungstate;
+          <auxiliary auxtype="Color" auxvalue="#ABCDEF22" />
         </volume>
       </structure>
 
