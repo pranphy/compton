@@ -1,10 +1,8 @@
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
 
-  <!-- _collimator specific definitions -->
   <define>
     <variable name="collimator_radius5mm" value="5.0" />
     <variable name="collimator_radius" value="60" />
-    <!-- _radius is a guess -->
     <variable name="collimator_thickness" value="51.1mm" />
   </define>
 
@@ -14,23 +12,19 @@
     <box lunit="mm" name="sol_photon_det_world" x="dim_photon_det_worldX" y="dim_photon_det_worldY" z="2.*dim_photon_det_worldZ" />
   </solids>
 
-  <!-- _collimator specific volumes -->
   <structure>
-    <!-- Default _collimator (empty) -->
     <volume name="vol_photon_det_collimator0mm">
       <materialref ref="Air" />
       <solidref ref="sol_photon_det_collimator0mm" />
       <auxiliary auxtype="Color" auxvalue="#0000CD00" />
     </volume>
-    <!-- 6 mm version -->
     <volume name="vol_photon_det_collimator5mm">
-      <materialref ref="LeadMaterial" />
+      <materialref ref="leadMaterial" />
       <solidref ref="sol_photon_det_collimator5mm" />
       <auxiliary auxtype="Color" auxvalue="#0000CDFF" />
     </volume>
   </structure>
 
-  <!-- Default is no sync shield (or 0mm) -->
   <setup name="Default" version="1.0">
     <world ref="vol_photon_det_collimator5mm" />
   </setup>

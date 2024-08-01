@@ -9,7 +9,6 @@
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
 
-<!-- Definitions specific for the _photon _detector -->
   <define>
       &definitions;
   </define>
@@ -22,143 +21,92 @@
   </solids>
 
   <structure>
-    <!-- Include all the _photon _detector Volume Definitions -->
       &volumes;
-    <!-- Construc the _photon _detector Volume -->
     <volume name="compton_photon_detector">
       <materialref ref="Air" />
       <solidref ref="sol_photon_det_world" />
-      <!-- Include _photon _detector _sync _shield Volume -->
-      <!--  <physvol name="phys_photon_det_sync_shield">
-        <file name="geometries/photon_detector/_sync_shield.gdml"
-        volname="vol_photon_det_sync_shield&_photon_detector_sync_shield;"/>
-        <position name="pos_photon_det_sync_shield" unit="mm" x="0" y="0"
-        z="dim_photon_det_worldZ-compton_photon_detector_dimZ-shields_dimZ-Al_shield_to_sync-6.4/2." />
-      </physvol> -->
-      <!-- Include _photon _detector _collimator Volume -->
 
       <physvol name="phys_BP_window">
         <volumeref ref="BP_window_log" />
-        <position name="pos_BP_window" unit="mm" x="0" y="0" z="-Col_toBP_window-BP_window_thickness/2." />
+        <position name="pos_BP_window" unit="mm" x="0" y="0" z="-col_toBP_window-BP_window_thickness/2." />
       </physvol>
 
       <physvol name="phys_photon_det_collimator">
         <volumeref ref="vol_photon_det_collimator5mm" />
-        <position name="pos_photon_det_collimator" unit="mm" x="7.0" y="0" z="dim_Col_thick/2." />
+        <position name="pos_photon_det_collimator" unit="mm" x="7.0" y="0" z="dim_col_thick/2." />
       </physvol>
 
-      <!--
-        <position name="pos_BP2_window" unit="mm" x="0" y="0" z="20" />
-      -->
-      <!-- Include _beam Pipe _window 9/6/16 -->
         <physvol name="phys_BP_window2">
-        <volumeref ref="BP_window2_log" />
-        <position name="pos_BP2_window" unit="mm" x="0" y="0" z="-Col_toBP_window-BP_window_thickness-2*606.171-0.5/2" />
+          <volumeref ref="BP_window2_log" />
+          <position name="pos_BP2_window" unit="mm" x="0" y="0" z="-col_toBP_window-BP_window_thickness-2*606.171-0.5/2" />
         </physvol>
 
         <physvol name="phys_BP_window3">
-        <volumeref ref="BP_window3_log" />
-        <position name="pos_BP3_window" unit="mm" x="0" y="0" z="-Col_toBP_window-2*BP_window_thickness-2*606.171-2*130.683-0.5/2" />
+          <volumeref ref="BP_window3_log" />
+          <position name="pos_BP3_window" unit="mm" x="0" y="0" z="-col_toBP_window-2*BP_window_thickness-2*606.171-2*130.683-0.5/2" />
         </physvol>
 
         <physvol name="phys_BP_window4">
-        <volumeref ref="BP_window4_log" />
-        <position name="pos_BP4_window" unit="mm" x="0" y="0" z="-Col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-2*418.1221-0.5/2" />
+          <volumeref ref="BP_window4_log" />
+          <position name="pos_BP4_window" unit="mm" x="0" y="0" z="-col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-2*418.1221-0.5/2" />
         </physvol>
 
         <physvol name="phys_window_flange1">
-        <volumeref ref="window_flange1_log" />
-        <position name="pos_window_flange1" unit="mm" x="0" y="0" z="-Col_toBP_window-BP_window_thickness-0.125*25.4" />
+          <volumeref ref="window_flange1_log" />
+          <position name="pos_window_flange1" unit="mm" x="0" y="0" z="-col_toBP_window-BP_window_thickness-0.125*25.4" />
         </physvol>
 
         <physvol name="phys_window_flange2">
-        <volumeref ref="window_flange2_log" />
-        <position name="pos_window_flange2" unit="mm" x="0" y="0" z="-Col_toBP_window-BP_window_thickness-2*606.171+0.125*25.4" />
+          <volumeref ref="window_flange2_log" />
+          <position name="pos_window_flange2" unit="mm" x="0" y="0" z="-col_toBP_window-BP_window_thickness-2*606.171+0.125*25.4" />
         </physvol>
 
         <physvol name="phys_window_flange3">
-        <volumeref ref="window_flange3_log" />
-        <position name="pos_window_flange3" unit="mm" x="0" y="0" z="-Col_toBP_window-2*BP_window_thickness-2*606.171-0.125*25.4" />
+          <volumeref ref="window_flange3_log" />
+          <position name="pos_window_flange3" unit="mm" x="0" y="0" z="-col_toBP_window-2*BP_window_thickness-2*606.171-0.125*25.4" />
         </physvol>
 
         <physvol name="phys_window_flange4">
-        <volumeref ref="window_flange4_log" />
-        <position name="pos_window_flange4" unit="mm" x="0" y="0" z="-Col_toBP_window-2*BP_window_thickness-2*606.171-2*130.683+0.125*25.4" />
+          <volumeref ref="window_flange4_log" />
+          <position name="pos_window_flange4" unit="mm" x="0" y="0" z="-col_toBP_window-2*BP_window_thickness-2*606.171-2*130.683+0.125*25.4" />
         </physvol>
 
         <physvol name="phys_window_flange5">
-        <volumeref ref="window_flange5_log" />
-        <position name="pos_window_flange5" unit="mm" x="0" y="0" z="-Col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-0.125*25.4" />
+          <volumeref ref="window_flange5_log" />
+          <position name="pos_window_flange5" unit="mm" x="0" y="0" z="-col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-0.125*25.4" />
         </physvol>
 
         <physvol name="phys_window_flange6">
-        <volumeref ref="window_flange6_log" />
-        <position name="pos_window_flange6" unit="mm" x="0" y="0" z="-Col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-2*418.1221+0.125*25.4" />
+          <volumeref ref="window_flange6_log" />
+          <position name="pos_window_flange6" unit="mm" x="0" y="0" z="-col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-2*418.1221+0.125*25.4" />
         </physvol>
 
         <physvol name="phys_window_flange7">
-        <volumeref ref="window_flange7_log" />
-        <position name="pos_window_flange7" unit="mm" x="0" y="0" z="-Col_toBP_window-4*BP_window_thickness-2*606.171-2*130.683-2*418.1221-0.125*25.4" />
+          <volumeref ref="window_flange7_log" />
+          <position name="pos_window_flange7" unit="mm" x="0" y="0" z="-col_toBP_window-4*BP_window_thickness-2*606.171-2*130.683-2*418.1221-0.125*25.4" />
         </physvol>
 
 
         <physvol name="phys_BP1">
-        <volumeref ref="BP1_log" />
-        <position name="pos_BP1" unit="mm" x="0" y="0" z="-Col_toBP_window-BP_window_thickness-606.171" />
+          <volumeref ref="BP1_log" />
+          <position name="pos_BP1" unit="mm" x="0" y="0" z="-col_toBP_window-BP_window_thickness-606.171" />
         </physvol>
 
         <physvol name="phys_BP2">
-        <volumeref ref="BP2_log" />
-        <position name="pos_BP1" unit="mm" x="0" y="0" z="-Col_toBP_window-2*BP_window_thickness-2*606.171-130.683" />
+          <volumeref ref="BP2_log" />
+          <position name="pos_BP1" unit="mm" x="0" y="0" z="-col_toBP_window-2*BP_window_thickness-2*606.171-130.683" />
         </physvol>
 
         <physvol name="phys_BP3">
-        <volumeref ref="BP3_log" />
-        <position name="pos_BP1" unit="mm" x="0" y="0" z="-Col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-418.1221" />
+          <volumeref ref="BP3_log" />
+          <position name="pos_BP1" unit="mm" x="0" y="0" z="-col_toBP_window-3*BP_window_thickness-2*606.171-2*130.683-418.1221" />
         </physvol>
         <physvol name="syncshield">
           <volumeref ref="syncshield_log" />
           <position name="syncshield_position" unit="mm" x="0" y="0" z="297.0" />
         </physvol>
 
-        <!--
-        <physvol name="compton_vacuum_detector1">
-          <volumeref ref="compton_vacuum_detector1_log" />
-          <position name="compton_vacuum_detector1_position" unit="mm" x="0" y="0" z="-15.0" />
-        </physvol>
-
-        <physvol name="compton_vacuum_detector2">
-          <volumeref ref="compton_vacuum_detector2_log" />
-          <position name="compton_vacuum_detector2_position" unit="mm" x="0" y="0" z="65.0" />
-        </physvol>
-
-        <physvol name="compton_vacuum_detector3">
-          <volumeref ref="compton_vacuum_detector3_log" />
-          <position name="compton_vacuum_detector3_position" unit="mm" x="0" y="0" z="125.0" />
-        </physvol>
-
-        <physvol name="compton_vacuum_detector4">
-          <volumeref ref="compton_vacuum_detector4_log" />
-          <position name="compton_vacuum_detector4_position" unit="mm" x="0" y="0" z="161.0" />
-        </physvol>
-
-        <physvol name="compton_vacuum_detector5">
-          <volumeref ref="compton_vacuum_detector5_log" />
-          <position name="compton_vacuum_detector5_position" unit="mm" x="0" y="0" z="280.0" />
-        </physvol>
-
-        <physvol name="compton_vacuum_detector6">
-          <volumeref ref="compton_vacuum_detector6_log" />
-          <position name="compton_vacuum_detector6_position" unit="mm" x="0" y="0" z="297.0" />
-        </physvol>
-
-        <physvol name="compton_vacuum_detector7">
-          <volumeref ref="compton_vacuum_detector7_log" />
-          <position name="compton_vacuum_detector7_position" unit="mm" x="0" y="0" z="370.0" />
-        </physvol>
-        -->
-          <!-- Include LeadTungstate Volume -->
-        &leadtungstate;
+            &leadtungstate;
           <auxiliary auxtype="Color" auxvalue="#ABCDEF22" />
         </volume>
       </structure>

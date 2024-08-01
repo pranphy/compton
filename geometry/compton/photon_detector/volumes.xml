@@ -1,7 +1,7 @@
 <!-- Start Define _collimator Volumes -->
 <volume name="vol_photon_det_collimator5mm">
   <!--  <materialref ref="AluminumMaterial"/> -->
-  <materialref ref="LeadMaterial"/>
+  <materialref ref="leadMaterial"/>
   <solidref ref="sol_photon_det_collimator5mm"/>
   <auxiliary auxtype="Color" auxvalue="#0000CDFF"/>
 </volume>
@@ -16,30 +16,30 @@
   <auxiliary auxtype="Sens_det" auxvalue="comptonG4PMTCathode"/>
 </volume>
 
-<volume name="comptonPMTGlassSide_log">
+<volume name="comptonPMT_glassSide_log">
   <materialref ref="Silica"/>
-  <solidref ref="comptonPMTGlassSide_solid"/>
+  <solidref ref="comptonPMT_glassSide_solid"/>
   <auxiliary auxtype="Color" auxvalue="#ABABAB77"/>
 </volume>
 
-<volume name="comptonPMTGlass_log">
+<volume name="comptonPMT_glass_log">
   <materialref ref="Silica"/>
-  <solidref ref="comptonPMTGlass_solid"/>
+  <solidref ref="comptonPMT_glass_solid"/>
   <auxiliary auxtype="Color" auxvalue="#ABABAB22"/>
 </volume>
 
 <volume name="comptonPMT_log">
-  <materialref ref="Air_vacuumOptical"/>
+  <materialref ref="Air_vacuum_optical"/>
   <solidref ref="comptonPMT_solid"/>
 
-  <physvol name="PMTGlassSide1">
-    <volumeref ref="comptonPMTGlassSide_log"/>
-    <position name="comptonPMTGlassSide1_position" unit="mm" x="0" y="0" z="-102"/>
+  <physvol name="PMT_glassSide1">
+    <volumeref ref="comptonPMT_glassSide_log"/>
+    <position name="comptonPMT_glassSide1_position" unit="mm" x="0" y="0" z="-102"/>
   </physvol>
 
-  <physvol name="PMTGlassSide2">
-    <volumeref ref="comptonPMTGlassSide_log"/>
-    <position name="comptonPMTGlassSide2_position" unit="mm" x="0" y="0" z="102"/>
+  <physvol name="PMT_glassSide2">
+    <volumeref ref="comptonPMT_glassSide_log"/>
+    <position name="comptonPMT_glassSide2_position" unit="mm" x="0" y="0" z="102"/>
   </physvol>
 
   <physvol name="PMTCathode">
@@ -47,9 +47,9 @@
     <position name="comptonPMTCathode_position" unit="mm" x="0" y="0" z="-101.45"/>
   </physvol>
 
-  <physvol name="PMTGlass">
-    <volumeref ref="comptonPMTGlass_log"/>
-    <position name="comptonPMTGlass_position" unit="mm" x="0" y="0" z="0.0"/>
+  <physvol name="PMT_glass">
+    <volumeref ref="comptonPMT_glass_log"/>
+    <position name="comptonPMT_glass_position" unit="mm" x="0" y="0" z="0.0"/>
   </physvol>
 
   <auxiliary auxtype="Color" auxvalue="#ABABAB00"/>
@@ -63,7 +63,7 @@
 </volume>
 
 <volume name="syncshield_log">
-  <materialref ref="LeadMaterial"/>
+  <materialref ref="leadMaterial"/>
   <solidref ref="syncshield"/>
   <auxiliary auxtype="Color" auxvalue="#0000EF44"/>
 </volume>
@@ -132,7 +132,7 @@
   -->
 
 <volume name="GSOPMT_grease_log">
-  <!--  <materialref ref="Optical_grease"/> -->
+  <!--  <materialref ref="optical_grease"/> -->
   <materialref ref="Air_vacuum"/>
   <solidref ref="GSOPMT_grease_solid"/>
   <auxiliary auxtype="Color" auxvalue="Yellow"/>
@@ -141,7 +141,7 @@
 
 
 <volume name="compton_photon_detector_log">
-  <materialref ref="AirOptical"/>
+  <materialref ref="Air_optical"/>
   <solidref ref="compton_photon_detector_solid"/>
 
   <physvol name="GSOCrystal_phy">
@@ -174,7 +174,7 @@
   <auxiliary auxtype="Color" auxvalue="#00FA0559"/>
 </volume>
 
-<!-- End: Define LeadTungstate 4crystal detector used in QWeak 2011-2012 -->
+<!-- End: Define _lead_tungstate 4crystal detector used in QWeak 2011-2012 -->
 
 <!-- Start: Define _beampipe -->
 <volume name="compton_beampipe_log">

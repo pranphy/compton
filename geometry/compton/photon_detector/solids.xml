@@ -1,22 +1,5 @@
-<!-- Define the total "photon_detector" volume. Should encompass all
-     elements (syncshield, _collimator, Crystals and PMT).
+<tube name="sol_photon_det_collimator5mm" lunit="mm" aunit="degree" rmin="dim_col_min_radius10mm" rmax="dim_col_max_radius" z="dim_col_thick" startphi="0" deltaphi="360" />
 
-The world volume positions the _photon _detector based on the "center" of the
-volume. But all it knows is the distance from the IP to the front face
-of the photon_det.
--->
-
-<!-- Define solids for the _collimator -->
-<tube name="sol_photon_det_collimator5mm" lunit="mm" aunit="degree" rmin="dim_Col_min_radius10mm" rmax="dim_Col_max_radius" z="dim_Col_thick" startphi="0" deltaphi="360" />
-
-<!-- Lead Tungstate _photon _detector _solids
-     - Includes Crystal Stack
-     - Air gaps between volumes
-     - MyLar wrap
-     - Blacktape wrap
-     - Optical grease on PMT-LeadTungstate border
-     - PMT
--->
 <tube lunit="mm" name="GSOCrystal_solid" rmin="0." rmax="30.0" z="150.0" startphi="0" deltaphi="360" aunit="degree" />
 <tube lunit="mm" name="GSOPMT_grease_solid" rmin="0." rmax="30.0" z="1.0" startphi="0" deltaphi="360" aunit="degree" />
 
@@ -33,34 +16,19 @@ of the photon_det.
 
 
 <box lunit="mm" name="syncshield" x="3*25.4" y="3*25.4" z="0.25" />
-<!--  z="1.64"/> -->
-<!-- 	z="0.3556" -->
 
 
 <box lunit="mm" name="compton_photon_detector_solid" x="compton_photon_detector_dimX" y="compton_photon_detector_dimY" z="compton_photon_detector_dimZ" />
 <box lunit="mm" name="sol_photon_det_world" x="dim_photon_det_worldX" y="dim_photon_det_worldY" z="9.*dim_photon_det_worldZ" />
 
-<!-- <box lunit="mm" name="sol_photon_det_worldPiece2" -->
-<!--      x="2.*dim_photon_det_worldX" -->
-<!--      y="2.*dim_photon_det_worldY" -->
-<!--      z="dim_photon_det_worldZ+1.0" -->
-<!--      /> -->
-<!-- <subtraction name="sol_photon_det_world" > -->
-<!--   <first ref="sol_photon_det_worldPiece1" /> -->
-<!--   <second ref="sol_photon_det_worldPiece2" /> -->
-<!--   <position name="pos_photon_det_world" unit="mm" x="0" y="0" z="-dim_photon_det_worldZ/2.-1." /> -->
-<!-- </subtraction> -->
 
 <tube lunit="mm" name="comptonPMT_solid" rmin="comptonPMT_dimR_min" rmax="comptonPMT_dimR_max" z="comptonPMT_dimZ" startphi="0" deltaphi="360" aunit="degree" />
 
-<!-- _tungsten _fingers solids 7/6/16 -->
 <box lunit="mm" name="tungsten_finger_solid" x="tungsten_finger_dimX" y="tungsten_finger_dimY" z="tungsten_finger_dimZ" />
 <box lunit="mm" name="tungsten_fingers_solid" x="shields_dimX" y="shields_dimY" z="tungsten_finger_dimZ" />
 
 <box lunit="mm" name="tungsten_finger_scintillator_solid" x="7" y="80" z="10" />
 <box lunit="mm" name="tungsten_fingers_scintillator_solid" x="shields_dimX" y="shields_dimY" z="10" />
-
-<!-- _shields solids 7/21/16 -->
 
 <box lunit="mm" name="shields_solid" x="shields_dimX" y="shields_dimY" z="shields_dimZ" />
 <box lunit="mm" name="styrofoam" x="shields_dimX" y="shields_dimY" z="Cover_to_shield_dimZ" />
@@ -90,33 +58,24 @@ of the photon_det.
   <positionref ref="center" />
 </subtraction>
 
-<!-- _beamline solids -->
 <tube lunit="mm" name="compton_beamline_solid" rmin="0." rmax="beampipe_dimR_max" z="beampipe_dimZ" startphi="0" deltaphi="360" aunit="degree" />
 <tube lunit="mm" name="compton_beampipe_solid" rmin="beampipe_dimR_min" rmax="beampipe_dimR_max" z="beampipe_dimZ" startphi="0" deltaphi="360" aunit="degree" />
 <tube lunit="mm" name="compton_beampipe_exit_window_solid" rmin="beampipe_exit_window_dimR_min" rmax="beampipe_exit_window_dimR_max" z="beampipe_exit_window_dimZ" startphi="0" deltaphi="360" aunit="degree" />
 
 <tube lunit="mm" name="comptonPMTCathode_solid" rmin="0" rmax="38.5" z="0.1" startphi="0" deltaphi="360" aunit="degree" />
-<tube lunit="mm" name="comptonPMTGlass_solid" rmin="40.25" rmax="40.85" z="201.0" startphi="0" deltaphi="360" aunit="degree" />
-<tube lunit="mm" name="comptonPMTGlassSide_solid" rmin="0.0" rmax="40.25" z="0.2" startphi="0" deltaphi="360" aunit="degree" />
+<tube lunit="mm" name="comptonPMT_glass_solid" rmin="40.25" rmax="40.85" z="201.0" startphi="0" deltaphi="360" aunit="degree" />
+<tube lunit="mm" name="comptonPMT_glassSide_solid" rmin="0.0" rmax="40.25" z="0.2" startphi="0" deltaphi="360" aunit="degree" />
 
 <opticalsurface name="GSOPolishedSurface" model="UNIFIED" finish="polished" type="dielectric_dielectric" value="0.1"/>
 <opticalsurface name="GSOFoilSurface" model="UNIFIED" finish="polished" type="dielectric_metal" value="0.1"/>
-<!--
-    <opticalsurface name="LeadTungstateBlackTapeSurface" model="UNIFIED" finish="ground" type="dielectric_dielectric" value="0.1"/> -->
 <opticalsurface name="GSO_greaseSurface" model="UNIFIED" finish="polished" type="dielectric_dielectric" value="0.1"/>
-<opticalsurface name="PMTGlassSurface" model="UNIFIED" finish="polished" type="dielectric_dielectric" value="0.1" />
+<opticalsurface name="PMT_glassSurface" model="UNIFIED" finish="polished" type="dielectric_dielectric" value="0.1" />
 <opticalsurface name="PMTCathodeSurface" model="UNIFIED" finish="polished" type="dielectric_metal" value="0.1" />
 <opticalsurface name="comptonPMT_greaseSurface" model="UNIFIED" finish="polished" type="dielectric_dielectric" value="0.1"/>
 
 <box lunit="mm" name="jaw_solid" x="jaw_dimX" y="jaw_dimY" z="jaw_dimZ" />
 
 
-<!--<box lunit="mm" name="world"
-    x="3*6000"
-    y="3*6000"
-    z="3*6000"
-    />
--->
 
 <tube name="sol_BP_window" lunit="mm" aunit="degree" rmin="0" rmax="BP_window_radius" z="BP_window_thickness" startphi="0" deltaphi="360" />
 <tube name="BP1" lunit="mm" aunit="degree" rmin="1.37*25.4/2" rmax="1.5*25.4/2" z="47.73*25.4" startphi="0" deltaphi="360" />

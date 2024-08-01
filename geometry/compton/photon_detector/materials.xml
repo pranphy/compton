@@ -26,7 +26,7 @@
   <atom value="22.989769" unit="g/mole" />
 </element>
 
-<element Z="82" formula="Pb" name="Lead" >
+<element Z="82" formula="Pb" name="lead" >
   <atom value="207.20" unit="g/mole"/>
 </element>
 
@@ -76,7 +76,7 @@
   <atom unit="g/mole" value="63.546" />
 </material>
 
-<material name="LeadMaterial" Z="82" formula="Pb" state="solid">
+<material name="leadMaterial" Z="82" formula="Pb" state="solid">
   <D value="11.35" unit="g/cm3" />
   <atom unit="g/mole" value="207.20" />
 </material>
@@ -86,31 +86,31 @@
   <atom unit="g/mole" value="26.9815" />
 </material>
 
-<material name="LeadTungstate" formula="PbWO4" state="solid">
-  <property name="RINDEX" ref="LeadTungstateRIndex" />
-  <property name="TRANSMITTANCE" ref="LeadTungstateTransmittance" />
-  <property name="ABSLENGTH" ref="LeadTungstateAbsorption_length" />
-  <property name="FASTTIMECONSTANT" ref="LeadTungstateFastTimeConstant" />
-  <property name="SLOWTIMECONSTANT" ref="LeadTungstateSlowTimeConstant" />
-  <property name="SCINTILLATIONYIELD" ref="LeadTungstate_scintillationYield" />
-  <property name="YIELDRATIO" ref="LeadTungstateYieldRatio" />
-  <property name="RESOLUTIONSCALE" ref="LeadTungstateResolutionScale" />
-  <property name="FASTCOMPONENT" ref="LeadTungstateEmission" />
-  <property name="SLOWCOMPONENT" ref="LeadTungstateEmission" />
-  <property name="FASTSCINTILLATIONRISETIME" ref="LeadTungstateRiseTime" />
-  <property name="SLOWSCINTILLATIONRISETIME" ref="LeadTungstateRiseTime" />
+<material name="lead_tungstate" formula="PbWO4" state="solid">
+  <property name="RINDEX" ref="lead_tungstateR_index" />
+  <property name="TRANSMITTANCE" ref="lead_tungstate_transmittance" />
+  <property name="ABSLENGTH" ref="lead_tungstateAbsorption_length" />
+  <property name="FASTTIMECONSTANT" ref="lead_tungstateFast_time_constant" />
+  <property name="SLOWTIMECONSTANT" ref="lead_tungstateSlow_time_constant" />
+  <property name="SCINTILLATIONYIELD" ref="lead_tungstate_scintillationYield" />
+  <property name="YIELDRATIO" ref="lead_tungstateYield_ratio" />
+  <property name="RESOLUTIONSCALE" ref="lead_tungstateResolutionScale" />
+  <property name="FASTCOMPONENT" ref="lead_tungstate_emission" />
+  <property name="SLOWCOMPONENT" ref="lead_tungstate_emission" />
+  <property name="FASTSCINTILLATIONRISETIME" ref="lead_tungstateRise_time" />
+  <property name="SLOWSCINTILLATIONRISETIME" ref="lead_tungstateRise_time" />
   <!-- <T value="287.15" unit="K" /> -->
   <D value="8.3" unit="g/cm3" />
-  <composite n="1" ref="Lead" />
+  <composite n="1" ref="lead" />
   <composite n="1" ref="tungsten" />
   <composite n="4" ref="Oxygen" />
 </material>
 
 
-<!-- Bicron Optical _grease (Saint-Gobian BC-630) -->
-<material name="Optical_grease" >
-  <property name="RINDEX" ref="Optical_greaseIndex" />
-  <property name="TRANSMITTANCE" ref="Optical_greaseTransmittance" />
+<!-- Bicron _optical _grease (Saint-Gobian BC-630) -->
+<material name="optical_grease" >
+  <property name="RINDEX" ref="optical_grease_index" />
+  <property name="TRANSMITTANCE" ref="optical_grease_transmittance" />
   <D unit="g/cm3" value="1.060" />
   <composite n="2" ref="Carbon" />
   <composite n="6" ref="Hydrogen" />
@@ -118,8 +118,8 @@
   <composite n="1" ref="Oxygen" />
 </material>
 
-<material name="AirOptical" >
-  <property name="RINDEX" ref="AirIndex" />
+<material name="Air_optical" >
+  <property name="RINDEX" ref="Air_index" />
   <property name="REFLECTIVITY" ref="AirReflectivity" />
   <D unit="g/cm3" value="0.00129" />
   <fraction n="0.7" ref="Nitrogen" />
@@ -138,8 +138,8 @@
   <fraction n="0.3" ref="Oxygen" />
 </material>
 
-<material name="Air_vacuumOptical" >
-  <property name="RINDEX" ref="AirIndex" />
+<material name="Air_vacuum_optical" >
+  <property name="RINDEX" ref="Air_index" />
   <D unit="g/cm3" value="1.0e-25" />
   <fraction n="0.7" ref="Nitrogen" />
   <fraction n="0.3" ref="Oxygen" />
@@ -147,7 +147,7 @@
 
 
 <material name="Silica" formula="SiO2" >
-  <property name="RINDEX" ref="FusedSilicaGlassIndex" />
+  <property name="RINDEX" ref="FusedSilica_glass_index" />
   <D unit="g/cm3" value="2.65" />
   <composite n="1" ref="Silicon" />
   <composite n="2" ref="Oxygen" />
@@ -173,9 +173,8 @@
 </material>
 
 
-<material name="BorosilicateGlass" state="solid" >
-  <property name="RINDEX" ref="BorosilicateGlassIndex" />
-  <!-- From: http://www.camglassblowing.co.uk/gproperties.htm -->
+<material name="Borosilicate_glass" state="solid" >
+  <property name="RINDEX" ref="Borosilicate_glass_index" />
   <D unit="g/cm3" value="2.23" />
   <fraction n="0.807" ref="Silica" />
   <fraction n="0.130" ref="BoricOxide" />
@@ -183,9 +182,8 @@
   <fraction n="0.023" ref="AluminumOxide" />
 </material>
 
-<!-- Mylar definition -->
 <material name="BoPET" state="solid" formula="C10H8O4">
-  <property name="RINDEX" ref="BoPETIndex" />
+  <property name="RINDEX" ref="BoPET_index" />
   <property name="REFLECTIVITY" ref="BoPETReflectivity" />
   <D unit="g/cm3" value="1.38" />
   <composite n="10" ref="Carbon" />
@@ -193,8 +191,6 @@
   <composite n="4" ref="Oxygen" />
 </material>
 
-<!-- Tedlar BlackTape definition -->
-<!-- This is a guess that this is what we use -->
 <material name="PVF" state="solid" formula="C2H3F">
   <D unit="g/cm3" value="1.78" />
   <composite n="2" ref="Carbon" />
@@ -215,9 +211,8 @@
   <fraction n="0.5" ref="Acrylic" />
 </material>
 
-<!-- Bialkali definition -->
 <material name="Bialkali" state="solid" formula="SbKCs" >
-  <property name="RINDEX" ref="SbKCsCathodeIndex" />
+  <property name="RINDEX" ref="SbKCsCathode_index" />
   <property name="EFFICIENCY" ref="SbKCsCathodeEfficiency" />
   <property name="ABSLENGTH" ref="SbKCsCathodeAbsorption" />
   <D unit="g/cm3" value="4.28" /> <!-- Had to look this up! -->
