@@ -201,10 +201,12 @@
           <position unit="mm" x="0" y="215.4936" z="6064.66"/>
         </physvol>
 
+        <!--
         <physvol>
           <file name="photon_detector/photon_detector.gdml"/>
-          <position unit="mm" x="0" y="-150.0" z="5564"/>
+          <position unit="mm" x="0" y="0" z="5564"/>
         </physvol>
+        -->
 
         <auxiliary auxtype="Color" auxvalue="Green" />
         <auxiliary auxtype="Alpha" auxvalue="0.5" />

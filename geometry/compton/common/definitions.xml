@@ -5,7 +5,7 @@
 
 <variable name="laser_gap" value="215.4936" />
 <variable name="pipe_radius" value="19.12"/>
-<variable name="pipe_thickness" value="10"/>
+<variable name="pipe_thickness" value="2.00"/>
 
 <variable name="dipole1_z" value="-7049.77"/>
 <variable name="dipole2_z" value="-1654.05"/>
