@@ -105,13 +105,13 @@
 
       <physvol name="FVP_phy">
         <volumeref ref="First_vp" />
-        <position  unit="mm" x="0" y="215" z="-7800" />
+        <position  unit="mm" x="0" y="215" z="-7550" />
       </physvol>
 
 
       <physvol name="VVP_phy">
         <volumeref ref="Valve_vp" />
-        <position  unit="mm" x="0" y="215" z="-225.12*25.4" />
+        <position  unit="mm" x="0" y="215" z="-5718.048" />
       </physvol>
 
       <physvol name="SVP_phy">
