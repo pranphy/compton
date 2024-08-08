@@ -810,6 +810,50 @@ void comptonDetectorConstruction::ParseAuxiliaryVisibilityInfo()
           ((*iter).first)->SetVisAttributes(visAttribute);
 
         } else {
+            auto val = (*vit).value;
+            double red = 1.0;
+            double green = 1.0;
+            double blue = 1.0;
+            double alpha = 1.0;
+            std::stringstream ss;
+            unsigned int temp;
+            /*
+               G4cout << " Auxiliary Information is found for Logical Volume :  "
+               << (*lvciter)->GetName() << G4endl;
+               G4cout << " Name of Auxiliary type is     :  " << str << G4endl;
+               G4cout << " Associated Auxiliary value is :  " << val << G4endl;
+               */
+            // Check to see if it's not a know color
+            if(!G4Colour::GetColour(val,colour)) {
+                val.erase(0,1); // first chacater is '#' so remove it.
+                if(val.size() >= 6 ) {
+                    ss << std::hex << val.substr(0,2);
+                    ss >> temp;
+                    red = temp/256.;
+                    ss.str("");
+                    ss.clear();
+                    ss << std::hex << val.substr(2,2);
+                    ss >> temp;
+                    green = temp/256.;
+                    ss.str("");
+                    ss.clear();
+                    ss << std::hex << val.substr(4,2);
+                    ss >> temp;
+                    blue = temp/256.;
+                    ss.str("");
+                    ss.clear();
+                    if(val.size() >= 8 ) {
+                        ss << std::hex << val.substr(6,2);
+                        ss >> temp;
+                        alpha = temp/256.;
+                        ss.str("");
+                        ss.clear();
+                    }
+                }
+                colour = G4Colour(red,green,blue,alpha);
+            }
+            G4VisAttributes visAttribute(colour);
+            ((*iter).first)->SetVisAttributes(visAttribute);
 
           if (fVerboseLevel > 0)
             G4cout << "Colour " << (*vit).value << " is not known." << G4endl;
