@@ -1,0 +1,40 @@
+<tube name="upright_tube" lunit="mm" aunit="deg" rmin="123.85" rmax="142.0" z="289.56" startphi="0" deltaphi="360" />
+<tube name="cut_tube" lunit="mm" aunit="deg" rmin="0" rmax="65" z="140" startphi="0" deltaphi="360" />
+<tube name="cut_tube2" lunit="mm" aunit="deg" rmin="0" rmax="90" z="140" startphi="0" deltaphi="360" />
+<box name="left_open" unit="mm" x="50" y="100" z="140"/>
+<box name="right_open" unit="mm" x="50" y="100" z="140"/>
+
+
+<!-- in visual coordinate direction -->
+<!-- cut on far side -->
+<subtraction name="upright_tube3">
+  <first ref="upright_tube" />
+  <second ref="cut_tube" />
+  <position x="(125.85+142.0)/2" y="0.00" z="-33.43" />
+  <rotation unit="deg" x="0.00" y="90.00" z="0.00" />
+</subtraction>
+
+<!-- cut on near side -->
+<subtraction name="upright_tube2">
+  <first ref="upright_tube3" />
+  <second ref="cut_tube2" />
+  <position x="-(125.85+142.0)/2" y="0.00" z="-43.43" />
+  <rotation unit="deg" x="0.00" y="90.00" z="0.00" />
+</subtraction>
+
+
+<!-- cut  on exit DS pos -->
+<subtraction name="tube_temp">
+  <first ref="upright_tube2" />
+  <second ref="right_open" />
+  <position x="0.00" y="-(125.85+142.0)/2" z="-43.43" />
+  <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
+</subtraction>
+
+<!-- cut  on entry US pos -->
+<subtraction name="main_house">
+  <first ref="tube_temp" />
+  <second ref="left_open" />
+  <position x="0.00" y="(125.85+142.0)/2" z="-43.43" />
+  <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
+</subtraction>

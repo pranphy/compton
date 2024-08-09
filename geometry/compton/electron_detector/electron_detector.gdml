@@ -2,7 +2,7 @@
 
 <!DOCTYPE gdml [
 <!ENTITY definitions SYSTEM "../common/definitions.xml">
-<!ENTITY solids SYSTEM "../common/solids.xml">
+<!ENTITY solids SYSTEM "solids.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
@@ -11,24 +11,43 @@
   </define>
 
   <solids>
-    &solids;
-
     <box lunit="mm" name="edet_world" x="500" y="390" z="800"/>
-
+    <box lunit="mm" name="strip" x="100" y="100" z="5"/>
+    &solids;
   </solids>
 
 
   <structure>
+    <volume  name="strip_log" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="strip" />
+      <auxiliary auxtype="Color" auxvalue="#ABCDEF33" />
+    </volume>
 
+    <volume  name="main_house_log" >
+      <materialref ref="G4_Al" />
+      <solidref ref="main_house" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
 
     <volume name="electron_detector">
       <materialref ref="G4_Galactic" />
       <solidref ref="edet_world" />
-      <auxiliary auxtype="Color" auxvalue="black" />
-      <auxiliary auxtype="Alpha" auxvalue="0.2" />
 
+      <physvol>
+        <volumeref ref="strip_log" />
+        <position unit="mm" x="0.00" y="0.00" z="0.00" />
+        <rotation unit="deg" x="3.00" y="0.00" z="0.00" />
+      </physvol>
+
+      <physvol>
+        <volumeref ref="main_house_log" />
+        <position unit="mm" x="0.00" y="50.00" z="0.00" />
+        <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
+      </physvol>
+
+      <auxiliary auxtype="Color" auxvalue="#0FAB5611" />
     </volume>
-
   </structure>
 
   <setup name="Default" version="1.1">
