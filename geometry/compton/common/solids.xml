@@ -21,7 +21,7 @@
 <tube name="bend_pipe_2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="1383.00" deltaphi="360"/>
 
 
-<!-- weldmen box -->
+<!-- weldment box -->
 <xtru name="weldment_box_full" lunit="mm">
   <twoDimVertex x="0" y="32.28"/>
   <twoDimVertex x="1173.59" y="32.28"/>
