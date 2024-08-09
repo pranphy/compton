@@ -20,7 +20,7 @@
     <volume name="ds_flange_log">
       <materialref ref="G4_Galactic"/>
       <solidref ref="ds_flange"/>
-      <auxiliary auxtype="Color" auxvalue="Green"/>
+      <auxiliary auxtype="Color" auxvalue="Blue"/>
     </volume>
 
     <volume name="upper_flange_log">
@@ -30,7 +30,7 @@
     </volume>
 
     <volume name="lower_flange_log">
-      <materialref ref="G4_Al"/>
+      <materialref ref="G4_Galactic"/>
       <solidref ref="lower_flange_final"/>
       <auxiliary auxtype="Color" auxvalue="Blue"/>
     </volume>

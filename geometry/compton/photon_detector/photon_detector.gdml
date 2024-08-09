@@ -4,7 +4,7 @@
 <!ENTITY materials SYSTEM "materials.xml">
 <!ENTITY solids SYSTEM "solids.xml">
 <!ENTITY volumes SYSTEM "volumes.xml">
-<!ENTITY leadtungstate SYSTEM "detectors/LeadTungstate.gdml">
+<!ENTITY leadtungstate SYSTEM "lead_tungstate.gdml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
