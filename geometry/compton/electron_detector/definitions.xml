@@ -1,0 +1,14 @@
+<variable name="house_thickness" value="18.15" />
+<variable name="house_rmin" value="123.85" />
+<variable name="house_avg_r" value="house_rmin + house_thickness/2" />
+
+<variable name="entry_box_thickness" value="10" />
+<variable name="entry_box_length" value="62" />
+<variable name="house_y" value="50" />
+
+
+<!-- These cut pos are arbitrary but are bounded by the z length of respective geometries -->
+<variable name="near_cut_y" value="43.43" />
+<variable name="far_cut_y" value="33.43" />
+<variable name="right_cut_pos" value="60" />
+<variable name="left_cut_pos" value="140" />

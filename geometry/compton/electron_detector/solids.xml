@@ -1,8 +1,34 @@
-<tube name="upright_tube" lunit="mm" aunit="deg" rmin="123.85" rmax="142.0" z="289.56" startphi="0" deltaphi="360" />
+<tube name="upright_solid" lunit="mm" aunit="deg" rmin="0" rmax="house_rmin+house_thickness" z="289.56" startphi="0" deltaphi="360" />
+<tube name="upright_tube" lunit="mm" aunit="deg" rmin="house_rmin" rmax="house_rmin+house_thickness" z="289.56" startphi="0" deltaphi="360" />
 <tube name="cut_tube" lunit="mm" aunit="deg" rmin="0" rmax="65" z="140" startphi="0" deltaphi="360" />
 <tube name="cut_tube2" lunit="mm" aunit="deg" rmin="0" rmax="90" z="140" startphi="0" deltaphi="360" />
+<tube name="right_open" lunit="mm" aunit="deg" rmin="0" rmax="60" z="140" startphi="0" deltaphi="360"/>
+<tube name="exit_pipe_d" lunit="mm" aunit="deg" rmin="55" rmax="60" z="345" startphi="0" deltaphi="360"/>
+<tube name="left_flange_plate" lunit="mm" aunit="deg" rmin="0" rmax="100" z="20" startphi="0" deltaphi="360" />
+
 <box name="left_open" unit="mm" x="50" y="100" z="140"/>
-<box name="right_open" unit="mm" x="50" y="100" z="140"/>
+<box name="entry_rect_box_max" lunit="mm"  x="50" y="100" z="140"/>
+<box name="entry_rect_box_solid" lunit="mm"  x="50-2*entry_box_thickness" y="100-2*entry_box_thickness" z="180"/>
+
+<subtraction name="entry_rect_box_st">
+  <first ref="entry_rect_box_max" />
+  <second ref="entry_rect_box_solid" />
+</subtraction>
+
+<subtraction name="entry_rect_box">
+  <first ref="entry_rect_box_st" />
+  <second ref="upright_solid"/>
+  <position x="0.00" y="0.00" z="left_cut_pos" />
+  <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
+</subtraction>
+
+
+<subtraction name="left_flange">
+  <first ref="left_flange_plate"/>
+  <second ref="entry_rect_box_solid" />
+</subtraction>
+
+
 
 
 <!-- in visual coordinate direction -->
@@ -10,7 +36,7 @@
 <subtraction name="upright_tube3">
   <first ref="upright_tube" />
   <second ref="cut_tube" />
-  <position x="(125.85+142.0)/2" y="0.00" z="-33.43" />
+  <position x="house_avg_r" y="0.00" z="-far_cut_y" />
   <rotation unit="deg" x="0.00" y="90.00" z="0.00" />
 </subtraction>
 
@@ -18,7 +44,7 @@
 <subtraction name="upright_tube2">
   <first ref="upright_tube3" />
   <second ref="cut_tube2" />
-  <position x="-(125.85+142.0)/2" y="0.00" z="-43.43" />
+  <position x="-house_avg_r" y="0.00" z="-near_cut_y" />
   <rotation unit="deg" x="0.00" y="90.00" z="0.00" />
 </subtraction>
 
@@ -27,7 +53,7 @@
 <subtraction name="tube_temp">
   <first ref="upright_tube2" />
   <second ref="right_open" />
-  <position x="0.00" y="-(125.85+142.0)/2" z="-43.43" />
+  <position x="0.00" y="-house_avg_r" z="-near_cut_y" />
   <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
 </subtraction>
 
@@ -35,6 +61,13 @@
 <subtraction name="main_house">
   <first ref="tube_temp" />
   <second ref="left_open" />
-  <position x="0.00" y="(125.85+142.0)/2" z="-43.43" />
+  <position x="0.00" y="house_avg_r" z="-near_cut_y" />
+  <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
+</subtraction>
+
+<subtraction name="exit_pipe_e">
+  <first ref="exit_pipe_d" />
+  <second ref="upright_solid" />
+  <position x="0.00" y="0.00" z="-right_cut_pos" />
   <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
 </subtraction>

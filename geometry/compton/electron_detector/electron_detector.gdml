@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 
 <!DOCTYPE gdml [
-<!ENTITY definitions SYSTEM "../common/definitions.xml">
+<!ENTITY definitions SYSTEM "definitions.xml">
 <!ENTITY solids SYSTEM "solids.xml">
 ]>
 
@@ -24,6 +24,24 @@
       <auxiliary auxtype="Color" auxvalue="#ABCDEF33" />
     </volume>
 
+    <volume  name="left_flange_log" >
+      <materialref ref="G4_Al" />
+      <solidref ref="left_flange" />
+      <auxiliary auxtype="Color" auxvalue="Blue" />
+    </volume>
+
+    <volume  name="entry_box_log" >
+      <materialref ref="G4_Al" />
+      <solidref ref="entry_rect_box" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
+    <volume  name="exit_pipe_e_log" >
+      <materialref ref="G4_Al" />
+      <solidref ref="exit_pipe_e" />
+      <auxiliary auxtype="Color" auxvalue="Orange" />
+    </volume>
+
     <volume  name="main_house_log" >
       <materialref ref="G4_Al" />
       <solidref ref="main_house" />
@@ -42,9 +60,28 @@
 
       <physvol>
         <volumeref ref="main_house_log" />
-        <position unit="mm" x="0.00" y="50.00" z="0.00" />
+        <position unit="mm" x="0.00" y="house_y" z="0.00" />
         <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
       </physvol>
+
+      <physvol>
+        <volumeref ref="left_flange_log" />
+        <position unit="mm" x="0.00" y="house_y-near_cut_y" z="-left_cut_pos-entry_box_length" />
+        <rotation unit="deg" x="0.00" y="0.00" z="0.00" />
+      </physvol>
+
+      <physvol>
+        <volumeref ref="entry_box_log" />
+        <position unit="mm" x="0.00" y="house_y-near_cut_y" z="-left_cut_pos+house_thickness" />
+        <rotation unit="deg" x="0.00" y="0.00" z="0.00" />
+      </physvol>
+
+      <physvol>
+        <volumeref ref="exit_pipe_e_log" />
+        <position unit="mm" x="0.00" y="house_y-near_cut_y" z="right_cut_pos-house_thickness" />
+        <rotation unit="deg" x="0.00" y="0.00" z="0.00" />
+      </physvol>
+
 
       <auxiliary auxtype="Color" auxvalue="#0FAB5611" />
     </volume>
