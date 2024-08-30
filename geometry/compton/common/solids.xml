@@ -17,11 +17,11 @@
 <tube name="exit_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="500" deltaphi="360"/>
 <tube name="drift_pipe" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="drift_pipe_length" deltaphi="360"/>
 <tube name="drift_pipe2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="drift_pipe2_length" deltaphi="360"/>
-<tube name="bend_pipe_1" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="2083.08" deltaphi="360"/>
-<tube name="bend_pipe_2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="2083.00" deltaphi="360"/>
+<tube name="bend_pipe_1" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="2583.08" deltaphi="360"/>
+<tube name="bend_pipe_2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="1383.00" deltaphi="360"/>
 
 
-<!-- weldmen box -->
+<!-- weldment box -->
 <xtru name="weldment_box_full" lunit="mm">
   <twoDimVertex x="0" y="32.28"/>
   <twoDimVertex x="1173.59" y="32.28"/>
@@ -43,6 +43,7 @@
 <subtraction name="weldment_box">
   <first ref="weldment_box_full"/>
   <second ref="weldment_box_cut"/>
+  <position x="0.0" y="0.0" z="4.00" />
 </subtraction>
 <!-- weldmen box -->
 <!-- part-no-17 box -->
@@ -67,6 +68,7 @@
 <subtraction name="part_no_17_box">
   <first ref="part_no_17_full"/>
   <second ref="part_no_17_cut"/>
+  <position x="0.0" y="0.0" z="4.00" />
 </subtraction>
 <!-- part-no-17 box -->
 

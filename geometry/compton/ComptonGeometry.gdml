@@ -20,7 +20,7 @@
     <volume name="ds_flange_log">
       <materialref ref="G4_Galactic"/>
       <solidref ref="ds_flange"/>
-      <auxiliary auxtype="Color" auxvalue="Green"/>
+      <auxiliary auxtype="Color" auxvalue="Blue"/>
     </volume>
 
     <volume name="upper_flange_log">
@@ -30,7 +30,7 @@
     </volume>
 
     <volume name="lower_flange_log">
-      <materialref ref="G4_Al"/>
+      <materialref ref="G4_Galactic"/>
       <solidref ref="lower_flange_final"/>
       <auxiliary auxtype="Color" auxvalue="Blue"/>
     </volume>
@@ -124,13 +124,13 @@
 
       <physvol name="bend_pipe_1_phy">
         <volumeref ref="bend_pipe_1_log" />
-        <position x="0" y="59.83" z="-3205.89"/>
+        <position x="0" y="109.83" z="-4175.89"/>
         <rotation unit="degree" x="-bend_angle" y="0" z="0"/>
       </physvol>
 
       <physvol name="bend_pipe_2_phy">
         <volumeref ref="bend_pipe_2_log" />
-        <position x="0" y="59.83" z="3205.82"/>
+        <position x="0" y="74.83" z="3555.82"/>
         <rotation unit="degree" x="bend_angle" y="0" z="0"/>
       </physvol>
       <!-- End pipes -->
@@ -143,14 +143,20 @@
       -->
         <physvol>
           <volumeref ref="leftmost_part_no_17_log"/>
-          <position unit="mm" x="-33.25" y="laser_gap" z="-5859.402"/>
+          <position unit="mm" x="-22.23" y="laser_gap" z="-5559.40"/>
           <rotation unit="deg" x="0" y="270" z="0"/>
         </physvol>
 
         <physvol>
           <volumeref ref="leftmost_part_no_17_log"/>
-          <position unit="mm" x="-33.25" y="0.0" z="-4859.402"/>
-          <rotation unit="deg" x="0" y="90" z="0"/>
+          <position unit="mm" x="-22.23" y="0.0" z="-2859.40"/>
+          <rotation unit="deg" x="0" y="270" z="180"/>
+        </physvol>
+
+        <physvol>
+          <volumeref ref="leftmost_part_no_17_log"/>
+          <position unit="mm" x="22.23" y="0.0" z="2859.40"/>
+          <rotation unit="deg" x="0" y="90" z="180"/>
         </physvol>
 
         <physvol>
@@ -201,10 +207,12 @@
           <position unit="mm" x="0" y="215.4936" z="6064.66"/>
         </physvol>
 
+        <!--
         <physvol>
           <file name="photon_detector/photon_detector.gdml"/>
-          <position unit="mm" x="0" y="-150.0" z="5564"/>
+          <position unit="mm" x="0" y="0" z="5564"/>
         </physvol>
+        -->
 
         <auxiliary auxtype="Color" auxvalue="Green" />
         <auxiliary auxtype="Alpha" auxvalue="0.5" />

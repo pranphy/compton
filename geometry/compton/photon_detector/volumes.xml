@@ -219,7 +219,7 @@
 <volume name="tungsten_finger_log">
   <materialref ref="G4_Galactic"/>
   <solidref ref="tungsten_finger_solid"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 
@@ -247,7 +247,7 @@
   <!--  <materialref ref="tungsten_finger"/> -->
   <materialref ref="G4_PLASTIC_SC_VINYLTOLUENE"/>
   <solidref ref="tungsten_finger_scintillator_solid"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 
@@ -294,7 +294,7 @@
 <volume name="styrofoam_log">
   <materialref ref="Polystyrene"/>
   <solidref ref="styrofoam"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 <volume name="shields_log">
@@ -333,43 +333,43 @@
 <volume name="window_flange1_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="window_flange"/>
-  <auxiliary auxtype="Color" auxvalue="#FF000022"/>
+  <auxiliary auxtype="Color" auxvalue="#FF0FF022"/>
 </volume>
 
 <volume name="window_flange2_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="window_flange"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#00FFFF22"/>
 </volume>
 
 <volume name="window_flange3_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="window_flange"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#00FFFF22"/>
 </volume>
 
 <volume name="window_flange4_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="window_flange"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#00FFFF22"/>
 </volume>
 
 <volume name="window_flange5_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="window_flange"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#00FFFF22"/>
 </volume>
 
 <volume name="window_flange6_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="window_flange"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#00FFFF22"/>
 </volume>
 
 <volume name="window_flange7_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="window_flange"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 <volume name="BP_window_log">
@@ -381,36 +381,36 @@
 <volume name="BP_window2_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="sol_BP_window"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 <volume name="BP_window3_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="sol_BP_window"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 <volume name="BP_window4_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="sol_BP_window"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 <volume name="BP1_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="BP1"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 <volume name="BP2_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="BP2"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
 <volume name="BP3_log">
   <materialref ref="StainlessSteel"/>
   <solidref ref="BP3"/>
-  <auxiliary auxtype="Color" auxvalue="#FFFFFF22"/>
+  <auxiliary auxtype="Color" auxvalue="#0000FF22"/>
 </volume>
 
