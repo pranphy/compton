@@ -29,11 +29,9 @@
 </subtraction>
 
 
-
-
 <!-- in visual coordinate direction -->
 <!-- cut on far side -->
-<subtraction name="upright_tube3">
+<subtraction name="upright_tube1">
   <first ref="upright_tube" />
   <second ref="cut_tube" />
   <position x="house_avg_r" y="0.00" z="-far_cut_y" />
@@ -42,7 +40,7 @@
 
 <!-- cut on near side -->
 <subtraction name="upright_tube2">
-  <first ref="upright_tube3" />
+  <first ref="upright_tube1" />
   <second ref="cut_tube2" />
   <position x="-house_avg_r" y="0.00" z="-near_cut_y" />
   <rotation unit="deg" x="0.00" y="90.00" z="0.00" />
@@ -50,7 +48,7 @@
 
 
 <!-- cut  on exit DS pos -->
-<subtraction name="tube_temp">
+<subtraction name="tube_temp3">
   <first ref="upright_tube2" />
   <second ref="right_open" />
   <position x="0.00" y="-house_avg_r" z="-near_cut_y" />
@@ -59,7 +57,7 @@
 
 <!-- cut  on entry US pos -->
 <subtraction name="main_house">
-  <first ref="tube_temp" />
+  <first ref="tube_temp3" />
   <second ref="left_open" />
   <position x="0.00" y="house_avg_r" z="-near_cut_y" />
   <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
@@ -71,3 +69,18 @@
   <position x="0.00" y="0.00" z="-right_cut_pos" />
   <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
 </subtraction>
+
+
+<union name="house_1">
+  <first ref="main_house" />
+  <second ref="entry_rect_box" />
+  <position unit="mm" x="0.0" y="-house_avg_r+entry_box_length" z="0.0" />
+  <rotation unit="deg" x="90.0" y="0.0" z="0.0" />
+</union>
+
+
+<!-- Diamond strip -->
+<box lunit="mm" name="strip" x="100" y="100" z="2"/>
+<box lunit="mm" name="diamond_strip" x="10" y="0.235" z="0.5"/>
+
+

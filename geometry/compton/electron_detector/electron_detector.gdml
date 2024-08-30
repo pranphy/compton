@@ -3,47 +3,68 @@
 <!DOCTYPE gdml [
 <!ENTITY definitions SYSTEM "definitions.xml">
 <!ENTITY solids SYSTEM "solids.xml">
+<!ENTITY materials SYSTEM "../common/materials.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
   <define>
       &definitions;
+    <variable name="i" value="0" />
   </define>
+  <materials>
+      &materials;
+  </materials>
 
   <solids>
     <box lunit="mm" name="edet_world" x="500" y="390" z="800"/>
-    <box lunit="mm" name="strip" x="100" y="100" z="5"/>
     &solids;
   </solids>
 
 
   <structure>
+
+    <volume  name="diamond_strip_log" >
+      <materialref ref="Diamond" />
+      <solidref ref="diamond_strip" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="21"/>
+      <auxiliary auxtype="Color" auxvalue="Green" />
+    </volume>
+
     <volume  name="strip_log" >
-      <materialref ref="G4_Galactic" />
+      <materialref ref="Diamond" />
       <solidref ref="strip" />
-      <auxiliary auxtype="Color" auxvalue="#ABCDEF33" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="27"/>
+      <auxiliary auxtype="Color" auxvalue="Yellow" />
     </volume>
 
     <volume  name="left_flange_log" >
-      <materialref ref="G4_Al" />
+      <materialref ref="G4_Galactic" />
       <solidref ref="left_flange" />
       <auxiliary auxtype="Color" auxvalue="Blue" />
     </volume>
 
     <volume  name="entry_box_log" >
-      <materialref ref="G4_Al" />
+      <materialref ref="G4_Galactic" />
       <solidref ref="entry_rect_box" />
       <auxiliary auxtype="Color" auxvalue="Orange" />
     </volume>
 
     <volume  name="exit_pipe_e_log" >
-      <materialref ref="G4_Al" />
+      <materialref ref="G4_Galactic" />
       <solidref ref="exit_pipe_e" />
       <auxiliary auxtype="Color" auxvalue="Orange" />
     </volume>
 
+    <volume  name="house_1_log" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="house_1" />
+      <auxiliary auxtype="Color" auxvalue="Yellow" />
+    </volume>
+
     <volume  name="main_house_log" >
-      <materialref ref="G4_Al" />
+      <materialref ref="G4_Galactic" />
       <solidref ref="main_house" />
       <auxiliary auxtype="Color" auxvalue="Orange" />
     </volume>
@@ -52,11 +73,27 @@
       <materialref ref="G4_Galactic" />
       <solidref ref="edet_world" />
 
+      <loop for="i" from="0" to="400" step="1" >
+        <physvol>
+          <volumeref ref="diamond_strip_log" />
+          <position unit="mm" x="0.00" y="0.250*i-200*0.250" z="-6.00" />
+        </physvol>
+      </loop>
+
+      <!--
       <physvol>
         <volumeref ref="strip_log" />
         <position unit="mm" x="0.00" y="0.00" z="0.00" />
-        <rotation unit="deg" x="3.00" y="0.00" z="0.00" />
       </physvol>
+      -->
+
+      <!--
+      <physvol>
+        <volumeref ref="house_1_log" />
+        <position unit="mm" x="100.00" y="house_y" z="0.00" />
+        <rotation unit="deg" x="90.00" y="0.00" z="0.00" />
+      </physvol>
+      -->
 
       <physvol>
         <volumeref ref="main_house_log" />

@@ -12,7 +12,7 @@
 
 <solids>
   &world;
-  <tube name="thin_disc" lunit="mm" rmin="0" rmax="800" z="1"  aunit="degree" deltaphi="360" startphi="0" />
+  <tube name="thin_disc" lunit="mm" rmin="0" rmax="600" z="1"  aunit="degree" deltaphi="360" startphi="0" />
   <!--tube name="long_pipe" lunit="mm" rmin="0" rmax="50" z="1000"  aunit="degree" deltaphi="360" startphi="0" /-->
 </solids>
 
@@ -89,6 +89,13 @@
       <auxiliary auxtype="DetNo" auxvalue="14"/>
   </volume>
 
+  <volume name="strip_vp" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="16"/>
+  </volume>
+
   <volume name="Third_vp" >
       <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
@@ -150,6 +157,12 @@
       <physvol>
         <volumeref ref="weldmend_3_exit" />
         <position  unit="mm" x="0" y="0" z="2346.92" />
+      </physvol>
+
+      <physvol name="strip_PV">
+        <volumeref ref="strip_vp" />
+        <position  unit="mm" x="0" y="215.4936" z="6057.41" />
+        <!--rotation unit="deg" x="10.00" y="0.00" z="0.00" /-->
       </physvol>
 
       <physvol name="VRVP_phy">
