@@ -29,7 +29,6 @@ comptonGenericDetector::comptonGenericDetector( G4String name, G4int detnum )
     fDetectOpticalPhotons = false;
     fDetectLowEnergyNeutrals = false;
     fDetectBoundaryHits = false;
-    fDetectIncomingOnly = false;
 
     std::stringstream genhit;
     genhit << "genhit_" << detnum;
@@ -199,7 +198,7 @@ G4bool comptonGenericDetector::ProcessHits(G4Step* step, G4TouchableHistory*)
     G4double charge = particle->GetPDGCharge();
     if (! fDetectLowEnergyNeutrals
             && particle != G4OpticalPhoton::OpticalPhotonDefinition()
-            && charge == 0.0 && track->GetKineticEnergy() < 0.1*CLHEP::MeV) {
+            && charge == 0.0 && track->GetKineticEnergy() < 1*CLHEP::eV) { // changed from 0.1MeV
         static bool has_been_warned = false;
         if (! has_been_warned) {
             G4cout << "compton: <0.1 MeV neutrals simulated but not stored for some detectors." << G4endl;
@@ -229,52 +228,6 @@ G4bool comptonGenericDetector::ProcessHits(G4Step* step, G4TouchableHistory*)
                 firststepinvolume = true;
         }
     }
-
-    //auto prez = prepoint->GetPosition().z();
-    //bool entry_point, exit_point = false;
-    //if(prez > 7700 ){
-     //bool exits_boundary = false;
-     //bool enters_boundary = false;
-
-    //postpoint->GetStepStatus() == fGeomBoundary && prepoint->GetPhysicalVolume()->GetName() == "myvolume")
-
-    G4String origin_lv = prepoint->GetPhysicalVolume()->GetLogicalVolume()->GetName();
-    G4String end_lv = postpoint->GetPhysicalVolume()->GetLogicalVolume()->GetName();
-    //std::cout<<" Incoming requested for "<<fDetNo<<" Origin lv is "<<origin_lv<<" and sensdet is "<<SensitiveDetectorName<<std::endl;
-    //std::cout<<" |"<<origin_lv<<"| --> |"<<end_lv<<"| in |"<<SensitiveDetectorName<<"| "<<(origin_lv == end_lv)<<std::endl;
-
-
-
-
-    //if (origin_lv != SensitiveDetectorName ){
-    //    std::cout<<"===============> Voila found one"<<std::endl;
-    //}
-    //if(postpoint->GetStepStatus() == fGeomBoundary
-    //if(postpoint->GetStepStatus() == fGeomBoundary && prepoint->GetStepStatus() == fGeomBoundary){
-    //    printf(" YESSSSSSSSSSSSSSSSSS WE EXIST \n");
-    //}
-
-    //if (origin_lv == SensitiveDetectorName  && (postpoint->GetStepStatus() == fGeomBoundary) ){
-    //if (postpoint->GetStepStatus() == fGeomBoundary ){ // && origin_lv == SensitiveDetectorName) {// && (postpoint->GetStepStatus() == fGeomBoundary) ){
-        //std::cout<<" here the origin is same as  Boundary <--------------"<<std::endl;
-        //aStep->GetPostStepPoint()->GetStepStatus() == fGeomBoundary && aStep->GetPreStepPoint()->GetPhysicalVolume()->GetName() == "myvolume")
-        //exits_boundary = true;
-    //}
-
-    //if(fDetectIncomingOnly){
-    //    //std::cout<<" Incoming only requested "<<std::endl;
-    //    if(exits_boundary){
-    //        //std::cout<<"   But this looks like is outgoing <--------------- "<<std::endl;
-    //        return false;
-    //    } else {
-    //        //std::cout<<" ----------> external Detected "<<std::endl;
-    //    }
-
-    //}
-    //G4cout<< "Pre name "<<prepoint->GetPhysicalVolume()->GetName() <<G4endl;
-    //G4cout<< "Pst name "<<postpoint->GetPhysicalVolume()->GetName() <<G4endl;
-    //G4cout<< "Position "<<prepoint->GetPosition().z() <<G4endl;
-    //G4cout<< "Position "<<postpoint->GetPosition().z() <<G4endl;
 
     // Only detect hits that are on the incident boundary edge of the geometry in question
     // as set by DetType == boundaryhits
@@ -311,9 +264,6 @@ G4bool comptonGenericDetector::ProcessHits(G4Step* step, G4TouchableHistory*)
 
 
     /////////////////////////////////////////////////////
-    //std::cout<<" Now that we are done checking everything lets see"<<std::endl;
-    //std::cout<<" Origin and outoginog are "<<origin_lv<<" --> "<<end_lv<<std::endl;
-
 
     comptonGenericDetectorHit* hit = new comptonGenericDetectorHit(fDetNo, copyID);
     fHitColl->insert(hit);
@@ -329,38 +279,6 @@ G4bool comptonGenericDetector::ProcessHits(G4Step* step, G4TouchableHistory*)
     } else {
         point = prepoint;
     }
-    auto mom = track->GetMomentum();
-    auto poss = prepoint->GetPosition();
-
-    if(poss.z() == -6460 and mom.z() > 0){
-
-        G4cout << prepoint->GetPosition()<<" --> "<<postpoint->GetPosition() <<" and we chose "<<point->GetPosition()<<" P= "<<track->GetMomentum()<<std::endl;
-        hit->fInfo = 0;
-
-        if(prepoint->GetStepStatus() == fGeomBoundary){
-            hit->fInfo += 1;
-            std::cout<<"Pre is boundary"<<std::endl;
-        }
-        if (prepoint->GetStepStatus() == fUndefined){
-            hit->fInfo += 2;
-            std::cout<<"Pre is undefined"<<std::endl;
-        }
-        if (postpoint->GetStepStatus() == fGeomBoundary){
-            std::cout<<" Post is boundary"<<std::endl;
-            hit->fInfo +=  10;
-        }
-        if (postpoint->GetStepStatus() == fUndefined){
-            std::cout<<"Post u ndefined"<<std::endl;
-            hit->fInfo +=  20;
-        }
-        if(origin_lv != end_lv){
-            std::cout<<"Pre NOT EQ POST "<<std::endl;
-            hit->fInfo += 30;
-        }else {
-            std::cout<<"PRE eq POST"<<std::endl;
-        }
-    }
-
 
 
     // Positions
@@ -408,3 +326,4 @@ void comptonGenericDetector::EndOfEvent(G4HCofThisEvent* HCE)
     HCE->AddHitsCollection(fHCID, fHitColl);
     HCE->AddHitsCollection(fSCID, fSumColl);
 }
+

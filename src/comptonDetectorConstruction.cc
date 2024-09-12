@@ -64,7 +64,6 @@ comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, c
   fWorldVolume(0),
   fWorldName(name)
 {
-    std::cout<<"Also now calling this"<<name<<" and "<<gdmlfile<<std::endl;
   // Define some engineering units
   new G4UnitDefinition("inch","in","Length",25.4*CLHEP::millimeter);
 
@@ -228,8 +227,6 @@ comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, c
       &comptonDetectorConstruction::EnableKryptoniteVolume,
       "Treat volume as kryptonite");
 }
-
-
 
 void comptonDetectorConstruction::EnableKryptonite()
 {
@@ -925,8 +922,8 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
 
           // Construct detector name
           std::stringstream det_name_ss;
-          //det_name_ss << "compton/det_" << det_no<<myvol->GetName();
-          det_name_ss << "compton/det_" <<myvol->GetName(); //<<"_"<<det_no;
+          det_name_ss << "compton/det_" << det_no;
+          //det_name_ss << "compton/det_" <<myvol->GetName(); //<<"_"<<det_no;
           std::string det_name = det_name_ss.str();
 
           // Check for duplication when not a shared detector number
