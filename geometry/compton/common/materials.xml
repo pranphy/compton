@@ -1,0 +1,9 @@
+<element Z="6" formula="C" name="Carbon" >
+  <atom value="12.011" unit="g/mole" />
+</element>
+
+<material name="Diamond" Z="6" state="solid">
+  <D unit="g/cm3" value="3.52" />
+  <atom unit="g/mole" value="12.01" />
+</material>
+

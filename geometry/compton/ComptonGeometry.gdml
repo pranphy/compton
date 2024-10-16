@@ -72,6 +72,12 @@
       <auxiliary auxtype="Color" auxvalue="Orange" />
     </volume>
 
+    <volume name="gate_valve_log">
+      <materialref ref="G4_STAINLESS-STEEL" />
+      <solidref ref="gate_valve" />
+      <auxiliary auxtype="Color" auxvalue="Red" />
+    </volume>
+
     <volume name="drift_pipe_log">
       <materialref ref="G4_Galactic" />
       <solidref ref="drift_pipe" />
@@ -111,6 +117,11 @@
       <physvol name="exit_pipe_phy">
         <volumeref ref="exit_pipe_log" />
         <position x="0" y="laser_gap" z="7841.642"/>
+      </physvol>
+
+      <physvol>
+        <volumeref ref="gate_valve_log" />
+        <position x="0" y="laser_gap" z="-3950"/>
       </physvol>
 
       <physvol name="Filler">

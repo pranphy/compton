@@ -20,6 +20,8 @@
 <tube name="bend_pipe_1" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="2583.08" deltaphi="360"/>
 <tube name="bend_pipe_2" lunit="mm" rmin="pipe_radius_in" rmax="pipe_radius"  z="1383.00" deltaphi="360"/>
 
+<tube name="gate_valve" lunit="mm" rmin="0" rmax="25.4"  z="3.8" deltaphi="360"/>
+
 
 <!-- weldment box -->
 <xtru name="weldment_box_full" lunit="mm">

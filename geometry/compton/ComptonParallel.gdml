@@ -32,6 +32,13 @@
       <auxiliary auxtype="DetNo" auxvalue="12"/>
   </volume>
 
+  <volume name="Sync_Check_VP" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="41"/>
+  </volume>
+
   <volume name="dipole_three_US" >
       <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
@@ -96,6 +103,13 @@
       <auxiliary auxtype="DetNo" auxvalue="16"/>
   </volume>
 
+  <volume name="strip_vp_back" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="17"/>
+  </volume>
+
   <volume name="Third_vp" >
       <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
@@ -104,7 +118,7 @@
   </volume>
 
   <volume name="ParallelWorld_logical">
-    <materialref ref="G4_Pb"/>
+    <materialref ref="G4_Galactic"/>
     <solidref ref="ParallelSolid"/>
     <auxiliary auxtype="Color" auxvalue="Green" />
     <auxiliary auxtype="Alpha" auxvalue="0.8" />
@@ -113,6 +127,11 @@
       <physvol name="FVP_phy">
         <volumeref ref="First_vp" />
         <position  unit="mm" x="0" y="215" z="-7550" />
+      </physvol>
+
+      <physvol name="Sync_Che_phy">
+        <volumeref ref="Sync_Check_VP" />
+        <position  unit="mm" x="0" y="215" z="-2950" />
       </physvol>
 
 
@@ -162,7 +181,11 @@
       <physvol name="strip_PV">
         <volumeref ref="strip_vp" />
         <position  unit="mm" x="0" y="215.4936" z="6057.41" />
-        <!--rotation unit="deg" x="10.00" y="0.00" z="0.00" /-->
+      </physvol>
+
+      <physvol name="strip_back_PV">
+        <volumeref ref="strip_vp_back" />
+        <position  unit="mm" x="0" y="215.4936" z="6060.41" />
       </physvol>
 
       <physvol name="VRVP_phy">
