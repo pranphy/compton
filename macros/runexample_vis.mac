@@ -8,15 +8,15 @@
 /compton/setgeofile geometry/compton/ComptonGeometry.gdml
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
-#/compton/setphysicslist QGSP_BERT_EMV
-#/physics_lists/em/SyncRadiation true
+#/compton/setphysicslist beam
+/physics_lists/em/SyncRadiationAll true
 
 /run/initialize
 
 /control/execute vis/vis.mac
 
 
-/compton/beamene 110.0 GeV
+/compton/beamene 11.0 GeV
 /compton/beamcurr 65 microampere
 
 /compton/evgen/beam/rasx 0 um
@@ -30,24 +30,25 @@
 
 
 
-/compton/addfield map_directory/dipole_magnetic_field_1_17.txt
-/compton/addfield map_directory/dipole_magnetic_field_2_17.txt
-/compton/addfield map_directory/dipole_magnetic_field_3_17.txt
-/compton/addfield map_directory/dipole_magnetic_field_4_17.txt
+#/compton/addfield map_directory/19/dipole_magnetic_field_0.txt
+/compton/addfield map_directory/19/dipole_magnetic_field_1.txt
+/compton/addfield map_directory/19/dipole_magnetic_field_2.txt
+/compton/addfield map_directory/19/dipole_magnetic_field_3.txt
+/compton/addfield map_directory/19/dipole_magnetic_field_4.txt
 
-## Beam generator
-/compton/evgen/set beam
-/compton/evgen/beam/origin 0  218.49 -8249.76 mm
-#/compton/evgen/beam/xspread 60 um
-#/compton/evgen/beam/yspread 60 um
+/compton/evgen/set compton
+#/compton/evgen/set beam ## Beam generator
+/compton/evgen/beam/origin 0  218.49 -9849.76 mm
+/compton/evgen/beam/xspread 0 um
+/compton/evgen/beam/yspread 0 um
 /compton/evgen/beam/direction 0 0.0000 1
 
 /compton/seed 42
 
-/run/beamOn 8
+/run/beamOn 1
 
 /vis/enable
 /vis/viewer/flush
 
-/compton/filename output/inc_all_comptonout_r5o_beam_default.root
+/compton/filename compton_test.root
 
