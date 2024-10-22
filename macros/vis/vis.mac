@@ -57,27 +57,10 @@
 /vis/viewer/set/lightsThetaPhi 40 50
 #New cutaway plane setting
 #/vis/viewer/set/cutawayMode intersection
-# ---> Uncomment this /vis/viewer/addCutawayPlane 0.0 0.0 0.0 m 1.0 0.0 0.0
-/vis/viewer/set/targetPoint 0 0 -7500 mm
+/vis/viewer/addCutawayPlane 0.0 0.0 0.0 m 1.0 0.0 0.0
+/vis/viewer/set/targetPoint 0 0 6000 mm
 #old value
 #/vis/viewer/set/lightsMove with-camera
-#
-/vis/scene/add/axes 0 220 -7549.977 10 mm
-/vis/scene/add/axes 0 210 -7549.977 10 mm
-/vis/scene/add/axes 0 218.49 -8249.76 10 mm
-/vis/scene/add/axes 0 218.49 -7549.977 10 mm
-
-/vis/scene/add/axes 0 50 -2154.08 10 mm
-/vis/scene/add/axes 0 0  -2154.08 10 mm
-/vis/scene/add/axes 0 50 -1154.08 10 mm
-/vis/scene/add/axes 0 0  -1154.08 10 mm
-
-/vis/scene/add/axes 0 210 7541.642 10 mm
-/vis/scene/add/axes 0 210 6541.642 10 mm
-
-/vis/scene/add/axes 0 218.49 7541.642 10 mm
-/vis/scene/add/axes 0 218.49 6541.642 10 mm
-
 
 #
 # Create style

@@ -36,7 +36,7 @@
 /compton/addfield map_directory/19/dipole_magnetic_field_3.txt
 /compton/addfield map_directory/19/dipole_magnetic_field_4.txt
 
-/compton/evgen/set compton
+/compton/evgen/set beam
 #/compton/evgen/set beam ## Beam generator
 /compton/evgen/beam/origin 0  218.49 -9849.76 mm
 /compton/evgen/beam/xspread 0 um
