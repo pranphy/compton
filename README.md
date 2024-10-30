@@ -10,20 +10,34 @@ Compilation is just as simple as mkaing a build directory and running cmake.
 ```bash
 cd compton
 mkdir build
+cd build
 cmake ..
 make -j$(nproc)
 ```
 
 This should produce `compton` executable which can be used to run simulations as well as `compoot` executable which can be used to analyze the output.
 
-## Community
 
-Simulations are coordinated on the [12gevmoller_sim@jlab.org](https://mailman.jlab.org/mailman/listinfo/12gevmoller_sim) mailing list and the [JLab 12 GeV Slack workspace](https://jlab12gev.slack.com) (in particular, the `#moller_simulation` channel). Anyone with a jlab.org email address can join without invitation. Feel free to contact developers there with questions.
+## Running simulations
 
 Simulations can be run in interactive mode when not specifying arguments, or in batch mode when specifying a macro:
 ```
 Usage:
  compton [-g geometry] [-m macro] [-u session] [-r seed] [-t nthreads] [macro]
+```
+
+Run simulations with `compton` executable:
+```bash
+./build/compton
+```
+This will open up a GUI with the default geometry. Without argument it will start with a macro file `macros/runexample_vis.mac` which sets up the GUI and renders the default geometry.
+
+
+## Batch mode
+
+To run simulation in batch mode you can pass a macro file as an argument:
+```bash
+./build/compton macros/test.mac
 ```
 
 ## Analyzing the output
