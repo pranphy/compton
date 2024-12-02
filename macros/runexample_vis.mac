@@ -25,25 +25,23 @@
 /compton/SD/disable_all
 /compton/SD/enable 25
 /compton/SD/detect boundaryhits 25
-#/compton/SD/detect boundaryhits 25
-#/compton/SD/detect incomingonly 25
 
 
 
-#/compton/addfield map_directory/19/dipole_magnetic_field_0.txt
-/compton/addfield map_directory/19/dipole_magnetic_field_1.txt
-/compton/addfield map_directory/19/dipole_magnetic_field_2.txt
-/compton/addfield map_directory/19/dipole_magnetic_field_3.txt
-/compton/addfield map_directory/19/dipole_magnetic_field_4.txt
+/compton/addfield map_directory/20/dipole_magnetic_field_1.txt
+/compton/addfield map_directory/20/dipole_magnetic_field_2.txt
+/compton/addfield map_directory/20/dipole_magnetic_field_3.txt
+/compton/addfield map_directory/20/dipole_magnetic_field_4.txt
 
 /compton/evgen/set beam
-#/compton/evgen/set beam ## Beam generator
-/compton/evgen/beam/origin 0  218.49 -9849.76 mm
+/compton/evgen/beam/origin 0  215.49 -9849.76 mm
 /compton/evgen/beam/xspread 0 um
 /compton/evgen/beam/yspread 0 um
 /compton/evgen/beam/direction 0 0.0000 1
 
+
 /compton/seed 42
+#compton/interval 1000
 
 /run/beamOn 1
 
