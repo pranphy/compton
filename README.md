@@ -1,7 +1,16 @@
 # Simulations for the Compton Polarimeter at Jefferson Lab Hall A
 ## Compilation
-This uses cmake build system to compile. Make sure that you have the latest version of cmake.
+This compton simulation has two  major dependencies. Those are ROOT and Geant4.
+
+ROOT [6.32.04] can be downloaded from [https://root.cern](https://root.cern/).
+
+Geant4 [11.2.2] can be downloaded from [https://geant4.web.cern.ch/geant4/](https://geant4.web.cern.ch/geant4/).
+
+Make sure those are installed and available in your system.
+
+This project uses cmake build system to compile. Make sure that you have the latest version of cmake.
 clone the directory
+
 ```bash
 git clone https://github.com/pranphy/compton.git
 ```
