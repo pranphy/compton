@@ -42,6 +42,7 @@ comptonPrimaryGeneratorAction::comptonPrimaryGeneratorAction()
     // Populate map with all possible event generators
     fEvGenMap["compton"] = std::make_shared<comptonGenCompton>();
     fEvGenMap["beam"] = std::make_shared<comptonGenBeam>();
+    fEvGenMap["external"] = std::make_shared<comptonGenExternal>();
 
     // Populate map with all possible primary generators
     fPriGenMap["particlegun"] = std::make_shared<G4ParticleGun>();
