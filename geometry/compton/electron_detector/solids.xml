@@ -82,5 +82,6 @@
 <!-- Diamond strip -->
 <box lunit="mm" name="strip" x="100" y="100" z="2"/>
 <box lunit="mm" name="diamond_strip" x="10" y="0.235" z="0.5"/>
-
+<box lunit="mm" name="diamond_strip_active" x="10" y="0.235" z="0.1"/>
+<box lunit="mm" name="diamond_strip_back" x="10" y="0.235" z="0.4"/>
 
