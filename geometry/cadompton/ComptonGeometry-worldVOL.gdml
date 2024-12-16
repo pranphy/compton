@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='ASCII'?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  <define>
+    <constant name="HALFPI" value="pi/2."/>
+    <constant name="PI" value="1.*pi"/>
+    <constant name="TWOPI" value="2.*pi"/>
+    <position name="center" x="0" y="0" z="0" unit="mm"/>
+    <rotation name="identity" x="0" y="0" z="0"/>
+    <position name="P-magnet_gap0011" unit="mm" y="50.0"/>
+    <position name="P-V-dipole_magnet0012" unit="mm" y="215.5" z="-7049.7"/>
+    <position name="P-LV_Box0033" unit="mm" z="-20.0"/>
+  </define>
+  <materials/>
+  <solids>
+    <box name="WorldBox" x="2000.0" y="2000.0" z="20000.0" lunit="mm"/>
+    <box name="Box004" x="10.0" y="10.0" z="10.0" lunit="mm"/>
+    <box name="magnet_bound001" x="300.0" y="300.0" z="1000.0" lunit="mm"/>
+    <box name="magnet_gap001" x="100.0" y="210.0" z="1200.0" lunit="mm"/>
+    <subtraction name="dipole_magnet001">
+      <first ref="magnet_bound001"/>
+      <second ref="magnet_gap001"/>
+      <positionref ref="P-magnet_gap0011"/>
+      <rotationref ref="identity"/>
+    </subtraction>
+  </solids>
+  <structure>
+    <volume name="V-Box004">
+      <materialref ref="G4_A-150_TISSUE"/>
+      <solidref ref="Box004"/>
+      <auxiliary auxtype="Color" auxvalue="#80808000"/>
+    </volume>
+    <volume name="V-dipole_magnet001">
+      <materialref ref="G4_A-150_TISSUE"/>
+      <solidref ref="dipole_magnet001"/>
+      <auxiliary auxtype="Color" auxvalue="#80808000"/>
+    </volume>
+    <assembly name="LV_Box003">
+      <physvol name="PV-GDMLBox_Box004">
+        <volumeref ref="V-Box004"/>
+        <positionref ref="center"/>
+        <rotationref ref="identity"/>
+      </physvol>
+      <physvol name="PV-dipole_magnet001">
+        <volumeref ref="V-dipole_magnet001"/>
+        <positionref ref="P-V-dipole_magnet0012"/>
+        <rotationref ref="identity"/>
+      </physvol>
+    </assembly>
+    <volume name="worldVOL">
+      <materialref ref="G4_AIR"/>
+      <solidref ref="WorldBox"/>
+      <physvol name="PV-LV_Box003">
+        <volumeref ref="LV_Box003"/>
+        <positionref ref="P-LV_Box0033"/>
+        <rotationref ref="identity"/>
+      </physvol>
+    </volume>
+  </structure>
+  <setup name="Default" version="1.0">
+    <world ref="worldVOL"/>
+  </setup>
+</gdml>

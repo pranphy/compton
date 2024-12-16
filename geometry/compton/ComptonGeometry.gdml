@@ -3,6 +3,7 @@
 <!ENTITY definitions SYSTEM "common/definitions.xml">
 <!ENTITY solids SYSTEM "common/solids.xml">
 <!--ENTITY chicane "chicane/chicane.gdml"-->
+<!ENTITY materials SYSTEM "common/materials.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
@@ -10,6 +11,9 @@
   <define>
       &definitions;
   </define>
+  <materials>
+      &materials;
+  </materials>
 
   <solids>
       &solids;
@@ -119,10 +123,12 @@
         <position x="0" y="laser_gap" z="7841.642"/>
       </physvol>
 
+      <!--
       <physvol>
         <volumeref ref="gate_valve_log" />
         <position x="0" y="laser_gap" z="-3950"/>
       </physvol>
+      -->
 
       <physvol name="Filler">
         <volumeref ref="drift_pipe_log" />
