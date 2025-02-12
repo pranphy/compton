@@ -18,33 +18,19 @@ Usage:
     --------------------------------------------------------------------------------------------
 */
 
-#if defined(__cpp_lib_filesystem)
 #include <filesystem>
 namespace fs = std::filesystem;
-#elif defined(__cpp_lib_experimental_filesystem)
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#elif defined(__USE_BOOST_FILESYSTEM)
-#include <boost/filesystem.hpp>
-namespace fs = boost::filesystem;
-#else
-#define NO_FS_SUPPORT
-#endif
 
 #include <vector>
 #include <string>
 
-#ifdef __APPLE__
 #include <unistd.h>
-#endif
 
 class comptonSearchPath
 {
 private:
     static comptonSearchPath* fInstance;
-    #ifndef NO_FS_SUPPORT
     std::vector<fs::path> fSearchPath;
-    #endif
     comptonSearchPath();
 
 public:

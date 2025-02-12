@@ -6,19 +6,9 @@ comptonSearchPath* comptonSearchPath::fInstance = nullptr;
 
 comptonSearchPath::comptonSearchPath() {
   // add CMAKE_INSTALL_FULL_DATADIR, CMAKE_INSTALL_PREFIX and CWD to search path
-  #ifndef NO_FS_SUPPORT
-  #ifdef _GNU_SOURCE
     fSearchPath.push_back(fs::path(get_current_dir_name()));
-  #else
-    char* dir = (char*) malloc(PATH_MAX * sizeof(char));
-    if (getcwd(dir, PATH_MAX) != nullptr) {
-      fSearchPath.push_back(fs::path(dir));
-      free(dir);
-    }
-  #endif
     fSearchPath.push_back(fs::path(CMAKE_INSTALL_PREFIX));
     fSearchPath.push_back(fs::path(CMAKE_INSTALL_FULL_DATADIR));
-  #endif
 }
 
 comptonSearchPath *comptonSearchPath::getInstance() {
