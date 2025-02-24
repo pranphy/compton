@@ -2,14 +2,15 @@
 /control/macroPath macros
 /vis/open OGL 600x600-0+0
 
-/compton/physlist/optical/enable
 
 # This is the current working geometry
 /compton/setgeofile geometry/compton/ComptonGeometry.gdml
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
+#/physics_lists/em/SyncRadiationAll true
+/compton/physlist/optical/enable
 #/compton/setphysicslist beam
-/physics_lists/em/SyncRadiationAll true
+/compton/physlist/synchrotron/enable
 
 /run/initialize
 
@@ -23,9 +24,7 @@
 /compton/evgen/beam/rasy 0 um
 
 /compton/SD/disable_all
-/compton/SD/enable 25
-/compton/SD/detect boundaryhits 25
-
+/compton/SD/enable 81
 
 
 /compton/addfield map_directory/20/dipole_magnetic_field_1.txt
@@ -33,7 +32,7 @@
 /compton/addfield map_directory/20/dipole_magnetic_field_3.txt
 /compton/addfield map_directory/20/dipole_magnetic_field_4.txt
 
-/compton/evgen/set beam
+/compton/evgen/set compton
 /compton/evgen/beam/origin 0  215.49 -9849.76 mm
 /compton/evgen/beam/xspread 0 um
 /compton/evgen/beam/yspread 0 um
