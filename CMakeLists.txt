@@ -204,7 +204,7 @@ endforeach()
 
 install(DIRECTORY geometry DESTINATION ${CMAKE_INSTALL_DATADIR}/compton)
 install(DIRECTORY macros DESTINATION ${CMAKE_INSTALL_DATADIR}/compton)
-install(DIRECTORY vis DESTINATION ${CMAKE_INSTALL_DATADIR}/compton)
+#install(DIRECTORY vis DESTINATION ${CMAKE_INSTALL_DATADIR}/compton)
 
 foreach(_script ${COMPTON_SCRIPTS})
   configure_file(
@@ -216,100 +216,30 @@ endforeach()
 
 
 #----------------------------------------------------------------------------
-# Templates
-#
-file(GLOB templates RELATIVE ${PROJECT_SOURCE_DIR} cmake/templates/*.in)
-foreach(_template_in ${templates})
-  string(REPLACE ".in" "" _template_out ${_template_in})
-  configure_file(
-    ${PROJECT_SOURCE_DIR}/${_template_in}
-    ${PROJECT_BINARY_DIR}/${_template_out}
-    @ONLY
-    )
-  install(FILES
-    ${PROJECT_BINARY_DIR}/${_template_out}
-    DESTINATION bin
-    PERMISSIONS
-      OWNER_READ OWNER_WRITE OWNER_EXECUTE
-      GROUP_READ GROUP_EXECUTE
-      WORLD_READ WORLD_EXECUTE
-    )
-endforeach()
-
-
-#----------------------------------------------------------------------------
 # Download field maps subdirectory
 #
-set(COMPTON_LOCATION /group/halla/www/hallaweb/html/12GeV/Moller/downloads/compton/)
 set(COMPTON_DOWNLOADS http://hallaweb.jlab.org/12GeV/Moller/downloads/compton/)
 set(COMPTON_MAP_DIR ${PROJECT_SOURCE_DIR}/map_directory)
-if(EXISTS ${COMPTON_LOCATION})
-  message(STATUS "Fieldmaps will be copied from directory...")
-  set(COMPTON_DOWNLOADS file://${COMPTON_LOCATION})
-else()
-  message(STATUS "Fieldmaps will be downloaded from web...")
-endif()
-# for i in *.txt ; do echo `md5sum $i|awk '{print$1}'`:`md5sum $i.gz|awk '{print$1}'`:$i ; done
+
 set(COMPTON_MAPS
-    #b8b30b803bae42f69135323ff40fe7db:99bf3fae83677c6c2f3e09a871682b2e:V2U.1a.50cm.parallel.txt
-    #e4a96c2f3136d0eb020d90e74a532a6d:246d48001dd71174b62e16ecf07adc4d:V2U.1a.50cm.parallel.real_asymmetric.txt
-    #3ca8b6da4186d5de2a25bd89ef067a54:6a5fad69edd8cba457d85948bc42596b:subcoil_2_3_3mm_full.txt
-    #e6ab87da79a1dab8e759fcae6356e6f8:81b24e52bffbca83b3b7ca37b056f404:subcoil_2_3_3mm_real_asymmetric.txt
+    dipole_magnetic_field_20_1.txt
+    dipole_magnetic_field_20_2.txt
+    dipole_magnetic_field_20_3.txt
+    dipole_magnetic_field_20_4.txt
 )
-if(ADDITIONAL_FIELDS)
-  message(STATUS "Ensuring additional fields are available.")
-else()
-  message(STATUS "Download additional fields with '-DADDITIONAL_FIELDS=ON'.")
-  set(COMPTON_MAPS_EXTRA "")
-endif()
-foreach(MAP IN LISTS COMPTON_MAPS COMPTON_MAPS_EXTRA)
-  set(REGEX "^(.*):(.*):(.*)$")
-  # Hash 1: txt file, Hash 2: txt.gz file
-  string(REGEX REPLACE ${REGEX} "\\1" HASH1 ${MAP})
-  string(REGEX REPLACE ${REGEX} "\\2" HASH2 ${MAP})
-  string(REGEX REPLACE ${REGEX} "\\3" FILE ${MAP})
-  if(Boost_IOSTREAMS_FOUND)
-    file(DOWNLOAD
-      ${COMPTON_DOWNLOADS}/${FILE}.gz
-      ${COMPTON_MAP_DIR}/${FILE}.gz
-      EXPECTED_MD5 ${HASH2}
-      )
-    install(FILES
-      ${COMPTON_MAP_DIR}/${FILE}.gz
-      DESTINATION ${CMAKE_INSTALL_DATADIR}/compton/map_directory)
-  endif()
-  #else()
+
+foreach(FILE IN LISTS COMPTON_MAPS)
+    message(STATUS "Downloading ${FILE}")
     file(DOWNLOAD
       ${COMPTON_DOWNLOADS}/${FILE}
       ${COMPTON_MAP_DIR}/${FILE}
-      EXPECTED_MD5 ${HASH1}
       )
     install(FILES
       ${COMPTON_MAP_DIR}/${FILE}
       DESTINATION ${CMAKE_INSTALL_DATADIR}/compton/map_directory)
-  #endif()
 endforeach()
 
-
-#----------------------------------------------------------------------------
-# Install cmake config file
-#
-install(FILES
-    ${PROJECT_SOURCE_DIR}/cmake/scripts/ComptonConfig.cmake
-    ${PROJECT_SOURCE_DIR}/cmake/scripts/ComptonUseFile.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/compton)
-
-#----------------------------------------------------------------------------
-# comptonSearchPath
-
-add_definitions(
-        -DCMAKE_INSTALL_PREFIX=\"${CMAKE_INSTALL_PREFIX}\"
-        -DCMAKE_INSTALL_FULL_DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"
-)
-
-#----------------------------------------------------------------------------
 # uninstall
-#
 if(NOT TARGET uninstall)
   configure_file(
       "${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/cmake_uninstall.cmake.in"
