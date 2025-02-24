@@ -9,10 +9,10 @@
 /run/verbose 0
 #/tracking/verbose 3
 
-/compton/addfield map_directory/dipole_magnetic_field_1_13.txt
-/compton/addfield map_directory/dipole_magnetic_field_2_13.txt
-/compton/addfield map_directory/dipole_magnetic_field_3_13.txt
-/compton/addfield map_directory/dipole_magnetic_field_4_13.txt
+/compton/addfield map_directory/dipole_magnetic_field_19_1_13.txt
+/compton/addfield map_directory/dipole_magnetic_field_19_2_13.txt
+/compton/addfield map_directory/dipole_magnetic_field_19_3_13.txt
+/compton/addfield map_directory/dipole_magnetic_field_19_4_13.txt
 
 /compton/evgen/beam/origin 0  215.49 -8249.76 mm
 /compton/evgen/beam/xspread 60 um
@@ -35,38 +35,16 @@
 
 
 /compton/SD/disable_all
-/compton/SD/enable 11
-/compton/SD/detect lowenergyneutral 11
-/compton/SD/detect secondaries 11
-/compton/SD/detect boundaryhits 11
-
-/compton/SD/enable 12
-/compton/SD/detect lowenergyneutral 12
-/compton/SD/detect secondaries 12
-/compton/SD/detect boundaryhits 12
-
-/compton/SD/enable 13
-/compton/SD/detect lowenergyneutral 13
-/compton/SD/detect secondaries 13
-/compton/SD/detect boundaryhits 13
-
-/compton/SD/enable 14
-/compton/SD/detect lowenergyneutral 14
-/compton/SD/detect secondaries 14
-/compton/SD/detect boundaryhits 14
-
-
-/compton/SD/enable 15
-/compton/SD/detect lowenergyneutral 15
-/compton/SD/detect secondaries 15
-/compton/SD/detect boundaryhits 15
-
+/compton/SD/enable 17
+/compton/SD/detect lowenergyneutral 17
+/compton/SD/detect secondaries 17
+/compton/SD/detect boundaryhits 17
 
 
 /process/list
 
 /compton/seed 112135637
-/compton/filename output/aga_full_chicane_bend_sync_008.root
+/compton/filename output/a_test_file_with_0.5Mevents_beam_f19.root
 
 /run/beamOn 500000
 
