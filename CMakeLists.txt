@@ -222,10 +222,10 @@ set(COMPTON_DOWNLOADS http://hallaweb.jlab.org/12GeV/Moller/downloads/compton/)
 set(COMPTON_MAP_DIR ${PROJECT_SOURCE_DIR}/map_directory)
 
 set(COMPTON_MAPS
-    dipole_magnetic_field_20_1.txt
-    dipole_magnetic_field_20_2.txt
-    dipole_magnetic_field_20_3.txt
-    dipole_magnetic_field_20_4.txt
+    dipole_magnetic_field_19_1.txt
+    dipole_magnetic_field_19_2.txt
+    dipole_magnetic_field_19_3.txt
+    dipole_magnetic_field_19_4.txt
 )
 
 foreach(FILE IN LISTS COMPTON_MAPS)
@@ -238,6 +238,12 @@ foreach(FILE IN LISTS COMPTON_MAPS)
       ${COMPTON_MAP_DIR}/${FILE}
       DESTINATION ${CMAKE_INSTALL_DATADIR}/compton/map_directory)
 endforeach()
+
+add_definitions(
+        -DCMAKE_INSTALL_PREFIX=\"${CMAKE_INSTALL_PREFIX}\"
+        -DCMAKE_INSTALL_FULL_DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"
+)
+
 
 # uninstall
 if(NOT TARGET uninstall)
