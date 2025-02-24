@@ -218,7 +218,7 @@ endforeach()
 #----------------------------------------------------------------------------
 # Download field maps subdirectory
 #
-set(COMPTON_DOWNLOADS http://hallaweb.jlab.org/12GeV/Moller/downloads/compton/)
+set(COMPTON_DOWNLOADS http://userweb.jlab.org/~pgautam/downloads/compton/)
 set(COMPTON_MAP_DIR ${PROJECT_SOURCE_DIR}/map_directory)
 
 set(COMPTON_MAPS
@@ -229,7 +229,7 @@ set(COMPTON_MAPS
 )
 
 foreach(FILE IN LISTS COMPTON_MAPS)
-    message(STATUS "Downloading ${FILE}")
+    message(STATUS "Downloading  ${COMPTON_DOWNLOADS}/${FILE}")
     file(DOWNLOAD
       ${COMPTON_DOWNLOADS}/${FILE}
       ${COMPTON_MAP_DIR}/${FILE}
