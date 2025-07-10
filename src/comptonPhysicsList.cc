@@ -8,6 +8,8 @@
 #include "G4HadronicProcessStore.hh"
 #include "G4ParticleHPManager.hh"
 
+#include "comptonSynchrotronPhysics.hh"
+
 #include "G4Version.hh"
 #if G4VERSION_NUMBER < 1000
 #include "G4StepLimiterBuilder.hh"
@@ -20,7 +22,8 @@ comptonPhysicsList::comptonPhysicsList()
   fReferencePhysList(0),
   fParallelPhysics(0),
   fOpticalPhysics(0),
-  fStepLimiterPhysics(0)
+  fStepLimiterPhysics(0),
+  fSynchrotronPhysics(0)
 {
   // Let users know to ignore the warning by Particle HP package
   G4cout << "compton: Since the high precision neutron simulation in the some physics lists  " << G4endl;
@@ -35,13 +38,17 @@ comptonPhysicsList::comptonPhysicsList()
   RegisterReferencePhysList("FTFP_BERT_EMZ");
   G4cout << "compton: loaded reference physics list " << fReferencePhysListName << G4endl;
 
+  //EnableSynchrotronPhysics();
+
   // Set and print default status of other physics
+
   EnableStepLimiterPhysics();
   EnableParallelPhysics();
-  DisableOpticalPhysics();
+  //DisableOpticalPhysics();
   G4cout << "compton: step limiter physics is " << (fStepLimiterPhysics != nullptr? "enabled":"disabled") << G4endl;
   G4cout << "compton: parallel physics is "     << (fParallelPhysics != nullptr?    "enabled":"disabled") << G4endl;
   G4cout << "compton: optical physics is "      << (fOpticalPhysics != nullptr?     "enabled":"disabled") << G4endl;
+  G4cout << "compton: synchrotron physics is "      << (fSynchrotronPhysics != nullptr?     "enabled":"disabled") << G4endl;
 
   // Create commands
   fPhysListMessenger.DeclareMethod(
@@ -89,6 +96,15 @@ comptonPhysicsList::comptonPhysicsList()
       "disable",
       &comptonPhysicsList::DisableStepLimiterPhysics,
       "Disable step limiter");
+
+  fSynchrotronMessenger.DeclareMethod(
+      "enable",
+      &comptonPhysicsList::EnableSynchrotronPhysics,
+      "Enable synchrotron physics");
+  fSynchrotronMessenger.DeclareMethod(
+      "disable",
+      &comptonPhysicsList::DisableSynchrotronPhysics,
+      "Disable synchrotron physics");
 }
 
 comptonPhysicsList::~comptonPhysicsList()
@@ -161,6 +177,50 @@ void comptonPhysicsList::DisableParallelPhysics()
   // Delete Parallel physics
   delete fParallelPhysics;
   fParallelPhysics = 0;
+}
+
+void comptonPhysicsList::SetSynchrotronPhysics(G4bool flag)
+{
+  if (flag) EnableSynchrotronPhysics();
+  else     DisableSynchrotronPhysics();
+}
+
+void comptonPhysicsList::EnableSynchrotronPhysics()
+{
+  if (fSynchrotronPhysics != nullptr) {
+    G4cout << "Synchrotron physics already active" << G4endl;
+    return;
+  }
+
+  // Print output
+  if (GetVerboseLevel() > 0)
+    G4cout << "Registering synchrotron physics" << G4endl;
+
+  // Create optical physics
+  fSynchrotronPhysics = new comptonSynchrotronPhysics(GetVerboseLevel());
+
+  // Register existing physics
+  RegisterPhysics(fSynchrotronPhysics);
+}
+
+void comptonPhysicsList::DisableSynchrotronPhysics()
+{
+  if (fSynchrotronPhysics == nullptr) {
+    G4cout << "Synchrotron physics not active" << G4endl;
+    return;
+  }
+
+  // Print output
+  if (GetVerboseLevel() > 0)
+    G4cout << "Removing synchrotron physics" << G4endl;
+
+  // Remove optical physics
+  RemovePhysics(fSynchrotronPhysics);
+
+  // Delete optical physics
+  delete fSynchrotronPhysics;
+  fSynchrotronPhysics = 0;
+
 }
 
 void comptonPhysicsList::SetOpticalPhysics(G4bool flag)

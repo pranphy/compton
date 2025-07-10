@@ -18,6 +18,7 @@ class comptonMagneticField : public G4MagneticField {
      * Nx  xmin xman xoffset
      * Ny  ymin yman yoffset
      * Nz  zmin zman zoffset
+     * x y z bx by bz
      */
 
     private:
@@ -30,6 +31,7 @@ class comptonMagneticField : public G4MagneticField {
 	virtual ~comptonMagneticField() { };
 
 	void AddFieldValue(const G4double point[4], G4double *field) const;
+	void AddFieldValue2(const G4double point[4], G4double *field) const;
 	void GetFieldValue(const G4double point[4], G4double *field) const;
 
 	void SetFieldScale(G4double scale) { fFieldScale = scale; }
@@ -66,7 +68,7 @@ class comptonMagneticField : public G4MagneticField {
 	// Storage space for the table
 	std::vector< std::vector< std::vector< G4double > > > fBFieldData[__NDIM];
 
-	G4double fZMapOffset, fYMapOffset;
+	G4double fXMapOffset, fZMapOffset, fYMapOffset;
 
 	G4double fFieldValue;
 	G4double fFieldScale; // Scale overall field by this amount
@@ -93,6 +95,7 @@ class comptonMagneticField : public G4MagneticField {
 
         static const char kLinearMap[8][3];
         static const char kCubicMap[64][3];
+        G4double field_x(G4double z) const;
 
         double _linearInterpolate(const double p[2 << 0], double x) const {
             return p[0] + x * (p[1] - p[0]);
@@ -111,11 +114,7 @@ class comptonMagneticField : public G4MagneticField {
         }
 
         double _cubicInterpolate(const double p[4 << 0], double x) const {
-            return p[1] +
-                   0.5 * x * (p[2] - p[0] +
-                              x * (2. * p[0] - 5. * p[1] + 4. * p[2] - p[3] +
-                                   x * (3. * (p[1] - p[2]) + p[3] - p[0])));
-        }
+            return p[1] + 0.5 * x * (p[2] - p[0] + x * (2. * p[0] - 5. * p[1] + 4. * p[2] - p[3] + x * (3. * (p[1] - p[2]) + p[3] - p[0]))); }
         double _bicubicInterpolate(const double p[4 << 1], const double x[2]) const {
             double c[4];
             c[0] = _cubicInterpolate(&(p[0]),  x[1]);

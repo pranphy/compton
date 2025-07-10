@@ -1,30 +1,30 @@
 /compton/setgeofile geometry/compton/ComptonGeometry.gdml
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
+
+#/physics_lists/em/SyncRadiationAll true
+/compton/physlist/optical/enable
 /compton/physlist/parallel/enable
-/physics_lists/em/SyncRadiation true
+/compton/physlist/synchrotron/enable
 
 /run/initialize
 /compton/printgeometry false
 /run/verbose 0
 #/tracking/verbose 3
 
-/compton/addfield map_directory/dipole_magnetic_field_19_1.txt
-/compton/addfield map_directory/dipole_magnetic_field_19_2.txt
-/compton/addfield map_directory/dipole_magnetic_field_19_3.txt
-/compton/addfield map_directory/dipole_magnetic_field_19_4.txt
+/compton/addfield map_directory/dipole_magnetic_field_20_1.txt
+/compton/addfield map_directory/dipole_magnetic_field_20_2.txt
+/compton/addfield map_directory/dipole_magnetic_field_20_3.txt
+/compton/addfield map_directory/dipole_magnetic_field_20_4.txt
 
 
-/compton/evgen/beam/origin 0  215.49 -8249.76 mm
-/compton/evgen/beam/xspread 60 um
-/compton/evgen/beam/yspread 60 um
+/compton/evgen/beam/origin 0  215.49 -9849.76 mm
+/compton/evgen/beam/xspread 0 um
+/compton/evgen/beam/yspread 0 um
 /compton/evgen/beam/rasx 0 um
 /compton/evgen/beam/rasy 0 um
-/compton/evgen/beam/corrx 0
-/compton/evgen/beam/corry 0
 
-
-/compton/beamene 11 GeV
+/compton/beamene 11.0 GeV
 /compton/beamcurr 65 microampere
 
 
@@ -34,18 +34,20 @@
 /compton/field/equationtype 2
 /compton/field/steppertype 2
 
+#/compton/evgen/set laser
+#/compton/evgen/laser/origin 0  215.49 0 mm
+#/compton/evgen/laser/energy 1 MeV
+
 
 /compton/SD/disable_all
-/compton/SD/enable 17
-/compton/SD/detect lowenergyneutral 17
-/compton/SD/detect secondaries 17
-/compton/SD/detect boundaryhits 17
-
+/compton/SD/enable 81
+/compton/SD/detect lowenergyneutral 81
+/compton/SD/detect secondaries 81
 
 /process/list
 
-/compton/seed 112135637
-/compton/filename output/a_test_file_with_0.5Mevents_beam_f19.root
+/compton/seed 42
+/compton/interval 1000000
 
-/run/beamOn 500000
+/run/beamOn 8000
 

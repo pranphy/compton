@@ -31,6 +31,22 @@
       <auxiliary auxtype="Color" auxvalue="Green" />
     </volume>
 
+    <volume  name="diamond_strip_active_log" >
+      <materialref ref="Diamond" />
+      <solidref ref="diamond_strip_active" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="81"/>
+      <auxiliary auxtype="Color" auxvalue="#00FA00FF" />
+    </volume>
+
+    <volume  name="diamond_strip_back_log" >
+      <materialref ref="Diamond" />
+      <solidref ref="diamond_strip_back" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="82"/>
+      <auxiliary auxtype="Color" auxvalue="#00EA00FF" />
+    </volume>
+
     <volume  name="strip_log" >
       <materialref ref="Diamond" />
       <solidref ref="strip" />
@@ -75,7 +91,11 @@
 
       <loop for="i" from="0" to="400" step="1" >
         <physvol>
-          <volumeref ref="diamond_strip_log" />
+          <volumeref ref="diamond_strip_active_log" />
+          <position unit="mm" x="0.00" y="0.250*i-200*0.250" z="-6.25" />
+        </physvol>
+        <physvol>
+          <volumeref ref="diamond_strip_back_log" />
           <position unit="mm" x="0.00" y="0.250*i-200*0.250" z="-6.00" />
         </physvol>
       </loop>

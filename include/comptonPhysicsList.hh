@@ -23,6 +23,13 @@ class comptonPhysicsList: public G4VModularPhysicsList
     // Disable Parallel physics
     void DisableParallelPhysics();
 
+    // Set Synchrotron physics
+    void SetSynchrotronPhysics(G4bool flag);
+    // Enable Synchrotron physics
+    void EnableSynchrotronPhysics();
+    // Disable Synchrotron physics
+    void DisableSynchrotronPhysics();
+
     // Set optical physics
     void SetOpticalPhysics(G4bool flag);
     // Enable optical physics
@@ -48,6 +55,7 @@ class comptonPhysicsList: public G4VModularPhysicsList
     G4VPhysicsConstructor* fParallelPhysics;
     G4VPhysicsConstructor* fOpticalPhysics;
     G4VPhysicsConstructor* fStepLimiterPhysics;
+    G4VPhysicsConstructor* fSynchrotronPhysics;
 
     // Deleting an unused physics list also deletes particles, causing
     // all kinds of issues with new reference physics lists
@@ -58,19 +66,24 @@ class comptonPhysicsList: public G4VModularPhysicsList
     G4GenericMessenger fPhysListMessenger{
       this,
       "/compton/physlist/",
-      "Remoll physics list properties"};
+      "Compton physics list properties"};
     G4GenericMessenger fOpticalMessenger{
       this,
       "/compton/physlist/optical/",
-      "Remoll optical physics properties"};
+      "Compton optical physics properties"};
     G4GenericMessenger fParallelMessenger{
       this,
       "/compton/physlist/parallel/",
-      "Remoll parallel physics properties"};
+      "Compton parallel physics properties"};
     G4GenericMessenger fStepLimiterMessenger{
       this,
       "/compton/physlist/steplimiter/",
-      "Remoll step limiter properties"};
+      "Compton step limiter properties"};
+
+    G4GenericMessenger fSynchrotronMessenger{
+      this,
+      "/compton/physlist/synchrotron/",
+      "Compton step limiter properties"};
 };
 
 #endif

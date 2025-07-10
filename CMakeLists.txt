@@ -218,14 +218,14 @@ endforeach()
 #----------------------------------------------------------------------------
 # Download field maps subdirectory
 #
-set(COMPTON_DOWNLOADS http://userweb.jlab.org/~pgautam/downloads/compton/)
+set(COMPTON_DOWNLOADS http://userweb.jlab.org/~pgautam/downloads/compton)
 set(COMPTON_MAP_DIR ${PROJECT_SOURCE_DIR}/map_directory)
 
 set(COMPTON_MAPS
-    dipole_magnetic_field_19_1.txt
-    dipole_magnetic_field_19_2.txt
-    dipole_magnetic_field_19_3.txt
-    dipole_magnetic_field_19_4.txt
+    dipole_magnetic_field_20_1.txt
+    dipole_magnetic_field_20_2.txt
+    dipole_magnetic_field_20_3.txt
+    dipole_magnetic_field_20_4.txt
 )
 
 foreach(FILE IN LISTS COMPTON_MAPS)
