@@ -20,10 +20,10 @@
 #include "comptonRun.hh"
 #include "comptonRunData.hh"
 #include "comptontypes.hh"
-#include "globals.hh"
 
 #include "comptonGenCompton.hh"
 #include "comptonGenBeam.hh"
+#include "comptonGenLaser.hh"
 #include "comptonGenExternal.hh"
 
 #include <memory>
@@ -42,17 +42,8 @@ comptonPrimaryGeneratorAction::comptonPrimaryGeneratorAction()
     // Populate map with all possible event generators
     fEvGenMap["compton"] = std::make_shared<comptonGenCompton>();
     fEvGenMap["beam"] = std::make_shared<comptonGenBeam>();
+    fEvGenMap["laser"] = std::make_shared<comptonGenLaser>();
     fEvGenMap["external"] = std::make_shared<comptonGenExternal>();
-
-    // Populate map with all possible primary generators
-    fPriGenMap["particlegun"] = std::make_shared<G4ParticleGun>();
-    fPriGenMap["HEPEvt"] = std::make_shared<comptonHEPEvtInterface>();
-    #ifdef G4LIB_USE_HEPMC
-    fPriGenMap["hepmcAscii"] = std::make_shared<HepMCG4AsciiInterface>();
-    #ifdef G4LIB_USE_PYTHIA
-    fPriGenMap["hepmcPythia"] = std::make_shared<HepMCG4PythiaInterface>();
-    #endif
-    #endif
 
     // Default generator
     G4String default_generator = "beam";
