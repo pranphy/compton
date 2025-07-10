@@ -2,21 +2,12 @@
 
 #include "comptonEvent.hh"
 #include "comptonVertex.hh"
-#include "comptonBeamTarget.hh"
-
-#include "G4Material.hh"
-#include "G4VPhysicalVolume.hh"
-#include "G4LogicalVolume.hh"
-#include "G4PhysicalConstants.hh"
-#include "G4ParticleTable.hh"
 
 #include "Randomize.hh"
 #include "G4SystemOfUnits.hh"
-#include "G4PhysicalConstants.hh"
 
 #include "comptontypes.hh"
 
-#include <fstream>
 #include <math.h>
 
 comptonGenCompton::comptonGenCompton()

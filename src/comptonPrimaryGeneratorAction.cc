@@ -2,17 +2,8 @@
 
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
-#include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4Version.hh"
-
-#include "comptonHEPEvtInterface.hh"
-#ifdef G4LIB_USE_HEPMC
-#include "HepMCG4AsciiInterface.hh"
-#ifdef G4LIB_USE_PYTHIA
-#include "HepMCG4PythiaInterface.hh"
-#endif
-#endif
 
 #include "comptonBeamTarget.hh"
 #include "comptonVEventGen.hh"
