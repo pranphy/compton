@@ -93,7 +93,7 @@ public:
 	G4GenericMessenger fEvGenMessenger{
             this,
             "/compton/evgen/",
-            "Remoll event generator properties"};
+            "Compton event generator properties"};
     protected:
 	G4GenericMessenger fThisGenMessenger;
 };

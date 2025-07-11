@@ -23,7 +23,7 @@ comptonVEventGen::comptonVEventGen(const G4String name)
 : fName(name),
   fBeamPol("0"),
   fNumberOfParticles(1),fParticleGun(0),
-  fThisGenMessenger(this,"/compton/evgen/" + name + "/","Remoll " + name + " generator properties")
+  fThisGenMessenger(this,"/compton/evgen/" + name + "/","Compton " + name + " generator properties")
 {
     // Set initial number of particles and create particle gun
     SetNumberOfParticles(fNumberOfParticles);

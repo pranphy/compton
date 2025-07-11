@@ -72,11 +72,11 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
     G4GenericMessenger fMessenger{
         this,
         "/compton/",
-        "Remoll properties"};
+        "Compton properties"};
     G4GenericMessenger fGeometryMessenger{
         this,
         "/compton/geometry/",
-        "Remoll geometry properties"};
+        "Compton geometry properties"};
 
     void ReloadGeometry(const G4String gdmlfile);
 
@@ -98,7 +98,7 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
     G4GenericMessenger fUserLimitsMessenger{
         this,
         "/compton/geometry/userlimits/",
-        "Remoll geometry properties"};
+        "Compton geometry properties"};
 
   public:
 
@@ -114,7 +114,7 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
     G4GenericMessenger fKryptoniteMessenger{
         this,
         "/compton/kryptonite/",
-        "Remoll kryptonite properties"};
+        "Compton kryptonite properties"};
     static G4UserLimits* fKryptoniteUserLimits;
     G4bool fKryptoniteEnable;
     G4int fKryptoniteVerbose;

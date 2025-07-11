@@ -6,7 +6,7 @@
 #include <TThread.h>
 
 // Global pointers recognised by CINT
-R__EXTERN class comptonRint* gRemollRint;
+R__EXTERN class comptonRint* gComptonRint;
 
 
 /**

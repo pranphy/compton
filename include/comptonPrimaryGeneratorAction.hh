@@ -42,7 +42,7 @@ class comptonPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     comptonEvent *fEvent;
 
     G4int fRateCopy;
-    G4GenericMessenger fEvGenMessenger{this,"/compton/evgen/","Remoll event generator properties"};
+    G4GenericMessenger fEvGenMessenger{this,"/compton/evgen/","Compton event generator properties"};
 
 
     G4double fEffCrossSection;

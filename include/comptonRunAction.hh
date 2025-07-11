@@ -26,7 +26,7 @@ class comptonRunAction : public G4UserRunAction
     G4GenericMessenger fMessenger{
         this,
         "/compton/",
-        "Remoll properties"};
+        "Compton properties"};
 
     G4Timer fTimer;
 

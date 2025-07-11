@@ -63,7 +63,7 @@ void comptonGenericDetector::BuildStaticMessenger()
     // If already built, just return
     if (fStaticMessenger != nullptr) return;
 
-    fStaticMessenger = new G4GenericMessenger(this,"/compton/SD/","Remoll SD properties");
+    fStaticMessenger = new G4GenericMessenger(this,"/compton/SD/","Compton SD properties");
     fStaticMessenger->DeclareMethod(
             "enable",
             &comptonGenericDetector::SetOneEnabled,

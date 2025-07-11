@@ -19,7 +19,7 @@ class comptonTrackingAction : public G4UserTrackingAction
     G4GenericMessenger fMessenger{
         this,
         "/compton/tracking/",
-        "Remoll tracking properties"};
+        "Compton tracking properties"};
 
     G4int fTrackingFlag{3};
 };

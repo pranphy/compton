@@ -50,7 +50,7 @@ class comptonParallelConstruction : public G4VUserParallelWorld
     G4GenericMessenger fParallelMessenger{
       this,
       "/compton/parallel/",
-      "Remoll parallel geometry properties"};
+      "Compton parallel geometry properties"};
 
     G4VPhysicalVolume* fWorldVolume;
     G4String           fWorldName;

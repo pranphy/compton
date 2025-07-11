@@ -1,4 +1,4 @@
-## Remoll CMake configuration files
+## Compton CMake configuration files
 
 The files in this directory are structured as follows:
 - `cmake/modules` contains modules loaded by compton during building, i.e. find_package 

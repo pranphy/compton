@@ -3,9 +3,9 @@
 # You must source this script.
 #   - At your bash prompt type: "source <path>/compton.csh"
 #
-# This script assumes that the $REMOLL base directory is one
+# This script assumes that the $COMPTON base directory is one
 # level up from the location of this script. The binaries are
-# installed in $REMOLL/bin and libraries in $REMOLL/lib.
+# installed in $COMPTON/bin and libraries in $COMPTON/lib.
 #
 
 if ("$0" != "tcsh") then
@@ -13,7 +13,7 @@ if ("$0" != "tcsh") then
     exit
 endif
 
-set REMOLL=@CMAKE_INSTALL_PREFIX@
+set COMPTON=@CMAKE_INSTALL_PREFIX@
 setenv PATH @CMAKE_INSTALL_FULL_BINDIR@:${PATH}
 if ( $?LD_LIBRARY_PATH ) then
   setenv LD_LIBRARY_PATH @CMAKE_INSTALL_FULL_LIBDIR@:${LD_LIBRARY_PATH}

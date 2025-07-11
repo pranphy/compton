@@ -114,7 +114,7 @@ class comptonIO {
 	TFile *fFile;
 	TTree *fTree;
 
-        G4GenericMessenger fMessenger{this,"/compton/","Remoll properties"};
+        G4GenericMessenger fMessenger{this,"/compton/","Compton properties"};
 
         G4String fFilename;
 
