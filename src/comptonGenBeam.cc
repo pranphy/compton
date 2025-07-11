@@ -36,8 +36,6 @@ comptonGenBeam::comptonGenBeam()
   fParticleName("e-")
 {
     fSamplingType = kNoTargetVolume;
-    fApplyMultScatt = true;
-
 
     fThisGenMessenger.DeclarePropertyWithUnit("beamcurr","microampere",fBeamCurrent,"Beam current");
     fThisGenMessenger.DeclarePropertyWithUnit("beamene","GeV",fBeamEnergy,"Beam energy");
@@ -160,7 +158,6 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
 
     // Start from mean position
     G4ThreeVector origin(fOriginMean);
-    std::cout<<"The origin is "<<fOriginMean.x()<<" "<<fOriginMean.y()<<" "<<fOriginMean.z()<<std::endl;
 
     // Start from mean direction
     G4ThreeVector direction(fDirection.unit());

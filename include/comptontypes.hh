@@ -38,13 +38,6 @@ struct comptonEvent_t {
   double beamp;
 };
 
-// Beam and target structure
-struct comptonBeamTarget_t {
-  double x, y, z;
-  double dx, dy, dz;
-  double th, ph;
-};
-
 // Particle trajectory structure
 struct comptonTrajectoryPoint_t {
   double x, y, z;

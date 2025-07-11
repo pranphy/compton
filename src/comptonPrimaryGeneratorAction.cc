@@ -5,7 +5,6 @@
 #include "G4ParticleDefinition.hh"
 #include "G4Version.hh"
 
-#include "comptonBeamTarget.hh"
 #include "comptonVEventGen.hh"
 #include "comptonEvent.hh"
 #include "comptonRun.hh"
@@ -130,22 +129,6 @@ void comptonPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
             fParticleGun->GeneratePrimaryVertex(anEvent);
         }
-    }
-
-    // Finally set the cross section and rate
-
-    // Get number of thrown events
-    G4double nthrown = comptonRun::GetRunData()->GetNthrown();
-
-
-    // Calculate rate
-    SamplingType_t sampling_type = fEventGen->GetSamplingType();
-    if (fEvent->fRate == 0) { // If the rate is set to 0 then calculate it using the cross section
-        fEvent->fRate  = fEvent->fEffXs * fBeamTarg.GetEffLumin(sampling_type) / nthrown;
-
-    } else if(!fRateCopy){ // For LUND - calculate rate and cross section
-        fEvent->fEffXs = fEvent->fRate * nthrown / fBeamTarg.GetEffLumin(sampling_type);
-        fEvent->fRate  = fEvent->fRate / nthrown;
     }
 
 }

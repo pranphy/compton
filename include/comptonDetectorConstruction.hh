@@ -7,6 +7,7 @@
 #include "G4GenericMessenger.hh"
 #include "G4Types.hh"
 #include "G4Version.hh"
+#include "comptonSystemOfUnits.hh"
 
 #include <vector>
 #include <set>
@@ -192,7 +193,6 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
     }
 
     void PrintAuxiliaryInfo() const;
-    void ParseAuxiliaryTargetInfo();
     void ParseAuxiliaryUserLimits();
     void ParseAuxiliaryVisibilityInfo();
     void ParseAuxiliarySensDetInfo();

@@ -6,7 +6,6 @@
 #include "comptonIO.hh"
 #include "comptonRun.hh"
 #include "comptonRunData.hh"
-#include "comptonBeamTarget.hh"
 
 #include "G4Threading.hh"
 #include "G4AutoLock.hh"

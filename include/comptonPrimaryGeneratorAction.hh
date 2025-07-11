@@ -1,7 +1,6 @@
 #ifndef comptonPrimaryGeneratorAction_h
 #define comptonPrimaryGeneratorAction_h 1
 
-#include "comptonBeamTarget.hh"
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4VPrimaryGenerator.hh"
@@ -39,9 +38,6 @@ class comptonPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4String fPriGenName;
 
     G4ParticleGun* fParticleGun;
-
-    comptonBeamTarget fBeamTarg;
-
 
     comptonEvent *fEvent;
 

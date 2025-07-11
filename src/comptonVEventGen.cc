@@ -45,7 +45,6 @@ comptonVEventGen::comptonVEventGen(const G4String name)
         "Print the event generator limits");
 
     fSamplingType = kActiveTargetVolume;
-    fApplyMultScatt = false;
 }
 
 comptonVEventGen::~comptonVEventGen()

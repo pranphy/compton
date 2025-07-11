@@ -1,7 +1,6 @@
 #include "comptonDetectorConstruction.hh"
 
 #include "comptonGenericDetector.hh"
-#include "comptonBeamTarget.hh"
 #include "comptonGlobalField.hh"
 #include "comptonIO.hh"
 
@@ -614,112 +613,6 @@ void comptonDetectorConstruction::PrintAuxiliaryInfo() const
          << G4endl << G4endl;
 }
 
-void comptonDetectorConstruction::ParseAuxiliaryTargetInfo()
-{
-    //====================================================
-    // Associate target volumes with beam/target class
-    //====================================================
-
-    // FIXME
-    // This function is somewhat inefficient since it loops over the full
-    // map of auxiliary tags in a nested fashion. If someone can figure out
-    // how to improve this, you are welcome to :-)
-
-    // Loop over volumes with auxiliary information
-    const G4GDMLAuxMapType* auxmap = fGDMLParser.GetAuxMap();
-    for(G4GDMLAuxMapType::const_iterator
-        iter  = auxmap->begin();
-        iter != auxmap->end(); iter++) {
-
-      // Loop over auxiliary tags for this logical volume
-      G4LogicalVolume* logical_volume = (*iter).first;
-      for (G4GDMLAuxListType::const_iterator
-          vit  = (*iter).second.begin();
-          vit != (*iter).second.end(); vit++) {
-
-        // Treat auxiliary type "TargetSystem" only
-        if ((*vit).type != "TargetSystem") continue;
-
-        // Target system name
-        G4String mother_tag = (*vit).value;
-
-        // Found target mother logical volume
-        G4LogicalVolume* mother_logical_volume = logical_volume;
-        if (fVerboseLevel > 0)
-          G4cout << "Found target system mother logical volume "
-                 << mother_logical_volume->GetName() << "." << G4endl;
-
-        // Now find target mother physical volume
-        G4VPhysicalVolume* mother_physical_volume = 0;
-        std::vector<G4VPhysicalVolume*> list =
-            GetPhysicalVolumes(fWorldVolume,mother_logical_volume);
-        if (list.size() == 1) {
-          mother_physical_volume = list[0];
-
-          // Mutex lock before writing static structures in comptonBeamTarget
-          G4AutoLock lock(&comptonDetectorConstructionMutex);
-          comptonBeamTarget::AddMotherVolume(mother_physical_volume, mother_tag);
-
-          if (fVerboseLevel > 0)
-            G4cout << "Found target mother physical volume "
-                   << mother_physical_volume->GetName() << "." << G4endl;
-        } else {
-          G4cout << "Target mother logical volume does not occur "
-                 << "*exactly once as a physical volume." << G4endl;
-          exit(-1);
-        }
-
-        // Loop over target mother logical volume daughters
-        auto n = mother_logical_volume->GetNoDaughters();
-        for (decltype(n) i = 0; i < n; i++) {
-
-          // Get daughter physical and logical volumes
-          G4VPhysicalVolume* target_physical_volume = mother_logical_volume->GetDaughter(i);
-          G4LogicalVolume* target_logical_volume = target_physical_volume->GetLogicalVolume();
-
-          // Target volume must contain "Target" auxiliary tag as well
-          //
-          // TODO Seems like this shouldn't require an iteration over a map,
-          // of all things, but I coulnd't get auxmap[target_logical_volume]
-          // to work due to (unhelpful) compiler errors, probably related to
-          // the use of the typedef instead of actual map. Something like a
-          // for (G4GDMLAuxListType::const_iterator vit2 =
-          //   auxmap[target_logical_volume].begin(); etc
-          for(G4GDMLAuxMapType::const_iterator
-              iter2  = auxmap->begin();
-              iter2 != auxmap->end(); iter2++) {
-
-            // Only the target logical volume is of interest
-            if ((*iter2).first != target_logical_volume) continue;
-
-            for (G4GDMLAuxListType::const_iterator
-                 vit2  = (*iter2).second.begin();
-                 vit2 != (*iter2).second.end(); vit2++) {
-
-              // If the logical volume is tagged as "TargetSamplingVolume"
-              if ((*vit2).type != "TargetSamplingVolume") continue;
-
-              // Target system name
-              G4String target_tag = (*vit2).value;
-
-              // Add target volume
-              G4cout << "Adding target sampling volume "
-                     << target_logical_volume->GetName() << "." << G4endl;
-              comptonBeamTarget::AddTargetVolume(target_physical_volume, target_tag);
-
-            } // loop over auxiliary tags in volume to find "TargetSamplingVolume"
-
-          } // loop over volumes with auxiliary tags to find "TargetSamplingVolume"
-
-        } // loop over daughter volumes in target system
-
-      } // loop over auxiliary tags in volume to find "TargetSystem"
-
-    } // loop over volumes with auxiliary tags to find "TargetSystem"
-
-    comptonBeamTarget::UpdateInfo();
-}
-
 void comptonDetectorConstruction::ParseAuxiliaryUserLimits()
 {
   const G4GDMLAuxMapType* auxmap = fGDMLParser.GetAuxMap();
@@ -996,7 +889,6 @@ G4VPhysicalVolume* comptonDetectorConstruction::Construct()
 
   // Parse auxiliary info
   PrintAuxiliaryInfo();
-  ParseAuxiliaryTargetInfo();
   ParseAuxiliaryUserLimits();
   ParseAuxiliaryVisibilityInfo();
 

@@ -12,8 +12,7 @@
 #include "G4ParticleTable.hh"
 
 comptonEvent::comptonEvent()
-: fBeamTarget(0),
-  fBeamMomentum(0,0,0),
+: fBeamMomentum(0,0,0),
   fBeamPolarization(0,0,0),
   fVertexPos(0,0,0),
   fBeamE(0),fRate(0),fEffXs(0),
@@ -25,7 +24,6 @@ comptonEvent::comptonEvent()
 }
 
 comptonEvent::comptonEvent(G4Event* event)
-: fBeamTarget(0)
 {
   Reset();
   for (G4int i = 0; i < event->GetNumberOfPrimaryVertex(); i++) {
@@ -66,8 +64,8 @@ std::vector<comptonEventParticle_t> comptonEvent::GetEventParticleIO() const {
     part.tpz = fPartMom[idx].z();
     part.trid = idx+1;
 
-//The following code stores the trajectories of primary particles    
-    G4TrajectoryContainer* trajectoryContainer = 
+//The following code stores the trajectories of primary particles
+    G4TrajectoryContainer* trajectoryContainer =
 	G4RunManager::GetRunManager()->GetCurrentEvent()->GetTrajectoryContainer();
 
 
@@ -167,7 +165,7 @@ void comptonEvent::UndoLastParticle(){
 }
 
 G4bool comptonEvent::EventIsSane(){
-    // Here we check all the variables and make sure there is nothing 
+    // Here we check all the variables and make sure there is nothing
     // kinematically wrong and there aren't stuff like nans and infs
 
     if( std::isnan(fEffXs) || std::isinf(fEffXs) || fEffXs < 0.0 ) return false;
@@ -176,7 +174,7 @@ G4bool comptonEvent::EventIsSane(){
     if( std::isnan(fQ2) || std::isinf(fQ2) ) return false;
     if( std::isnan(fW2) || std::isinf(fW2) ) return false;
 
-    if( fPartPos.size() < 1 && fEffXs > 0.0 ){ 
+    if( fPartPos.size() < 1 && fEffXs > 0.0 ){
 	return false;
     }
 

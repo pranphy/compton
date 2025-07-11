@@ -18,7 +18,6 @@ class G4Event;
 class G4PrimaryParticle;
 class G4ParticleDefinition;
 
-class comptonBeamTarget;
 
 class comptonEvent {
     public:
@@ -43,12 +42,6 @@ class comptonEvent {
 
 	G4bool EventIsSane();
 	void   Print();
-
-    private:
-	comptonBeamTarget* fBeamTarget;
-    public:
-	const comptonBeamTarget* GetBeamTarget() const { return fBeamTarget; }
-	void SetBeamTarget(comptonBeamTarget* bt) { fBeamTarget = bt; }
 
     public:
 	// Interaction information

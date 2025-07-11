@@ -12,7 +12,6 @@
 
 #pragma link C++ struct comptonSeed_t+;
 #pragma link C++ struct comptonEvent_t+;
-#pragma link C++ struct comptonBeamTarget_t+;
 #pragma link C++ struct comptonEventParticle_t+;
 #pragma link C++ class vector<comptonEventParticle_t>+;
 
