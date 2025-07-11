@@ -218,25 +218,30 @@ endforeach()
 #----------------------------------------------------------------------------
 # Download field maps subdirectory
 #
-set(COMPTON_DOWNLOADS http://userweb.jlab.org/~pgautam/downloads/compton)
-set(COMPTON_MAP_DIR ${PROJECT_SOURCE_DIR}/map_directory)
+
+set(COMPTON_DOWNLOADS "http://userweb.jlab.org/~pgautam/downloads/compton")
+set(FIELD_ID 23)
+set(COMPTON_MAP_DIR "${PROJECT_SOURCE_DIR}/map_directory/${FIELD_ID}")
+file(MAKE_DIRECTORY "${COMPTON_MAP_DIR}")
 
 set(COMPTON_MAPS
-    dipole_magnetic_field_20_1.txt
-    dipole_magnetic_field_20_2.txt
-    dipole_magnetic_field_20_3.txt
-    dipole_magnetic_field_20_4.txt
+    "dipole_magnetic_field_${FIELD_ID}_1.txt"
+    "dipole_magnetic_field_${FIELD_ID}_2.txt"
+    "dipole_magnetic_field_${FIELD_ID}_3.txt"
+    "dipole_magnetic_field_${FIELD_ID}_4.txt"
 )
 
 foreach(FILE IN LISTS COMPTON_MAPS)
-    message(STATUS "Downloading  ${COMPTON_DOWNLOADS}/${FILE}")
+    message(STATUS "Downloading ${COMPTON_DOWNLOADS}/${FILE}")
     file(DOWNLOAD
-      ${COMPTON_DOWNLOADS}/${FILE}
-      ${COMPTON_MAP_DIR}/${FILE}
-      )
+        "${COMPTON_DOWNLOADS}/${FILE}"
+        "${COMPTON_MAP_DIR}/${FILE}"
+        # Optional: Add TIMEOUT, STATUS, LOG, EXPECTED_HASH for robustness
+    )
     install(FILES
-      ${COMPTON_MAP_DIR}/${FILE}
-      DESTINATION ${CMAKE_INSTALL_DATADIR}/compton/map_directory)
+        "${COMPTON_MAP_DIR}/${FILE}"
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/compton/map_directory/${FIELD_ID}"
+    )
 endforeach()
 
 add_definitions(
