@@ -1,11 +1,3 @@
-/*!
-  compton - 12 GeV Moller Simluation
-
-  Seamus Riordan, et al.
-  riordan@jlab.org
-
-*/
-
 #include "G4Types.hh"
 
 #ifdef G4MULTITHREADED
@@ -74,7 +66,7 @@ int main(int argc, char** argv) {
     }
 
     // Initialize the random seed
-    G4long seed = time(0) + (int) getpid();
+    G4long seed = time(0);
     // Open /dev/urandom
     std::ifstream urandom("/dev/urandom", std::ios::in | std::ios::binary);
     // If stream is open
@@ -113,32 +105,6 @@ int main(int argc, char** argv) {
             return 1;
         }
     }
-
-    //-------------------------------
-    // Check dependency versions
-    //-------------------------------
-#if G4VERSION_NUMBER < 1060
-    if (! force) {
-        G4cerr << "WARNING: You are running with an older geant4 version." << G4endl;
-        G4cerr << "WARNING: The encouraged version of geant4 is 10.6.2." << G4endl;
-        G4cerr << "WARNING: Pass the option '-f' to ignore this warning." << G4endl;
-        exit(-1);
-    }
-#endif
-
-#if ROOT_VERSION_CODE < ROOT_VERSION(6,14,4)
-    if (! force) {
-        G4cerr << "WARNING: You are running with an older ROOT version." << G4endl;
-        G4cerr << "WARNING: The encouraged version of ROOT is 6.14.4." << G4endl;
-        G4cerr << "WARNING: Pass the option '-f' to ignore this warning." << G4endl;
-        exit(-1);
-    }
-#endif
-
-
-    //-------------------------------
-    // Initialization of Run manager
-    //-------------------------------
     RunManager* runManager = new RunManager;
 #ifdef G4MULTITHREADED
     if (threads > 0) runManager->SetNumberOfThreads(threads);

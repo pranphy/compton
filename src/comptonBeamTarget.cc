@@ -39,10 +39,10 @@ G4double comptonBeamTarget::fTotalTargetEffectiveLength = 0.0;
 G4bool comptonBeamTarget::fUpdateNeeded = true;
 
 comptonBeamTarget::comptonBeamTarget()
-: fBeamEnergy(gDefaultBeamE),fBeamCurrent(gDefaultBeamCur),fBeamPolarization(gDefaultBeamPol),
-  fOldRaster(true),fRasterX(5.0*mm),fRasterY(5.0*mm),
-  fX0(0.0),fY0(0.0),fTh0(0.0),fPh0(0.0),
-  fdTh(0.0),fdPh(0.0),fCorrTh(0.0),fCorrPh(0.0)
+    : fBeamEnergy(gDefaultBeamE),fBeamCurrent(gDefaultBeamCur),fBeamPolarization(gDefaultBeamPol),
+    fOldRaster(true),fRasterX(5.0*mm),fRasterY(5.0*mm),
+    fX0(0.0),fY0(0.0),fTh0(0.0),fPh0(0.0),
+    fdTh(0.0),fdPh(0.0),fCorrTh(0.0),fCorrPh(0.0)
 {
     // Infrared energy cutoff
     fEnergyCut = 1e-6 * MeV;
@@ -89,16 +89,16 @@ void comptonBeamTarget::PrintTargetInfo()
     if (fUpdateNeeded) UpdateInfo();
 
     for (auto mother  = fTargetMothers.begin();
-              mother != fTargetMothers.end();
-              mother++) {
+            mother != fTargetMothers.end();
+            mother++) {
 
         auto i_mother = mother - fTargetMothers.begin();
 
         G4cout << "Target mother " << (*mother).second << ":" << G4endl;
 
         for (auto daughter  = fTargetVolumes[i_mother].begin();
-                  daughter != fTargetVolumes[i_mother].end();
-                  daughter++) {
+                daughter != fTargetVolumes[i_mother].end();
+                daughter++) {
 
             G4LogicalVolume* volume = (*daughter).first->GetLogicalVolume();
             G4Material* material = volume->GetMaterial();
@@ -128,27 +128,27 @@ void comptonBeamTarget::UpdateInfo()
 
     // Can't calculate anything without mother, let's hope we find one later on
     if (fTargetMothers.size() == 0) {
-      return;
+        return;
     }
 
     // Find mother volume
     for (auto mother  = fTargetMothers.begin();
-              mother != fTargetMothers.end();
-              mother++) {
+            mother != fTargetMothers.end();
+            mother++) {
 
-      if ((*mother).second == fActiveTargetMotherName) {
-        fActiveTargetMother = mother - fTargetMothers.begin();
-      }
+        if ((*mother).second == fActiveTargetMotherName) {
+            fActiveTargetMother = mother - fTargetMothers.begin();
+        }
     }
 
     // Find target volume
     for (auto daughter  = fTargetVolumes[fActiveTargetMother].begin();
-              daughter != fTargetVolumes[fActiveTargetMother].end();
-              daughter++) {
+            daughter != fTargetVolumes[fActiveTargetMother].end();
+            daughter++) {
 
-      if ((*daughter).second == fActiveTargetVolumeName) {
-        fActiveTargetVolume = daughter - fTargetVolumes[fActiveTargetMother].begin();
-      }
+        if ((*daughter).second == fActiveTargetVolumeName) {
+            fActiveTargetVolume = daughter - fTargetVolumes[fActiveTargetMother].begin();
+        }
 
     }
 
@@ -156,8 +156,8 @@ void comptonBeamTarget::UpdateInfo()
     fMotherTargetAbsolutePosition = fTargetMothers[fActiveTargetMother].first->GetTranslation().z() - 4500;
 
     for (auto it =  fTargetVolumes[fActiveTargetMother].begin();
-              it != fTargetVolumes[fActiveTargetMother].end();
-              it++) {
+            it != fTargetVolumes[fActiveTargetMother].end();
+            it++) {
 
         // Try to cast the target volume into its tubs solid
         G4VPhysicalVolume* physvol = (*it).first;
@@ -169,11 +169,11 @@ void comptonBeamTarget::UpdateInfo()
         G4Box* box = dynamic_cast<G4Box*>(solid);
 
         // Assume everything is non-nested tubes
-	if ((tubs == nullptr) && (box == nullptr)) {
-	    G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ <<
-		":  Target volume " << volume->GetName() << " not made of G4Tubs or G4Box" << G4endl;
-	    exit(1);
-	}
+        if ((tubs == nullptr) && (box == nullptr)) {
+            G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ <<
+                ":  Target volume " << volume->GetName() << " not made of G4Tubs or G4Box" << G4endl;
+            exit(1);
+        }
 
         G4double z_half_length = 0;
         if (tubs != nullptr) z_half_length = tubs->GetZHalfLength();
@@ -181,10 +181,10 @@ void comptonBeamTarget::UpdateInfo()
 
         fTotalTargetEffectiveLength += 2.0 * z_half_length * material->GetDensity();
 
-	if (it == fTargetVolumes[fActiveTargetMother].begin() + fActiveTargetVolume) {
+        if (it == fTargetVolumes[fActiveTargetMother].begin() + fActiveTargetVolume) {
 
-	    fActiveTargetEffectiveLength = 2.0 * z_half_length * material->GetDensity();
-	}
+            fActiveTargetEffectiveLength = 2.0 * z_half_length * material->GetDensity();
+        }
     }
 
     fUpdateNeeded = false;
@@ -193,16 +193,16 @@ void comptonBeamTarget::UpdateInfo()
 
 void comptonBeamTarget::SetActiveTargetMother(G4String name)
 {
-  G4AutoLock lock(&comptonBeamTargetMutex);
-  fActiveTargetMotherName = name;
-  fUpdateNeeded = true;
+    G4AutoLock lock(&comptonBeamTargetMutex);
+    fActiveTargetMotherName = name;
+    fUpdateNeeded = true;
 }
 
 void comptonBeamTarget::SetActiveTargetVolume(G4String name)
 {
-  G4AutoLock lock(&comptonBeamTargetMutex);
-  fActiveTargetVolumeName = name;
-  fUpdateNeeded = true;
+    G4AutoLock lock(&comptonBeamTargetMutex);
+    fActiveTargetVolumeName = name;
+    fUpdateNeeded = true;
 }
 
 
@@ -217,24 +217,24 @@ comptonVertex comptonBeamTarget::SampleVertex(SamplingType_t sampling_type)
     // No sampling required
     static bool sampling_type_has_been_warned = false;
     if (sampling_type == kNoTargetVolume) {
-      if (! sampling_type_has_been_warned) {
-        G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ": " <<
-                  "kNoTargetVolume!" << G4endl;
-        sampling_type_has_been_warned = true;
-      }
-      return vertex;
+        if (! sampling_type_has_been_warned) {
+            G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ": " <<
+                "kNoTargetVolume!" << G4endl;
+            sampling_type_has_been_warned = true;
+        }
+        return vertex;
     }
 
     // Check if target mother volume exists
     if (fTargetMothers.size() == 0) {
-      G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ": " <<
-                "No target mother volume defined!" << G4endl;
+        G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ": " <<
+            "No target mother volume defined!" << G4endl;
     }
 
     // Check if target volume exists
     if (fTargetVolumes[fActiveTargetMother].size() == 0) {
-      G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ": " <<
-                "No target volume defined!" << G4endl;
+        G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ": " <<
+            "No target volume defined!" << G4endl;
     }
 
     // Sample raster x and y positions on target
@@ -279,8 +279,8 @@ comptonVertex comptonBeamTarget::SampleVertex(SamplingType_t sampling_type)
 
     // Figure out the material we are in and the radiation length we traversed
     for (auto it =  fTargetVolumes[fActiveTargetMother].begin();
-              it != fTargetVolumes[fActiveTargetMother].end() && !found_active_volume;
-              it++) {
+            it != fTargetVolumes[fActiveTargetMother].end() && !found_active_volume;
+            it++) {
 
         // Target volume
         G4VPhysicalVolume* physvol = (*it).first;
@@ -297,9 +297,9 @@ comptonVertex comptonBeamTarget::SampleVertex(SamplingType_t sampling_type)
         G4Box* box = dynamic_cast<G4Box*>(solid);
 
         if ((tubs == nullptr) && (box == nullptr)) {
-          G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ <<
-                    ":  Target volume " << volume->GetName() << " not made of G4Tubs or G4Box" << G4endl;
-	    continue; // exit(1);
+            G4cerr << "ERROR:  " << __PRETTY_FUNCTION__ << " line " << __LINE__ <<
+                ":  Target volume " << volume->GetName() << " not made of G4Tubs or G4Box" << G4endl;
+            continue; // exit(1);
         }
 
         G4double z_half_length = 0;
@@ -313,109 +313,109 @@ comptonVertex comptonBeamTarget::SampleVertex(SamplingType_t sampling_type)
         G4double effective_position_in_volume;
         G4double actual_position_in_volume;
         switch (sampling_type) {
-	    case kActiveTargetVolume:
-	        if (it == fTargetVolumes[fActiveTargetMother].begin() + fActiveTargetVolume) {
-	            // This is the active volume, and we only sample here
-	            found_active_volume = true;
-	            actual_position_in_volume = effective_position/material->GetDensity();
-	            // but we still want cumulative radiation lengths of part of the volume
-	            cumulative_radiation_length += actual_position_in_volume/material->GetRadlen();
-	        } else {
-	            // but we still want cumulative radiation lengths of all of the volume
+            case kActiveTargetVolume:
+                if (it == fTargetVolumes[fActiveTargetMother].begin() + fActiveTargetVolume) {
+                    // This is the active volume, and we only sample here
+                    found_active_volume = true;
+                    actual_position_in_volume = effective_position/material->GetDensity();
+                    // but we still want cumulative radiation lengths of part of the volume
+                    cumulative_radiation_length += actual_position_in_volume/material->GetRadlen();
+                } else {
+                    // but we still want cumulative radiation lengths of all of the volume
                     cumulative_radiation_length += effective_length/material->GetDensity()/material->GetRadlen();
                 }
-		break;
+                break;
 
-	    case kAllTargetVolumes:
-		if (effective_position - cumulative_effective_length < effective_length) {
+            case kAllTargetVolumes:
+                if (effective_position - cumulative_effective_length < effective_length) {
                     // This is the volume where our sample landed
-		    found_active_volume = true;
-		    effective_position_in_volume = (effective_position - cumulative_effective_length);
-		    actual_position_in_volume = effective_position_in_volume/material->GetDensity();
+                    found_active_volume = true;
+                    effective_position_in_volume = (effective_position - cumulative_effective_length);
+                    actual_position_in_volume = effective_position_in_volume/material->GetDensity();
                     // but we still want cumulative radiation lengths of part of the volume
-		    cumulative_radiation_length += actual_position_in_volume/material->GetRadlen();
-		} else {
+                    cumulative_radiation_length += actual_position_in_volume/material->GetRadlen();
+                } else {
                     // but we still want cumulative radiation lengths of all of the volume
-		    cumulative_radiation_length += effective_length/material->GetDensity()/material->GetRadlen();
-		    cumulative_effective_length += effective_length;
-		}
-		break;
+                    cumulative_radiation_length += effective_length/material->GetDensity()/material->GetRadlen();
+                    cumulative_effective_length += effective_length;
+                }
+                break;
             case kNoTargetVolume:
                 // nothing to do, just avoid compilation warning
                 break;
-	}
+        }
 
-	if( material->GetBaseMaterial() != nullptr ){
-	    G4cerr << __FILE__ << " " << __PRETTY_FUNCTION__ << ":  The material you're using isn't" <<
-		" defined in a way we can use for multiple scattering calculations" << G4endl;
-	    G4cerr << "Aborting" << G4endl; 
-	    exit(1);
-	}
+        if( material->GetBaseMaterial() != nullptr ){
+            G4cerr << __FILE__ << " " << __PRETTY_FUNCTION__ << ":  The material you're using isn't" <<
+                " defined in a way we can use for multiple scattering calculations" << G4endl;
+            G4cerr << "Aborting" << G4endl;
+            exit(1);
+        }
 
-	if( found_active_volume ){
-	    // For our vertex
-	    vertex.fMaterial = material;
-	    vertex.fRadiationLength   = cumulative_radiation_length;
+        if( found_active_volume ){
+            // For our vertex
+            vertex.fMaterial = material;
+            vertex.fRadiationLength   = cumulative_radiation_length;
 
-	    // For our own info
-	    fTravelledLength = actual_position_in_volume;
-	    fRadiationLength = cumulative_radiation_length;
-	    fVer    = G4ThreeVector( rasx, rasy,
-		      fMotherTargetAbsolutePosition
-                      + volume_relative_position - z_half_length
-                      + actual_position_in_volume );
+            // For our own info
+            fTravelledLength = actual_position_in_volume;
+            fRadiationLength = cumulative_radiation_length;
+            fVer    = G4ThreeVector( rasx, rasy,
+                    fMotherTargetAbsolutePosition
+                    + volume_relative_position - z_half_length
+                    + actual_position_in_volume );
 
-	    G4double masssum = 0.0;
-	    const G4int *atomvec = material->GetAtomsVector();
-	    const G4ElementVector *elvec = material->GetElementVector();
-	    const G4double *fracvec = material->GetFractionVector();
+            G4double masssum = 0.0;
+            const G4int *atomvec = material->GetAtomsVector();
+            const G4ElementVector *elvec = material->GetElementVector();
+            const G4double *fracvec = material->GetFractionVector();
 
-	    for( unsigned int i = 0; i < elvec->size(); i++ ){
-		// Not sure why AtomsVector would ever return null
-		// but it does - SPR 2/5/13.
-		assert( atomvec );
-		masssum += (*elvec)[i]->GetA()*atomvec[i];
-		double t = material->GetDensity()*actual_position_in_volume*fracvec[i];
-		double A = (*elvec)[i]->GetA()*mole/g;
-		double Z = (*elvec)[i]->GetZ();
-		ms.push_back(std::make_tuple(t,A,Z));
-	    }
+            for( unsigned int i = 0; i < elvec->size(); i++ ){
+                // Not sure why AtomsVector would ever return null
+                // but it does - SPR 2/5/13.
+                assert( atomvec );
+                masssum += (*elvec)[i]->GetA()*atomvec[i];
+                double t = material->GetDensity()*actual_position_in_volume*fracvec[i];
+                double A = (*elvec)[i]->GetA()*mole/g;
+                double Z = (*elvec)[i]->GetZ();
+                ms.push_back(std::make_tuple(t,A,Z));
+            }
 
-	    // Effective material length for luminosity calculation
-	    fEffectiveMaterialLength = (total_effective_length/effective_length) * // Sample weighting
-	      effective_length * Avogadro/masssum; // material thickness
-	} else {
-	    const G4ElementVector *elvec = material->GetElementVector();
-	    const G4double *fracvec = material->GetFractionVector();
-	    for( unsigned int i = 0; i < elvec->size(); i++ ){
-		double t = effective_length*fracvec[i];
-		double A = (*elvec)[i]->GetA()*mole/g;
-		double Z = (*elvec)[i]->GetZ();
-		ms.push_back(std::make_tuple(t,A,Z));
-	    }
-	}
+            // Effective material length for luminosity calculation
+            fEffectiveMaterialLength = (total_effective_length/effective_length) * // Sample weighting
+                effective_length * Avogadro/masssum; // material thickness
+        } else {
+            const G4ElementVector *elvec = material->GetElementVector();
+            const G4double *fracvec = material->GetFractionVector();
+            for( unsigned int i = 0; i < elvec->size(); i++ ){
+                double t = effective_length*fracvec[i];
+                double A = (*elvec)[i]->GetA()*mole/g;
+                double Z = (*elvec)[i]->GetZ();
+                ms.push_back(std::make_tuple(t,A,Z));
+            }
+        }
     }
 
 
     // If no volume was found
     if( !found_active_volume ){
         static G4bool alreadywarned = false;
-	if( !alreadywarned ){
-	    G4cerr << "WARNING: " << __PRETTY_FUNCTION__ << " line " << __LINE__ <<
-	            ": Could not find sampling volume" << G4endl;
-	    alreadywarned = true;
-	}
-	// Set default material and no radiation length
-	vertex.fMaterial = fDefaultMat;
-	vertex.fRadiationLength = 0.0;
+        if( !alreadywarned ){
+            G4cerr << "WARNING: " << __PRETTY_FUNCTION__ << " line " << __LINE__ <<
+                ": Could not find sampling volume" << G4endl;
+            alreadywarned = true;
+        }
+        // Set default material and no radiation length
+        vertex.fMaterial = fDefaultMat;
+        vertex.fRadiationLength = 0.0;
     }
 
     // Sample multiple scattering angles
     G4double msth = 0, msph = 0;
     if (ms.size() > 0) {
-	fMS.Init(fBeamEnergy, ms);
-	msth = fMS.GenerateMSPlane();
-	msph = fMS.GenerateMSPlane();
+        fMS.Init(fBeamEnergy, ms);
+        msth = fMS.GenerateMSPlane();
+        msph = fMS.GenerateMSPlane();
     }
     assert( !std::isnan(msth) && !std::isnan(msph) );
     assert( !std::isinf(msth) && !std::isinf(msph) );
@@ -424,21 +424,21 @@ comptonVertex comptonBeamTarget::SampleVertex(SamplingType_t sampling_type)
     // Sample raster angles
     G4double bmth = 0, bmph = 0;
     if(fOldRaster){
-      // Gaussian distribution with mean and sigma
-      bmth = G4RandGauss::shoot(fTh0, fdTh);
-      bmph = G4RandGauss::shoot(fPh0, fdPh);
+        // Gaussian distribution with mean and sigma
+        bmth = G4RandGauss::shoot(fTh0, fdTh);
+        bmph = G4RandGauss::shoot(fPh0, fdPh);
 
-      if( fRasterX > 0 ){ bmth += fCorrTh*(rasx-fX0)/fRasterX/2; }
-      if( fRasterY > 0 ){ bmph += fCorrPh*(rasy-fY0)/fRasterY/2; }
+        if( fRasterX > 0 ){ bmth += fCorrTh*(rasx-fX0)/fRasterX/2; }
+        if( fRasterY > 0 ){ bmph += fCorrPh*(rasy-fY0)/fRasterY/2; }
 
-      // Initial direction
-      fDir = G4ThreeVector(0.0, 0.0, 1.0);
+        // Initial direction
+        fDir = G4ThreeVector(0.0, 0.0, 1.0);
 
-      fDir.rotateY( bmth); // Positive th pushes to positive X (around Y-axis)
-      fDir.rotateX(-bmph); // Positive ph pushes to positive Y (around X-axis)
+        fDir.rotateY( bmth); // Positive th pushes to positive X (around Y-axis)
+        fDir.rotateX(-bmph); // Positive ph pushes to positive Y (around X-axis)
     } else{
-      G4ThreeVector bmVec = G4ThreeVector(fVer.x(),fVer.y(),-1*(-19810.0*mm-fVer.z())); // in mm
-      fDir = G4ThreeVector(bmVec.unit());
+        G4ThreeVector bmVec = G4ThreeVector(fVer.x(),fVer.y(),-1*(-19810.0*mm-fVer.z())); // in mm
+        fDir = G4ThreeVector(bmVec.unit());
     }
 
     fDir.rotateY(msth);
@@ -457,26 +457,26 @@ comptonVertex comptonBeamTarget::SampleVertex(SamplingType_t sampling_type)
     const static G4double Euler = 0.5772157;
 
     G4double prob = 1.- pow(fEnergyCut/Ekin,bt) - bt/(bt+1.)*(1.- pow(fEnergyCut/Ekin,bt+1.))
-	+ 0.75*bt/(2.+bt)*(1.- pow(fEnergyCut/Ekin,bt+2.));
+        + 0.75*bt/(2.+bt)*(1.- pow(fEnergyCut/Ekin,bt+2.));
     prob = prob/(1.- bt*Euler + bt*bt/2.*(Euler*Euler+pi*pi/6.)); /* Gamma function */
 
     G4double prob_sample = G4UniformRand();
     if (prob_sample <= prob) {
         G4double eloss, sample, ref;
-	do {
-	    sample = G4UniformRand();
-	    eloss = fEnergyCut*pow(Ekin/fEnergyCut,sample);
-	    G4double env = 1./eloss;
-	    G4double value = 1./eloss*(1.-eloss/Ekin+0.75*pow(eloss/Ekin,2))*pow(eloss/Ekin,bt);
+        do {
+            sample = G4UniformRand();
+            eloss = fEnergyCut*pow(Ekin/fEnergyCut,sample);
+            G4double env = 1./eloss;
+            G4double value = 1./eloss*(1.-eloss/Ekin+0.75*pow(eloss/Ekin,2))*pow(eloss/Ekin,bt);
 
-	    sample = G4UniformRand(); // FIXME (wdc) again?
-	    ref = value/env;
-	} while (sample > ref);
+            sample = G4UniformRand(); // FIXME (wdc) again?
+            ref = value/env;
+        } while (sample > ref);
 
-	fSampledEnergy = fBeamEnergy - eloss;
-	assert( fSampledEnergy >= electron_mass_c2 );
+        fSampledEnergy = fBeamEnergy - eloss;
+        assert( fSampledEnergy >= electron_mass_c2 );
     } else {
-	fSampledEnergy = fBeamEnergy;
+        fSampledEnergy = fBeamEnergy;
     }
 
     vertex.fBeamEnergy = fSampledEnergy;

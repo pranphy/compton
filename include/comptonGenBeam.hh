@@ -1,12 +1,5 @@
-#ifndef __COMPTONGENBEAM_HH 
-#define __COMPTONGENBEAM_HH 
-/*!
- * Boring beam event generator
- *
- * Seamus Riordan
- * July 9, 2013
- *
-*/
+#ifndef __COMPTONGENBEAM_HH
+#define __COMPTONGENBEAM_HH
 
 #include "comptonVEventGen.hh"
 
@@ -73,10 +66,12 @@ class comptonGenBeam : public comptonVEventGen {
     G4ThreeVector fCorrelation;
     G4ThreeVector fPolarization;
 
+    Double_t fBeamCurrent;
+    Double_t fBeamEnergy;
     G4ThreeVector fRaster;
     Double_t fRasterRefZ;
 
     G4String fParticleName;
 };
 
-#endif//__COMPTONGENBEAM_HH 
+#endif//__COMPTONGENBEAM_HH

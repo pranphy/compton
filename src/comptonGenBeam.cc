@@ -2,11 +2,7 @@
 
 #include "comptonEvent.hh"
 #include "comptonVertex.hh"
-#include "comptonBeamTarget.hh"
 
-#include "G4Material.hh"
-#include "G4VPhysicalVolume.hh"
-#include "G4LogicalVolume.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4ParticleTable.hh"
 
@@ -33,6 +29,8 @@ comptonGenBeam::comptonGenBeam()
   //fCorrelation(0.0653*mrad/mm,0.0653*mrad/mm,0.0),
   fCorrelation(0.0,0.0,0.0),
   fPolarization(0.0,0.0,0.0),
+  fBeamCurrent(0.0),
+  fBeamEnergy(0.0),
   fRaster(0.0,0.0,0.0),
   fRasterRefZ(0.0),
   fParticleName("e-")
@@ -40,6 +38,9 @@ comptonGenBeam::comptonGenBeam()
     fSamplingType = kNoTargetVolume;
     fApplyMultScatt = true;
 
+
+    fThisGenMessenger.DeclarePropertyWithUnit("beamcurr","microampere",fBeamCurrent,"Beam current");
+    fThisGenMessenger.DeclarePropertyWithUnit("beamene","GeV",fBeamEnergy,"Beam energy");
     fThisGenMessenger.DeclarePropertyWithUnit("rasterRefZ","mm",fRasterRefZ,"Raster Origin Z: z unit");
     fThisGenMessenger.DeclarePropertyWithUnit("origin","mm",fOriginMean,"origin position mean: x y z unit");
     fThisGenMessenger.DeclareMethodWithUnit("x","mm",&comptonGenBeam::SetOriginXMean,"origin x position mean");
@@ -154,11 +155,12 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
 
     // Get initial beam energy instead of using other sampling
     double m = particle->GetPDGMass();
-    double E = fBeamTarg->fBeamEnergy + m;
+    double E = fBeamEnergy + m;
     double p = sqrt(E*E - m*m);
 
     // Start from mean position
     G4ThreeVector origin(fOriginMean);
+    std::cout<<"The origin is "<<fOriginMean.x()<<" "<<fOriginMean.y()<<" "<<fOriginMean.z()<<std::endl;
 
     // Start from mean direction
     G4ThreeVector direction(fDirection.unit());
@@ -202,7 +204,7 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
     evt->fVertexPos = origin; // primary vertex
 
     evt->ProduceNewParticle(
-        G4ThreeVector(0.0,0.0,0.0), // relative position to primary vertex
+        origin,
         evt->fBeamMomentum,
         fParticleName,
         evt->fBeamPolarization);

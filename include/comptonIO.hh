@@ -9,7 +9,6 @@
 #include "G4AutoLock.hh"
 
 #include "comptontypes.hh"
-#include "comptonSystemOfUnits.hh"
 
 #include "G4String.hh"
 #include "G4GenericMessenger.hh"
@@ -150,7 +149,6 @@ class comptonIO {
 	Double_t fRate;
 	comptonSeed_t fSeed;
 	comptonEvent_t fEv;
-	comptonBeamTarget_t fBm;
 
         // Event particles
     public:

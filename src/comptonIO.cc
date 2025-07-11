@@ -4,14 +4,12 @@
 #include <TTree.h>
 #include <TClonesArray.h>
 
-#include "G4ParticleDefinition.hh"
-
 #include "comptonGenericDetectorHit.hh"
 #include "comptonGenericDetectorSum.hh"
 #include "comptonEvent.hh"
 #include "comptonRun.hh"
 #include "comptonRunData.hh"
-#include "comptonBeamTarget.hh"
+#include "comptonSystemOfUnits.hh"
 
 #include <sys/param.h>
 #include <sys/types.h>
@@ -92,7 +90,6 @@ void comptonIO::InitializeTree()
     fTree->Branch("seed",     &fSeed);
     fTree->Branch("rate",     &fRate,   "rate/D");
     fTree->Branch("ev",       &fEv);
-    fTree->Branch("bm",       &fBm);
     fTree->Branch("part",     &fEvPart);
 
     // GenericDetectorHit
@@ -121,8 +118,6 @@ void comptonIO::Flush()
     // Set individual structs to zero
     static comptonEvent_t ev0 = { };
     fEv = ev0;
-    static comptonBeamTarget_t bm0 = { };
-    fBm = bm0;
 
     // Set arrays to 0
     fEvPart.clear();
@@ -175,10 +170,6 @@ void comptonIO::SetEventData(const comptonEvent *ev)
   // Primary particles
   fEvPart = ev->GetEventParticleIO();
 
-  // Beam data
-  const comptonBeamTarget* bt = ev->GetBeamTarget();
-  if (bt != nullptr)
-    fBm = bt->GetBeamTargetIO();
 }
 
 // GenericDetectorHit

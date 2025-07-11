@@ -5,7 +5,6 @@
 #include "G4ParticleGun.hh"
 #include "G4RotationMatrix.hh"
 
-#include "comptonBeamTarget.hh"
 #include "comptonVertex.hh"
 #include "comptonEvent.hh"
 #include "comptonRun.hh"
@@ -24,7 +23,6 @@ comptonVEventGen::comptonVEventGen(const G4String name)
 : fName(name),
   fBeamPol("0"),
   fNumberOfParticles(1),fParticleGun(0),
-  fBeamTarg(0),
   fThisGenMessenger(this,"/compton/evgen/" + name + "/","Remoll " + name + " generator properties")
 {
     // Set initial number of particles and create particle gun
@@ -40,6 +38,7 @@ comptonVEventGen::comptonVEventGen(const G4String name)
     fEvGenMessenger.DeclarePropertyWithUnit("thcommax","deg",fThCoM_max,"Maximum CoM generation theta angle");
     fEvGenMessenger.DeclarePropertyWithUnit("thcommin","deg",fThCoM_min,"Minimum CoM generation theta angle");
     fEvGenMessenger.DeclareProperty("beamPolarization",fBeamPol,"Polarization direction: +L, +H, +V, -L, -H, -V, 0");
+
     fEvGenMessenger.DeclareMethod(
         "printlimits",
         &comptonVEventGen::PrintEventGen,
@@ -79,69 +78,11 @@ void comptonVEventGen::SetNumberOfParticles(G4int n)
 comptonEvent* comptonVEventGen::GenerateEvent()
 {
     // Set up beam/target vertex
-    comptonVertex vert   = fBeamTarg->SampleVertex(fSamplingType);
+    comptonVertex* vert   =  nullptr;
 
-    /////////////////////////////////////////////////////////////////////
-    // Create and initialize values for event
     comptonEvent *thisev = new comptonEvent();
-    thisev->SetBeamTarget(fBeamTarg);
-
-    thisev->fVertexPos    = fBeamTarg->fVer;
-    if( fApplyMultScatt ) {
-        thisev->fBeamMomentum = fBeamTarg->fSampledEnergy*(fBeamTarg->fDir.unit());
-    } else {
-        thisev->fBeamMomentum = fBeamTarg->fSampledEnergy*G4ThreeVector(0.0, 0.0, 1.0);
-    }
-    /////////////////////////////////////////////////////////////////////
-
-    SamplePhysics(&vert, thisev);
-
-    PolishEvent(thisev);
+    SamplePhysics(vert, thisev); // Sample physics is responsible for assigning vertex position momentum etc of the event
 
     return thisev;
 }
 
-
-void comptonVEventGen::PolishEvent(comptonEvent *ev) {
-    /*!
-       Here it's our job to:
-          Make sure the event is sane
-          Apply multiple scattering effects to the final
-        products if applicable
-      Calculate rates from our given luminosity
-      Calculate measured asymmetry from polarization
-      Calculate vertex offsets
-     */
-
-    if( !ev->EventIsSane() ) {
-        G4cerr << __FILE__ << " line " << __LINE__ << ":  Event check failed for generator " << fName << ".  Aborting" << G4endl;
-        ev->Print();
-        exit(1);
-    }
-
-    G4ThreeVector rotax      = (-1)*(fBeamTarg->fDir.cross(G4ThreeVector(0.0, 0.0, 1.0))).unit();
-    G4RotationMatrix msrot;
-    msrot.rotate(fBeamTarg->fDir.theta(), rotax);
-
-    std::vector<G4ThreeVector>::iterator iter;
-
-    if( fApplyMultScatt ) {
-        for( iter = ev->fPartRealMom.begin(); iter != ev->fPartRealMom.end(); iter++ ) {
-            //  rotate direction vectors based on multiple scattering
-            (*iter) *= msrot;
-        }
-
-        // Rotate position offsets due to multiple scattering
-        for( iter = ev->fPartPos.begin(); iter != ev->fPartPos.end(); iter++ ) {
-            //  rotate direction vectors based on multiple scattering
-            (*iter) *= msrot;
-        }
-    }
-
-    // Add base vertex
-    for( iter = ev->fPartPos.begin(); iter != ev->fPartPos.end(); iter++ ) {
-        (*iter) += ev->fVertexPos;
-    }
-
-    ev->fmAsym = ev->fAsym*fBeamTarg->fBeamPolarization;
-}

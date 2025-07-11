@@ -18,7 +18,7 @@
    what the PrimaryGeneratorAction is going to use and
    contains information that will go in the output.
 
-   It needs to be aware of comptonBeamTarget and comptonRunData,
+   It needs to be aware of comptonRunData,
    take a generically generated event assuming ideal beam
    and transform it into what is going to be simulated.
 */
@@ -26,7 +26,6 @@
 class G4ParticleGun;
 
 class comptonEvent;
-class comptonBeamTarget;
 class comptonRunData;
 
 class comptonVEventGen {
@@ -40,9 +39,6 @@ class comptonVEventGen {
 
 	G4String GetName() { return fName; }
 
-	void SetBeamTarget(comptonBeamTarget* bt) {
-	  fBeamTarg = bt;
-	}
 
 	void SetSamplingType(SamplingType_t type) { fSamplingType = type; }
 	SamplingType_t GetSamplingType() const { return fSamplingType; }
@@ -83,9 +79,6 @@ public:
         G4ParticleGun* GetParticleGun() const { return fParticleGun; }
 
     protected:
-	comptonBeamTarget* fBeamTarg;
-
-	void PolishEvent(comptonEvent *);
 
 	// Pure virtual function that needs to be filled out
 	virtual void SamplePhysics(comptonVertex *, comptonEvent *) = 0;
