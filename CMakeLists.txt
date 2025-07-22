@@ -39,6 +39,8 @@ include_directories(${Geant4_INCLUDE_DIRS})
 set(GITINFO_CC_OUT "${CMAKE_CURRENT_BINARY_DIR}/gitinfo.cc")
 set(GITINFO_CC_IN "${PROJECT_SOURCE_DIR}/cmake/templates/gitinfo.cc.in")
 
+# makes all include headers publicly available
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 find_program(GIT_EXECUTABLE NAMES git)
 if(GIT_EXECUTABLE)
@@ -73,6 +75,8 @@ foreach(file ${headers})
     list(APPEND needsdict ${file})
   endif()
 endforeach()
+
+list(APPEND needsdict "${PROJECT_SOURCE_DIR}/include/comptontypes.hh")
 
 ROOT_GENERATE_DICTIONARY(
     G__${PROJECT_NAME}# Name of the dictionary target (e.g., G__compton or comptonDict)
@@ -124,18 +128,9 @@ file(GLOB exefiles "*.cc")
 foreach(file ${exefiles})
     get_filename_component(filename_we "${file}" NAME_WE) # Get filename without extension
     string(TOLOWER "${filename_we}" filename_lower) # Convert to lowercase for executable name
-
     add_executable("${filename_lower}" "${file}")
-    message(STATUS "${filename_lower} is executable built from ${file}")
-
-
-    target_include_directories(${filename_lower} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-    # Link executables to the main library.
-    target_link_libraries("${filename_lower}"
-        PRIVATE
-            lib${PROJECT_NAME} # Link to your main project library
-    )
-    # Apply compile options to executables.
+    #target_include_directories(${filename_lower} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_link_libraries("${filename_lower}" PRIVATE lib${PROJECT_NAME})
     target_compile_options("${filename_lower}"
         PUBLIC
             ${${PROJECT_NAME_UC}_CXX_FLAGS_LIST}
