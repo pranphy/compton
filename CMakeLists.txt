@@ -1,83 +1,71 @@
-#----------------------------------------------------------------------------
-# Setup the project
-#
-cmake_minimum_required(VERSION 3.8)
-project(compton VERSION 0.2 LANGUAGES CXX C)
+# Minimum required CMake version. 3.15+ enables modern policies and features.
+cmake_minimum_required(VERSION 3.15)
+project(compton VERSION 0.3 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
-# Export compile commands as json for run-clang-tidy
+set(CMAKE_CXX_STANDARD_REQUIRED ON) # Enforce the standard, fail if compiler doesn't support
+set(CMAKE_CXX_EXTENSIONS OFF)      # Disallow compiler-specific extensions for portability
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
-# Also use clang-tidy integration in CMake
-option(ENABLE_CLANG_TIDY "Enable clang-tidy integration in cmake" OFF)
-if(ENABLE_CLANG_TIDY)
-  find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
-  if (CLANG_TIDY_EXE)
-    message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-    set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}" CACHE STRING "" FORCE)
-  else()
-    set(CMAKE_CXX_CLANG_TIDY "" CACHE STRING "" FORCE)
-  endif()
+# Disallow in-source builds for a clean separation of source and build files.
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+    message(FATAL_ERROR "Compton requires an out-of-source build. Please create a 'build' directory (e.g., 'mkdir build') and run cmake from there (e.g., 'cd build && cmake ..').")
 endif()
 
-# Disallow in-source builds
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR "compton requires an out-of-source build.")
-endif()
-
-# Prepend module search path
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
-
-# Use our modules and utility functions
-include(BuildType)
-include(PrefixDir)
-include(CMakeEnv)
-
-# Use GNU install dirs
-include(GNUInstallDirs)
-
-# MAC specific variable
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(CMAKE_MACOSX_RPATH ON)
-    set(CMAKE_SKIP_BUILD_RPATH FALSE)
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-    list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
-    if("${isSystemDir}" STREQUAL "-1")
-        set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+# macOS specific RPATH handling for shared libraries and executables.
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(CMAKE_MACOSX_RPATH ON) # Embed rpath in binaries
+    set(CMAKE_SKIP_BUILD_RPATH FALSE) # Don't skip rpath for build tree
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # Don't build with install rpath
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE) # Use link path for install rpath
+    # Ensure install RPATH includes lib directory for installed libraries
+    list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}" _isSystemDir)
+    if("${_isSystemDir}" STREQUAL "-1")
+        # Only set if it's not an implicit system directory (to avoid redundant rpaths)
+        set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
     endif()
 endif()
 
-#----------------------------------------------------------------------------
-# Locate sources and headers for this project
-#
-file(GLOB sources src/compton*.cc)
-file(GLOB headers include/compton*.hh)
+file(GLOB sources "src/compton*.cc")
+file(GLOB headers "include/compton*.hh")
+
 find_package(XercesC 3.2.0 REQUIRED)
+find_package(ROOT 6.36 COMPONENTS RIO Core Tree CONFIG REQUIRED)
+
+find_package(Geant4 11.3 REQUIRED ui_all vis_all )
+include_directories(${Geant4_INCLUDE_DIRS})
+
+set(GITINFO_CC_OUT "${CMAKE_CURRENT_BINARY_DIR}/gitinfo.cc")
+set(GITINFO_CC_IN "${PROJECT_SOURCE_DIR}/cmake/templates/gitinfo.cc.in")
 
 
-#----------------------------------------------------------------------------
-# ROOT
-#
-set(minimum_root_version 6.0)
-find_package(ROOT ${minimum_root_version} REQUIRED)
-config_add_dependency(ROOT ${minimum_root_version})
+find_program(GIT_EXECUTABLE NAMES git)
+if(GIT_EXECUTABLE)
+    # Check if the current source directory is a Git repository.
+    execute_process(
+        COMMAND "${GIT_EXECUTABLE}" log -1
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_VARIABLE GIT_LOG
+    )
 
+    execute_process(
+        COMMAND "${GIT_EXECUTABLE}" status --short --porcelain
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_VARIABLE GIT_STATUS
+    )
 
-#----------------------------------------------------------------------------
-# gitinfo.cc
-#
-set(PRE_CONFIGURE_FILE ${PROJECT_SOURCE_DIR}/cmake/templates/gitinfo.cc.in)
-set(POST_CONFIGURE_FILE ${CMAKE_BINARY_DIR}/gitinfo.cc)
-include(CMakeGitInfo)
-list(APPEND sources ${POST_CONFIGURE_FILE})
+else()
+    message(STATUS "Git executable not found. Using default Git info.")
+endif()
 
+configure_file( "${GITINFO_CC_IN}" "${GITINFO_CC_OUT}" @ONLY) # Ensures only @VAR@ style variables are substituted, preventing accidental substitution
 
-#----------------------------------------------------------------------------
-# main dictionaries
-#
+list(APPEND sources "${GITINFO_CC_OUT}")
+
 message(STATUS "Generating ${PROJECT_NAME} dictionaries for ROOT ${ROOT_VERSION}...")
+
+
 foreach(file ${headers})
   # Find the header files that have uncommented ClassDef lines
   execute_process(COMMAND grep -l "[^/]ClassDef" ${file} OUTPUT_VARIABLE result)
@@ -85,144 +73,83 @@ foreach(file ${headers})
     list(APPEND needsdict ${file})
   endif()
 endforeach()
-build_root_dictionary(
-  ${PROJECT_NAME}
-  ${needsdict}
-  TARGETS lib${PROJECT_NAME}
-  LINKDEF ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}LinkDef.hh
+
+ROOT_GENERATE_DICTIONARY(
+    G__${PROJECT_NAME}# Name of the dictionary target (e.g., G__compton or comptonDict)
+    ${needsdict}          # List of header files to scan for ROOT classes
+    MODULE ${PROJECT_NAME}
+    LINKDEF "${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}LinkDef.hh" # Path to the LinkDef file
+
 )
-list(APPEND sources ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Dict.cxx)
 
+list(APPEND sources "${CMAKE_CURRENT_BINARY_DIR}/G__${PROJECT_NAME}.cxx")
 
-
-#----------------------------------------------------------------------------
-# Find Geant4 package, activating all available UI and Vis drivers by default
-# You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
-# to build a batch mode only executable
-#
-option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
-if(WITH_GEANT4_UIVIS)
-  find_package(Geant4 4.10 REQUIRED ui_all vis_all)
-else()
-  find_package(Geant4 4.10 REQUIRED)
-endif()
-
-#----------------------------------------------------------------------------
-# Setup Geant4 include directories and compile definitions
-# Setup include directory for this project
-#
-include(${Geant4_USE_FILE})
-
-
-#----------------------------------------------------------------------------
-# Compiler flags
-#
-# Set compiler flags to the set given by ROOT set
-set_compiler_flags("${ROOT_CXX_FLAGS}")
-# FIXME: The following will at some point all disappear (yeah yeah, soon)
-# Ignore shadowing of CLHEP 1-letter units with 1-letter local variables
-string(APPEND ${PROJECT_NAME_UC}_DIAG_FLAGS " -Wno-shadow")
-# Ignore missing field initializers in structs
-string(APPEND ${PROJECT_NAME_UC}_DIAG_FLAGS " -Wno-missing-field-initializers")
-# Ignore unused parameters in many geant4 functions
-string(APPEND ${PROJECT_NAME_UC}_DIAG_FLAGS " -Wno-unused-parameter")
-if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
-  # Ignore warning of struct initialization { } for gcc < 5.0 (after that it is ignored internally)
-  string(APPEND ${PROJECT_NAME_UC}_DIAG_FLAGS " -Wno-missing-field-initializers")
-endif()
-# Now add the standard WALL and WEXTRA sets
-set_diagnostic_flags(WALL WEXTRA)
-# Finally print what we use
-report_build_info()
-
-
-#----------------------------------------------------------------------------
-# main library
 #
 add_library(lib${PROJECT_NAME} SHARED ${sources} ${headers})
-add_dependencies(lib${PROJECT_NAME} check_git_repository)
 set_target_properties(lib${PROJECT_NAME} PROPERTIES OUTPUT_NAME compton)
 
+# Define include directories for the library.
 target_include_directories(lib${PROJECT_NAME}
-  PUBLIC
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-  )
-
-target_compile_options(lib${PROJECT_NAME}
-  PUBLIC
-    ${${PROJECT_NAME_UC}_CXX_FLAGS_LIST}
-  PRIVATE
-    ${${PROJECT_NAME_UC}_DIAG_FLAGS_LIST}
-  )
-
-target_link_libraries(lib${PROJECT_NAME}
-  PUBLIC
-    ROOT::Libraries
-    ${Geant4_LIBRARIES}
-    XercesC::XercesC
-  )
-
-install(TARGETS lib${PROJECT_NAME}
-  EXPORT ${MAIN_PROJECT_NAME_LC}-exports
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  )
-install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-
-#----------------------------------------------------------------------------
-# executables
-#
-file(GLOB exefiles *.cc)
-foreach(file ${exefiles})
-  get_filename_component(filename ${file} NAME_WE)
-  string(TOLOWER ${filename} filelower)
-
-  add_executable(${filelower} ${file})
-
-  target_link_libraries(${filelower}
-    PRIVATE
-      lib${PROJECT_NAME}
-  )
-  target_compile_options(${filelower}
     PUBLIC
-      ${${PROJECT_NAME_UC}_CXX_FLAGS_LIST}
+        # For projects installing and using this library
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        # For projects building and using this library in the build tree
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
-      ${${PROJECT_NAME_UC}_DIAG_FLAGS_LIST}
-  )
-  if(${CMAKE_SYSTEM_NAME} MATCHES Linux)
-    target_compile_options(${filelower} PUBLIC -fPIC)
-  endif()
+        # For generated headers/sources that are only internal to this build
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+)
 
-  install(TARGETS ${filelower}
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-  )
-endforeach()
+# Apply compile options to the library.
+target_compile_options(lib${PROJECT_NAME}
+    PUBLIC
+        ${${PROJECT_NAME_UC}_CXX_FLAGS_LIST} # Common CXX flags
+    PRIVATE
+        ${${PROJECT_NAME_UC}_DIAG_FLAGS} # Specific diagnostic suppressions
+)
 
-install(DIRECTORY geometry DESTINATION ${CMAKE_INSTALL_DATADIR}/compton)
-install(DIRECTORY macros DESTINATION ${CMAKE_INSTALL_DATADIR}/compton)
-#install(DIRECTORY vis DESTINATION ${CMAKE_INSTALL_DATADIR}/compton)
+# Link necessary libraries.
+target_link_libraries(lib${PROJECT_NAME}
+    PUBLIC
+        ROOT::RIO
+        ROOT::Tree
+        ROOT::Rint
+        ${Geant4_LIBRARIES} # Geant4 libraries (from Geant4_USE_FILE)
+        XercesC::XercesC # Modern imported target for XercesC
+)
 
-foreach(_script ${COMPTON_SCRIPTS})
-  configure_file(
-    ${PROJECT_SOURCE_DIR}/${_script}
-    ${PROJECT_BINARY_DIR}/${_script}
-    COPYONLY
+# ----------------------------------------------------------------------------
+# Executables
+file(GLOB exefiles "*.cc")
+foreach(file ${exefiles})
+    get_filename_component(filename_we "${file}" NAME_WE) # Get filename without extension
+    string(TOLOWER "${filename_we}" filename_lower) # Convert to lowercase for executable name
+
+    add_executable("${filename_lower}" "${file}")
+    message(STATUS "${filename_lower} is executable built from ${file}")
+
+
+    target_include_directories(${filename_lower} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    # Link executables to the main library.
+    target_link_libraries("${filename_lower}"
+        PRIVATE
+            lib${PROJECT_NAME} # Link to your main project library
+    )
+    # Apply compile options to executables.
+    target_compile_options("${filename_lower}"
+        PUBLIC
+            ${${PROJECT_NAME_UC}_CXX_FLAGS_LIST}
+        PRIVATE
+            ${${PROJECT_NAME_UC}_DIAG_FLAGS}
     )
 endforeach()
 
 
-#----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Download field maps subdirectory
-#
-
 set(COMPTON_DOWNLOADS "http://userweb.jlab.org/~pgautam/downloads/compton")
-set(FIELD_ID 20)
+set(FIELD_ID 20) # Current field map ID
 set(COMPTON_MAP_DIR "${PROJECT_SOURCE_DIR}/map_directory/${FIELD_ID}")
-file(MAKE_DIRECTORY "${COMPTON_MAP_DIR}")
 
 set(COMPTON_MAPS
     "dipole_magnetic_field_${FIELD_ID}_1.txt"
@@ -232,34 +159,32 @@ set(COMPTON_MAPS
 )
 
 foreach(FILE IN LISTS COMPTON_MAPS)
-    if(NOT EXISTS "${COMPTON_MAP_DIR}/${FILE}")
-        message(STATUS "Downloading ${COMPTON_DOWNLOADS}/${FILE}")
+    set(LOCAL_FILE_PATH "${COMPTON_MAP_DIR}/${FILE}")
+    if(NOT EXISTS "${LOCAL_FILE_PATH}")
+        file(MAKE_DIRECTORY "${COMPTON_MAP_DIR}") # Ensure the local directory exists
+        message(STATUS "Downloading ${COMPTON_DOWNLOADS}/${FILE} to ${LOCAL_FILE_PATH}")
         file(DOWNLOAD
             "${COMPTON_DOWNLOADS}/${FILE}"
-            "${COMPTON_MAP_DIR}/${FILE}"
-            # Optional: Add TIMEOUT, STATUS, LOG, EXPECTED_HASH for robustness
-        )
-        install(FILES
-            "${COMPTON_MAP_DIR}/${FILE}"
-            DESTINATION "${CMAKE_INSTALL_DATADIR}/compton/map_directory/${FIELD_ID}"
+            "${LOCAL_FILE_PATH}"
         )
     else()
-        message(STATUS "File already exists: ${COMPTON_MAP_DIR}/${FILE}. Skipping download")
+        message(STATUS "File already exists: ${LOCAL_FILE_PATH}. Skipping download.")
     endif()
 endforeach()
 
-add_definitions(
-        -DCMAKE_INSTALL_PREFIX=\"${CMAKE_INSTALL_PREFIX}\"
-        -DCMAKE_INSTALL_FULL_DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"
+target_compile_definitions(lib${PROJECT_NAME}
+    PUBLIC
+        CMAKE_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}"
+        CMAKE_INSTALL_FULL_DATADIR="${CMAKE_INSTALL_FULL_DATADIR}"
 )
+# Apply these definitions to all executables as well.
+foreach(file ${exefiles})
+    get_filename_component(filename_we "${file}" NAME_WE)
+    string(TOLOWER "${filename_we}" filename_lower)
+    target_compile_definitions("${filename_lower}"
+        PUBLIC
+            CMAKE_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}"
+            CMAKE_INSTALL_FULL_DATADIR="${CMAKE_INSTALL_FULL_DATADIR}"
+    )
+endforeach()
 
-
-# uninstall
-if(NOT TARGET uninstall)
-  configure_file(
-      "${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/cmake_uninstall.cmake.in"
-      "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-      IMMEDIATE @ONLY)
-  add_custom_target(uninstall
-      COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
-endif()

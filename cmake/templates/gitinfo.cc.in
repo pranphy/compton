@@ -9,6 +9,6 @@ Geant4 version @GEANT_VERSION@
   ROOT version @ROOT_VERSION@
  CMake version @CMAKE_VERSION@
 Generated at @DATE@
-Source dir @CMAKE_BINARY_DIR@
-Build  dir @CMAKE_SOURCE_DIR@
+Source dir @CMAKE_SOURCE_DIR@
+Build  dir @CMAKE_BINARY_DIR@
 )gitinfo";
