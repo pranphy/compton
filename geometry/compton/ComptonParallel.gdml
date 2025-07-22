@@ -3,6 +3,9 @@
 <!DOCTYPE gdml [
 <!ENTITY world SYSTEM "common/solids.xml">
 <!ENTITY definitions SYSTEM "common/definitions.xml">
+<!ENTITY materials SYSTEM "common/materials.xml">
+<!ENTITY vols SYSTEM "sync_vols/vols.xml">
+<!ENTITY phyvols SYSTEM "sync_vols/phyvols.xml">
 ]>
 
 <gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
@@ -15,9 +18,19 @@
   <tube name="thin_disc" lunit="mm" rmin="0" rmax="600" z="1"  aunit="degree" deltaphi="360" startphi="0" />
   <!--tube name="long_pipe" lunit="mm" rmin="0" rmax="50" z="1000"  aunit="degree" deltaphi="360" startphi="0" /-->
 </solids>
+  <materials>
+      &materials;
+  </materials>
 
 
 <structure>
+  <volume name="Zeroth_vp" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="10"/>
+  </volume>
+
   <volume name="First_vp" >
       <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
@@ -117,6 +130,8 @@
      <auxiliary auxtype="DetNo" auxvalue="15"/>
   </volume>
 
+  &vols;
+
   <volume name="ParallelWorld_logical">
     <materialref ref="G4_Galactic"/>
     <solidref ref="ParallelSolid"/>
@@ -124,9 +139,14 @@
     <auxiliary auxtype="Alpha" auxvalue="0.8" />
 
 
+      <physvol name="ZVP_phy">
+        <volumeref ref="Zeroth_vp" />
+        <position  unit="mm" x="0" y="215" z="-7650" />
+      </physvol>
+
       <physvol name="FVP_phy">
         <volumeref ref="First_vp" />
-        <position  unit="mm" x="0" y="215" z="-7550" />
+        <position  unit="mm" x="0" y="215" z="-7510" />
       </physvol>
 
       <physvol name="Sync_Che_phy">
@@ -197,6 +217,8 @@
         <volumeref ref="Third_vp" />
         <position unit="mm" x="0" y="215" z="7800" />
       </physvol>
+
+      &phyvols;
 
   </volume>
 </structure>

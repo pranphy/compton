@@ -1,0 +1,7 @@
+<volume name="syvp" >
+    <materialref ref="G4_Galactic" />
+    <solidref ref="thin_disc" />
+</volume>
+
+
+

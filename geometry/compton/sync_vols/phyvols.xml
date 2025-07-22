@@ -1,0 +1,37 @@
+
+<physvol name="syvp_21">
+  <volumeref ref="syvp" />
+  <position  unit="mm" x="0" y="0" z="-2154.05-200.23" />
+</physvol>
+
+
+<physvol name="syvp_22">
+  <volumeref ref="syvp" />
+  <position  unit="mm" x="0" y="0" z="-2154.05+29.77" />
+</physvol>
+
+
+<physvol name="syvp_31">
+  <volumeref ref="syvp" />
+  <position  unit="mm" x="0" y="0" z="1145.91-100.23" />
+</physvol>
+
+
+<physvol name="syvp_32">
+  <volumeref ref="syvp" />
+  <position  unit="mm" x="0" y="0" z="1145.91+39.77" />
+</physvol>
+
+
+
+<physvol name="syvp_41">
+  <volumeref ref="syvp" />
+  <position  unit="mm" x="0" y="0" z="6541.54-100.23" />
+</physvol>
+
+
+<physvol name="syvp_42">
+  <volumeref ref="syvp" />
+  <position  unit="mm" x="0" y="0" z="6541.54+39.77" />
+</physvol>
+
