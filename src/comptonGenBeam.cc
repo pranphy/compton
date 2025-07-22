@@ -163,36 +163,36 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
     G4ThreeVector direction(fDirection.unit());
 
     // Add direction range
-    if (fIsotropic) {
-      double th = acos(G4RandFlat::shoot(cos(fIsotropicThetaMax), cos(fIsotropicThetaMin)));
-      double ph = G4RandFlat::shoot(0.0, 2.0*pi);
-      direction.setTheta(th);
-      direction.setPhi(ph);
-    }
+    //if (fIsotropic) {
+    //  double th = acos(G4RandFlat::shoot(cos(fIsotropicThetaMax), cos(fIsotropicThetaMin)));
+    //  double ph = G4RandFlat::shoot(0.0, 2.0*pi);
+    //  direction.setTheta(th);
+    //  direction.setPhi(ph);
+    //}
 
     // Add a spread based on chosen model
     //G4ThreeVector spread = GetSpread(fOriginSpread, fOriginModelX, fOriginModelY, fOriginModelZ);
-    G4ThreeVector spread = GetSpread(fOriginSpread, kOriginModelGauss, kOriginModelGauss, kOriginModelGauss);
+    //G4ThreeVector spread = GetSpread(fOriginSpread, kOriginModelGauss, kOriginModelGauss, kOriginModelGauss);
 
     // Allow for simplistic raster/spreading in beam generator, perpendicular to direction
-    G4ThreeVector raster_perpto_direction(fRaster);
-    raster_perpto_direction.rotateUz(fDirection.unit());
-    G4ThreeVector raster = GetSpread(raster_perpto_direction);
+    //G4ThreeVector raster_perpto_direction(fRaster);
+    //raster_perpto_direction.rotateUz(fDirection.unit());
+    //G4ThreeVector raster = GetSpread(raster_perpto_direction);
 
     // Rotate direction for position-angle correlation (maintains unit vector)
-    direction.rotateY(+ fCorrelation.x() * raster.x()); // Rotate around Y by X amount
-    direction.rotateX(- fCorrelation.y() * raster.y()); // Rotate around X by Y amount
+    //direction.rotateY(+ fCorrelation.x() * raster.x()); // Rotate around Y by X amount
+    //direction.rotateX(- fCorrelation.y() * raster.y()); // Rotate around X by Y amount
 
     // Project raster back to origin
-    raster.setX(raster.x() + direction.x() * (origin.z() - fRasterRefZ));
-    raster.setY(raster.y() + direction.y() * (origin.z() - fRasterRefZ));
+    //raster.setX(raster.x() + direction.x() * (origin.z() - fRasterRefZ));
+    //raster.setY(raster.y() + direction.y() * (origin.z() - fRasterRefZ));
 
     // Add spreads to origin
-    origin += raster; // TODO ! ReTurn Raster
-    origin += spread;
+    //origin += raster; // TODO ! ReTurn Raster
+    //origin += spread;
 
     // Add shift to origin
-    origin += fOriginShift * direction;
+    //origin += fOriginShift * direction;
 
     // Override target sampling
     evt->fBeamE = E;
@@ -203,12 +203,11 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
     evt->ProduceNewParticle(
         origin,
         evt->fBeamMomentum,
-        fParticleName,
-        evt->fBeamPolarization);
+        fParticleName);
 
-    evt->SetEffCrossSection(1.0);
-    evt->SetAsymmetry(0.0);
+    //evt->SetEffCrossSection(1.0);
+    //evt->SetAsymmetry(0.0);
 
-    evt->SetQ2(0.0);
-    evt->SetW2(0.0);
+    //evt->SetQ2(0.0);
+    //evt->SetW2(0.0);
 }

@@ -115,16 +115,6 @@ void comptonPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
             fParticleGun->SetParticleMomentumDirection(fEvent->fPartRealMom[pidx].unit());
 
             G4ThreeVector pol(0,0,0);
-            if (pidx == 0) {
-                if (cross.mag() !=0) {
-                    if (cross.mag() == 1) //transverse polarization
-                        pol = G4ThreeVector( (fEvent->fPartRealMom[0].unit()).cross(cross));
-                    else if (contains(fBeamPol, "+") ) //positive helicity
-                        pol = fEvent->fPartRealMom[0].unit();
-                    else //negative helicity
-                        pol = - fEvent->fPartRealMom[0].unit();
-                }
-            }
             fParticleGun->SetParticlePolarization(pol);
 
             fParticleGun->GeneratePrimaryVertex(anEvent);

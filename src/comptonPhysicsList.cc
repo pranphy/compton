@@ -3,7 +3,6 @@
 #include "G4PhysListFactory.hh"
 #include "G4ParallelWorldPhysics.hh"
 #include "G4OpticalPhysics.hh"
-#include "G4RunManager.hh"
 #include "G4NuclearLevelData.hh"
 #include "G4HadronicProcessStore.hh"
 #include "G4ParticleHPManager.hh"
@@ -11,11 +10,7 @@
 #include "comptonSynchrotronPhysics.hh"
 
 #include "G4Version.hh"
-#if G4VERSION_NUMBER < 1000
-#include "G4StepLimiterBuilder.hh"
-#else
 #include "G4StepLimiterPhysics.hh"
-#endif
 
 comptonPhysicsList::comptonPhysicsList()
 : G4VModularPhysicsList(),
@@ -33,16 +28,16 @@ comptonPhysicsList::comptonPhysicsList()
   //
   SetVerboseLevel(0);
 
-  // Set and print default reference physics list
-  //RegisterReferencePhysList("QGSP_BERT");
-  RegisterReferencePhysList("FTFP_BERT_EMZ");
+  RegisterReferencePhysList("QGSP_BERT");
   G4cout << "compton: loaded reference physics list " << fReferencePhysListName << G4endl;
 
   //EnableSynchrotronPhysics();
 
   // Set and print default status of other physics
 
+  AddTransportation();
   EnableStepLimiterPhysics();
+  DisableStepLimiterPhysics();
   EnableParallelPhysics();
   //DisableOpticalPhysics();
   G4cout << "compton: step limiter physics is " << (fStepLimiterPhysics != nullptr? "enabled":"disabled") << G4endl;
@@ -283,18 +278,11 @@ void comptonPhysicsList::EnableStepLimiterPhysics()
   if (GetVerboseLevel() > 0)
     G4cout << "Registering step limiter physics" << G4endl;
 
-  // Create step limiter physics
-  #if G4VERSION_NUMBER < 1000
-  fStepLimiterPhysics = new G4StepLimiterBuilder(GetVerboseLevel());
-  #elif G4VERSION_NUMBER < 1100
-  fStepLimiterPhysics = new G4StepLimiterPhysics(GetVerboseLevel());
-  #else
   fStepLimiterPhysics = new G4StepLimiterPhysics();
   fStepLimiterPhysics->SetVerboseLevel(GetVerboseLevel());
-  #endif
 
   // Register existing physics
-  RegisterPhysics(fStepLimiterPhysics);
+  //RegisterPhysics(fStepLimiterPhysics);
 }
 
 void comptonPhysicsList::DisableStepLimiterPhysics()

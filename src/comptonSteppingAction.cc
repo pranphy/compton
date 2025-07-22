@@ -19,7 +19,7 @@ comptonSteppingAction::~comptonSteppingAction()
 }
 
 void comptonSteppingAction::SetKillPidZPos(G4int pid, G4double zpos){
-    double zerr = 200;
+    double zerr = 20;
     fKillZPos = zpos;
     fKillZErr = zerr;
     fKillPid = pid;

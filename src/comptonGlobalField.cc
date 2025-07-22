@@ -252,15 +252,7 @@ void comptonGlobalField::GetFieldValue(const G4double p[], G4double *field) cons
     field[0] = 0.0;
     field[1] = 0.0;
     field[2] = 0.0;
-    G4double k[3] = {0,0,0};
-    //for (auto it = fFields.begin(); it != fFields.end(); it++){
     for(auto mfield: fFields){
-        mfield->GetFieldValue(p,k);
-        //if( k[0] != 0 ){
-            //std::cout<<"For the "<<mfield->GetName();
-            //std::cout<<"FFF, "<<p[0]<<","<<p[1]<<", "<<p[2]<<",   "<<k[0]<<","<<k[1]<<", "<<k[2]<<std::endl;
-            //std::cout<<"For the "<<mfield->GetName()<<" got "<<k[0]<<","<<k[1]<<", "<<k[2]<<std::endl;
-        //}
         mfield->AddFieldValue(p, field);
     }
 }
