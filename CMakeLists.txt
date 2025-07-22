@@ -220,7 +220,7 @@ endforeach()
 #
 
 set(COMPTON_DOWNLOADS "http://userweb.jlab.org/~pgautam/downloads/compton")
-set(FIELD_ID 23)
+set(FIELD_ID 20)
 set(COMPTON_MAP_DIR "${PROJECT_SOURCE_DIR}/map_directory/${FIELD_ID}")
 file(MAKE_DIRECTORY "${COMPTON_MAP_DIR}")
 
@@ -232,16 +232,20 @@ set(COMPTON_MAPS
 )
 
 foreach(FILE IN LISTS COMPTON_MAPS)
-    message(STATUS "Downloading ${COMPTON_DOWNLOADS}/${FILE}")
-    file(DOWNLOAD
-        "${COMPTON_DOWNLOADS}/${FILE}"
-        "${COMPTON_MAP_DIR}/${FILE}"
-        # Optional: Add TIMEOUT, STATUS, LOG, EXPECTED_HASH for robustness
-    )
-    install(FILES
-        "${COMPTON_MAP_DIR}/${FILE}"
-        DESTINATION "${CMAKE_INSTALL_DATADIR}/compton/map_directory/${FIELD_ID}"
-    )
+    if(NOT EXISTS "${COMPTON_MAP_DIR}/${FILE}")
+        message(STATUS "Downloading ${COMPTON_DOWNLOADS}/${FILE}")
+        file(DOWNLOAD
+            "${COMPTON_DOWNLOADS}/${FILE}"
+            "${COMPTON_MAP_DIR}/${FILE}"
+            # Optional: Add TIMEOUT, STATUS, LOG, EXPECTED_HASH for robustness
+        )
+        install(FILES
+            "${COMPTON_MAP_DIR}/${FILE}"
+            DESTINATION "${CMAKE_INSTALL_DATADIR}/compton/map_directory/${FIELD_ID}"
+        )
+    else()
+        message(STATUS "File already exists: ${COMPTON_MAP_DIR}/${FILE}. Skipping download")
+    endif()
 endforeach()
 
 add_definitions(
