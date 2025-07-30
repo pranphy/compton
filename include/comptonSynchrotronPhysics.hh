@@ -9,6 +9,7 @@ public:
 protected:
     void ConstructParticle();
     void ConstructProcess();
+    void ConstructSync();
     void ConstructEM();
 private:
     comptonSynchrotronPhysics(const comptonSynchrotronPhysics& right) = delete;
