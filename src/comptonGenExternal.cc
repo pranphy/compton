@@ -30,8 +30,6 @@ comptonGenExternal::comptonGenExternal()
 : comptonVEventGen("external"),
   fzOffset(0), fDetectorID(28), fLoopID(1)
 {
-  fSamplingType = kNoTargetVolume;
-
   // Add to generic messenger
   fThisGenMessenger.DeclareMethod("file",&comptonGenExternal::SetGenExternalFile,"External generator event filename");
   fThisGenMessenger.DeclareMethod("zOffset",&comptonGenExternal::SetGenExternalZOffset,"External generator zOffset");

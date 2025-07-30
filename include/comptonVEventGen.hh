@@ -40,8 +40,6 @@ class comptonVEventGen {
 	G4String GetName() { return fName; }
 
 
-	void SetSamplingType(SamplingType_t type) { fSamplingType = type; }
-	SamplingType_t GetSamplingType() const { return fSamplingType; }
 
 	void SetDoMultScatt( G4bool multscatt ){ fApplyMultScatt = multscatt; }
 
@@ -85,7 +83,6 @@ public:
 
     protected:
 
-	SamplingType_t fSamplingType;
 	G4bool     fApplyMultScatt;
 
     private:

@@ -14,7 +14,6 @@ comptonGenLaser::comptonGenLaser()
    fLaserWavelength(532*nm),
    fOriginMean(0.0,210.49*mm,0.0)
 {
-    fSamplingType = kNoTargetVolume;
     fLaserWavelength = CLHEP::h_Planck * CLHEP::c_light / fMaxPhotonEnergy;
 
     fThisGenMessenger.DeclarePropertyWithUnit("origin","mm",fOriginMean,"origin position mean: x y z unit");

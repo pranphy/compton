@@ -43,8 +43,6 @@ comptonVEventGen::comptonVEventGen(const G4String name)
         "printlimits",
         &comptonVEventGen::PrintEventGen,
         "Print the event generator limits");
-
-    fSamplingType = kActiveTargetVolume;
 }
 
 comptonVEventGen::~comptonVEventGen()

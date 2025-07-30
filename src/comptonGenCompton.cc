@@ -16,7 +16,6 @@ comptonGenCompton::comptonGenCompton()
    fElectronEnergy(11*GeV),
    fLaserWavelength(532*nm)
 {
-    fSamplingType = kNoTargetVolume;
     auto me = CLHEP::electron_mass_c2;
     auto r0 = CLHEP::classic_electr_radius;
     G4double gma =  fElectronEnergy/CLHEP::electron_mass_c2;

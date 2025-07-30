@@ -35,7 +35,6 @@ comptonGenBeam::comptonGenBeam()
   fRasterRefZ(0.0),
   fParticleName("e-")
 {
-    fSamplingType = kNoTargetVolume;
 
     fThisGenMessenger.DeclarePropertyWithUnit("beamcurr","microampere",fBeamCurrent,"Beam current");
     fThisGenMessenger.DeclarePropertyWithUnit("beamene","GeV",fBeamEnergy,"Beam energy");
