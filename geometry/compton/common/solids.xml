@@ -3,10 +3,11 @@
 <box name="ChicaneWorld" lunit="mm" x="chicane_wx" y="chicane_wy" z="chicane_wz" />
 
 <!-- Dipole Box -->
+<box lunit="mm" name="dipole_magnet" x="10" y="100" z="1800"/>
 <box lunit="mm" name="magnet_bound" x="300" y="300" z="1000"/>
 <box lunit="mm" name="dipole_magnet2" x="300" y="300" z="1000"/>
 <box lunit="mm" name="magnet_gap" x="100" y="210" z="1200"/>
-<subtraction name="dipole_magnet">
+<subtraction name="dipole_magnet2">
   <first ref="magnet_bound"/>
   <second ref="magnet_gap"/>
   <position unit="mm" x="0" y="50" z="0"/>

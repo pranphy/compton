@@ -57,10 +57,32 @@
       <auxiliary auxtype="Color" auxvalue="Green"/>
     </volume>
 
-    <volume name="dipole_magnet_lv" >
+    <volume name="dipole_magnet_1_lv" >
       <materialref ref="G4_Galactic" />
       <solidref ref="dipole_magnet" />
       <auxiliary auxtype="Color" auxvalue="Blue" />
+      <auxiliary auxtype="MagField" auxvalue="1" />
+    </volume>
+
+    <volume name="dipole_magnet_2_lv" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="dipole_magnet" />
+      <auxiliary auxtype="Color" auxvalue="Blue" />
+      <auxiliary auxtype="MagField" auxvalue="2" />
+    </volume>
+
+    <volume name="dipole_magnet_3_lv" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="dipole_magnet" />
+      <auxiliary auxtype="Color" auxvalue="Blue" />
+      <auxiliary auxtype="MagField" auxvalue="3" />
+    </volume>
+
+    <volume name="dipole_magnet_4_lv" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="dipole_magnet" />
+      <auxiliary auxtype="Color" auxvalue="Blue" />
+      <auxiliary auxtype="MagField" auxvalue="4" />
     </volume>
 
     <volume name="entry_pipe_log">
@@ -171,22 +193,22 @@
 
         <!-- Begin dipoles -->
         <physvol name="dipole_1">
-          <volumeref ref="dipole_magnet_lv" />
+          <volumeref ref="dipole_magnet_1_lv" />
           <positionref ref="dipole1_position"/>
         </physvol>
 
         <physvol name="dipole_2">
-          <volumeref ref="dipole_magnet_lv" />
+          <volumeref ref="dipole_magnet_2_lv" />
           <positionref ref="dipole2_position"/>
         </physvol>
 
         <physvol name="dipole_3">
-          <volumeref ref="dipole_magnet_lv" />
+          <volumeref ref="dipole_magnet_3_lv" />
           <positionref ref="dipole3_position"/>
         </physvol>
 
         <physvol name="dipole_4">
-          <volumeref ref="dipole_magnet_lv" />
+          <volumeref ref="dipole_magnet_4_lv" />
           <positionref ref="dipole4_position"/>
         </physvol>
         <!-- End dipoles -->
@@ -206,12 +228,12 @@
           <position unit="mm" x="0" y="177.66" z="5537.69"/>
         </physvol>
 
+        <!--
         <physvol>
           <file name="electron_detector/electron_detector.gdml"/>
           <position unit="mm" x="0" y="215.4936" z="6064.66"/>
         </physvol>
 
-        <!--
         <physvol>
           <file name="photon_detector/photon_detector.gdml"/>
           <position unit="mm" x="0" y="0" z="5564"/>

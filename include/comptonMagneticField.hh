@@ -27,7 +27,7 @@ class comptonMagneticField : public G4MagneticField {
 
     public:
 
-	comptonMagneticField(const G4String&);
+	comptonMagneticField(const G4String&, const G4String&);
 	virtual ~comptonMagneticField() { };
 
 	void AddFieldValue(const G4double point[4], G4double *field) const;

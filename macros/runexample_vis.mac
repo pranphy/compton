@@ -4,23 +4,31 @@
 
 # This is the current working geometry
 /compton/setgeofile geometry/compton/ComptonGeometry.gdml
-/compton/parallel/setfile geometry/compton/ComptonParallel.gdml
+#/compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
 /physics_lists/em/SyncRadiationAll true
-/compton/physlist/optical/enable
+#///compton/physlist/optical/enable
 #/compton/setphysicslist beam
 #/compton/physlist/synchrotron/enable
 
+/compton/field/add 1 map_directory/mgf/dipole_magnetic_field_20_1.txt
+/compton/field/add 2 map_directory/mgf/dipole_magnetic_field_20_2.txt
+/compton/field/add 3 map_directory/mgf/dipole_magnetic_field_20_3.txt
+/compton/field/add 4 map_directory/mgf/dipole_magnetic_field_20_4.txt
+
 /run/initialize
+/compton/printgeometry false
 
 /control/execute vis/vis.mac
 
+#/vis/scene/add/magneticField 10
 
-/compton/beamene 11.0 GeV
-/compton/beamcurr 65 microampere
+
 
 /compton/evgen/set beam
-/compton/evgen/beam/origin 0  215.49 -9849.76 mm
+/compton/evgen/beam/origin 0 215.49 -9849.76 mm
+/compton/evgen/beam/beamene 11.0 GeV
+/compton/evgen/beam/beamcurr 65 microampere
 /compton/evgen/beam/rasx 0 um
 /compton/evgen/beam/rasy 0 um
 /compton/evgen/beam/xspread 0 um
@@ -28,13 +36,9 @@
 /compton/evgen/beam/direction 0 0.0000 1
 
 
-/compton/addfield map_directory/20/dipole_magnetic_field_20_1.txt
-/compton/addfield map_directory/20/dipole_magnetic_field_20_2.txt
-/compton/addfield map_directory/20/dipole_magnetic_field_20_3.txt
-/compton/addfield map_directory/20/dipole_magnetic_field_20_4.txt
 
-/compton/step/killminenergy 1 MeV
-/compton/step/killpidafterz 11 0
+#/compton/step/killminenergy 1 MeV
+#/compton/step/killpidafterz 11 0
 
 /compton/SD/disable_all
 /compton/SD/enable 81

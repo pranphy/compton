@@ -1,6 +1,7 @@
 #include "comptonDetectorConstruction.hh"
 
 #include "comptonGenericDetector.hh"
+#include "comptonMagneticField.hh"
 #include "comptonGlobalField.hh"
 #include "comptonIO.hh"
 
@@ -14,8 +15,6 @@
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
-#include "globals.hh"
 
 #include "G4RunManager.hh"
 
@@ -23,7 +22,7 @@
 #include "G4VSensitiveDetector.hh"
 
 #include "G4UnitsTable.hh"
-#include "G4NistManager.hh"
+#include "G4FieldManager.hh"
 
 // GDML export
 #include "G4GDMLParser.hh"
@@ -48,7 +47,7 @@
 #include "G4AutoLock.hh"
 namespace { G4Mutex comptonDetectorConstructionMutex = G4MUTEX_INITIALIZER; }
 
-G4ThreadLocal comptonGlobalField* comptonDetectorConstruction::fGlobalField = 0;
+G4ThreadLocal comptonGlobalField* comptonDetectorConstruction::fGlobalField = nullptr;
 
 G4UserLimits* comptonDetectorConstruction::fKryptoniteUserLimits = new G4UserLimits(0,0,0,DBL_MAX,DBL_MAX);
 
@@ -66,6 +65,8 @@ comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, c
   // Define some engineering units
   new G4UnitDefinition("inch","in","Length",25.4*CLHEP::millimeter);
 
+  fGlobalField = new comptonGlobalField();
+
   SetGDMLFile("geometries/ComptonGeometry.gdml");
   // If gdmlfile is non-empty
   if (gdmlfile.length() > 0) {
@@ -76,155 +77,41 @@ comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, c
   new G4UnitDefinition("inch","in","Length",25.4*CLHEP::millimeter);
 
   // Create generic messenger
-  fMessenger.DeclareMethod(
-      "setgeofile",
-      &comptonDetectorConstruction::SetGDMLFile,
-      "Set geometry GDML file")
-      .SetStates(G4State_PreInit);
-  fMessenger.DeclareMethod(
-      "printgeometry",
-      &comptonDetectorConstruction::PrintGeometry,
-      "Print the geometry tree")
-      .SetStates(G4State_Idle)
-      .SetDefaultValue("false");
-  fMessenger.DeclareMethod(
-      "printelements",
-      &comptonDetectorConstruction::PrintElements,
-      "Print the elements")
-      .SetStates(G4State_Idle);
-  fMessenger.DeclareMethod(
-      "printmaterials",
-      &comptonDetectorConstruction::PrintMaterials,
-      "Print the materials")
-      .SetStates(G4State_Idle);
+  fMessenger.DeclareMethod( "setgeofile", &comptonDetectorConstruction::SetGDMLFile, "Set geometry GDML file") .SetStates(G4State_PreInit);
+  fMessenger.DeclareMethod( "printgeometry", &comptonDetectorConstruction::PrintGeometry, "Print the geometry tree") .SetStates(G4State_Idle) .SetDefaultValue("false");
+  fMessenger.DeclareMethod( "printelements", &comptonDetectorConstruction::PrintElements, "Print the elements") .SetStates(G4State_Idle);
+  fMessenger.DeclareMethod( "printmaterials", &comptonDetectorConstruction::PrintMaterials, "Print the materials") .SetStates(G4State_Idle);
 
   // Create geometry messenger
-  fGeometryMessenger.DeclareMethod(
-      "setfile",
-      &comptonDetectorConstruction::SetGDMLFile,
-      "Set geometry GDML file")
-      .SetStates(G4State_PreInit);
-  fGeometryMessenger.DeclareProperty(
-      "verbose",
-      fVerboseLevel,
-      "Set geometry verbose level")
-          .SetStates(G4State_PreInit,G4State_Idle);
-  fGeometryMessenger.DeclareProperty(
-      "validate",
-      fGDMLValidate,
-      "Set GMDL validate flag")
-          .SetStates(G4State_PreInit)
-          .SetDefaultValue("true");
-  fGeometryMessenger.DeclareProperty(
-      "overlapcheck",
-      fGDMLOverlapCheck,
-      "Set GMDL overlap check flag")
-          .SetStates(G4State_PreInit)
-          .SetDefaultValue("true");
-  fGeometryMessenger.DeclareMethod(
-      "load",
-      &comptonDetectorConstruction::ReloadGeometry,
-      "Reload the geometry")
-      .SetStates(G4State_PreInit,G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "printelements",
-      &comptonDetectorConstruction::PrintElements,
-      "Print the elements")
-      .SetStates(G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "printmaterials",
-      &comptonDetectorConstruction::PrintMaterials,
-      "Print the materials")
-      .SetStates(G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "printgeometry",
-      &comptonDetectorConstruction::PrintGeometry,
-      "Print the geometry tree")
-      .SetStates(G4State_Idle)
-      .SetDefaultValue("false");
-  fGeometryMessenger.DeclareMethod(
-      "printoverlaps",
-      &comptonDetectorConstruction::PrintOverlaps,
-      "Print the geometry overlap")
-      .SetStates(G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "absolute_position",
-      &comptonDetectorConstruction::AbsolutePosition,
-      "Set the position of volume in parent frame [mm]")
-      .SetStates(G4State_PreInit,G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "relative_position",
-      &comptonDetectorConstruction::RelativePosition,
-      "Position a volume relative to current position [mm]")
-      .SetStates(G4State_PreInit,G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "absolute_rotation",
-      &comptonDetectorConstruction::AbsoluteRotation,
-      "Set the rotation of volume in parent frame [deg]")
-      .SetStates(G4State_PreInit,G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "relative_rotation",
-      &comptonDetectorConstruction::RelativeRotation,
-      "Rotate a volume relative to current orientation [deg]")
-      .SetStates(G4State_PreInit,G4State_Idle);
-  fGeometryMessenger.DeclareMethod(
-      "addmesh",
-      &comptonDetectorConstruction::AddMesh,
-      "Add mesh file (ascii stl, ascii ply, ascii obj)")
-      .SetStates(G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "setfile", &comptonDetectorConstruction::SetGDMLFile, "Set geometry GDML file") .SetStates(G4State_PreInit);
+  fGeometryMessenger.DeclareProperty( "verbose", fVerboseLevel, "Set geometry verbose level") .SetStates(G4State_PreInit,G4State_Idle);
+  fGeometryMessenger.DeclareProperty( "validate", fGDMLValidate, "Set GMDL validate flag") .SetStates(G4State_PreInit) .SetDefaultValue("true");
+  fGeometryMessenger.DeclareProperty( "overlapcheck", fGDMLOverlapCheck, "Set GMDL overlap check flag") .SetStates(G4State_PreInit) .SetDefaultValue("true");
+  fGeometryMessenger.DeclareMethod( "load", &comptonDetectorConstruction::ReloadGeometry, "Reload the geometry") .SetStates(G4State_PreInit,G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "printelements", &comptonDetectorConstruction::PrintElements, "Print the elements") .SetStates(G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "printmaterials", &comptonDetectorConstruction::PrintMaterials, "Print the materials") .SetStates(G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "printgeometry", &comptonDetectorConstruction::PrintGeometry, "Print the geometry tree") .SetStates(G4State_Idle) .SetDefaultValue("false");
+  fGeometryMessenger.DeclareMethod( "printoverlaps", &comptonDetectorConstruction::PrintOverlaps, "Print the geometry overlap") .SetStates(G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "absolute_position", &comptonDetectorConstruction::AbsolutePosition, "Set the position of volume in parent frame [mm]") .SetStates(G4State_PreInit,G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "relative_position", &comptonDetectorConstruction::RelativePosition, "Position a volume relative to current position [mm]") .SetStates(G4State_PreInit,G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "absolute_rotation", &comptonDetectorConstruction::AbsoluteRotation, "Set the rotation of volume in parent frame [deg]") .SetStates(G4State_PreInit,G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "relative_rotation", &comptonDetectorConstruction::RelativeRotation, "Rotate a volume relative to current orientation [deg]") .SetStates(G4State_PreInit,G4State_Idle);
+  fGeometryMessenger.DeclareMethod( "addmesh", &comptonDetectorConstruction::AddMesh, "Add mesh file (ascii stl, ascii ply, ascii obj)") .SetStates(G4State_Idle);
 
   // Create user limits messenger
-  fUserLimitsMessenger.DeclareMethod(
-      "usermaxallowedstep",
-      &comptonDetectorConstruction::SetUserMaxAllowedStep,
-      "Set user limit MaxAllowedStep for logical volume")
-      .SetStates(G4State_Idle);
-  fUserLimitsMessenger.DeclareMethod(
-      "usermaxtracklength",
-      &comptonDetectorConstruction::SetUserMaxTrackLength,
-      "Set user limit MaxTrackLength for logical volume")
-      .SetStates(G4State_Idle);
-  fUserLimitsMessenger.DeclareMethod(
-      "usermaxtime",
-      &comptonDetectorConstruction::SetUserMaxTime,
-      "Set user limit MaxTime for logical volume")
-      .SetStates(G4State_Idle);
-  fUserLimitsMessenger.DeclareMethod(
-      "userminekine",
-      &comptonDetectorConstruction::SetUserMinEkine,
-      "Set user limit MinEkine for logical volume")
-      .SetStates(G4State_Idle);
-  fUserLimitsMessenger.DeclareMethod(
-      "userminrange",
-      &comptonDetectorConstruction::SetUserMinRange,
-      "Set user limit MinRange for logical volume")
-      .SetStates(G4State_Idle);
+  fUserLimitsMessenger.DeclareMethod( "usermaxallowedstep", &comptonDetectorConstruction::SetUserMaxAllowedStep, "Set user limit MaxAllowedStep for logical volume") .SetStates(G4State_Idle);
+  fUserLimitsMessenger.DeclareMethod( "usermaxtracklength", &comptonDetectorConstruction::SetUserMaxTrackLength, "Set user limit MaxTrackLength for logical volume") .SetStates(G4State_Idle);
+  fUserLimitsMessenger.DeclareMethod( "usermaxtime", &comptonDetectorConstruction::SetUserMaxTime, "Set user limit MaxTime for logical volume") .SetStates(G4State_Idle);
+  fUserLimitsMessenger.DeclareMethod( "userminekine", &comptonDetectorConstruction::SetUserMinEkine, "Set user limit MinEkine for logical volume") .SetStates(G4State_Idle);
+  fUserLimitsMessenger.DeclareMethod( "userminrange", &comptonDetectorConstruction::SetUserMinRange, "Set user limit MinRange for logical volume") .SetStates(G4State_Idle);
 
   // Create kryptonite messenger
-  fKryptoniteMessenger.DeclareMethod(
-      "verbose",
-      &comptonDetectorConstruction::SetKryptoniteVerbose,
-      "Set verbose level");
-  fKryptoniteMessenger.DeclareMethod(
-      "enable",
-      &comptonDetectorConstruction::EnableKryptonite,
-      "Treat materials as kryptonite");
-  fKryptoniteMessenger.DeclareMethod(
-      "disable",
-      &comptonDetectorConstruction::DisableKryptonite,
-      "Treat materials as regular");
-  fKryptoniteMessenger.DeclareMethod(
-      "add",
-      &comptonDetectorConstruction::AddKryptoniteCandidate,
-      "Add specified material to list of kryptonite candidates");
-  fKryptoniteMessenger.DeclareMethod(
-      "list",
-      &comptonDetectorConstruction::ListKryptoniteCandidates,
-      "List kryptonite candidate materials");
-  fKryptoniteMessenger.DeclareMethod(
-      "volume",
-      &comptonDetectorConstruction::EnableKryptoniteVolume,
-      "Treat volume as kryptonite");
+  fKryptoniteMessenger.DeclareMethod( "verbose", &comptonDetectorConstruction::SetKryptoniteVerbose, "Set verbose level");
+  fKryptoniteMessenger.DeclareMethod( "enable", &comptonDetectorConstruction::EnableKryptonite, "Treat materials as kryptonite");
+  fKryptoniteMessenger.DeclareMethod( "disable", &comptonDetectorConstruction::DisableKryptonite, "Treat materials as regular");
+  fKryptoniteMessenger.DeclareMethod( "add", &comptonDetectorConstruction::AddKryptoniteCandidate, "Add specified material to list of kryptonite candidates");
+  fKryptoniteMessenger.DeclareMethod( "list", &comptonDetectorConstruction::ListKryptoniteCandidates, "List kryptonite candidate materials");
+  fKryptoniteMessenger.DeclareMethod( "volume", &comptonDetectorConstruction::EnableKryptoniteVolume, "Treat volume as kryptonite");
 }
 
 void comptonDetectorConstruction::EnableKryptonite()
@@ -875,6 +762,11 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
           if (comptonsd != nullptr) comptonsd->PrintDetectorType();
 
       }
+        auto it_magfield = NextAuxWithType(list.begin(), list.end(), "MagField");
+        if (it_magfield != list.end()) {
+            auto field_id = it_magfield->value.data();
+            fMagneticVolumes[field_id] = myvol;
+        }
 
   } // end of loop over volumes
 
@@ -904,9 +796,17 @@ G4VPhysicalVolume* comptonDetectorConstruction::Construct()
 
 void comptonDetectorConstruction::LoadMagneticField()
 {
-  // Remove existing field and load new field
-  delete fGlobalField;
-  fGlobalField = new comptonGlobalField();
+
+    for(auto& [field_id, volume] : fMagneticVolumes) {
+        G4MagneticField* magnetic_field = fGlobalField->GetFieldByName(field_id);
+        fMagneticVolumes[field_id] = volume;
+        G4FieldManager* field_manager = new G4FieldManager(magnetic_field);
+        auto stepLimit = new G4UserLimits(1*mm);
+        volume->SetUserLimits(stepLimit);
+        field_manager->SetDetectorField(magnetic_field);
+        field_manager->CreateChordFinder(magnetic_field);
+        volume->SetFieldManager(field_manager,true);
+    }
 }
 
 void comptonDetectorConstruction::ConstructSDandField()

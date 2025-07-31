@@ -24,9 +24,9 @@
 
 
 
-<position name="dipole1_position" x="0.0" y="laser_gap-80" z="dipole1_z"/>
-<position name="dipole2_position" x="0.0" y="0.0-80"  z="dipole2_z"/>
-<position name="dipole3_position" x="0.0" y="0.0-80"  z="dipole3_z"/>
-<position name="dipole4_position" x="0.0" y="laser_gap-80"  z="dipole4_z"/>
+<position name="dipole1_position" x="0.0" y="laser_gap" z="dipole1_z"/>
+<position name="dipole2_position" x="0.0" y="0.0"  z="dipole2_z"/>
+<position name="dipole3_position" x="0.0" y="0.0"  z="dipole3_z"/>
+<position name="dipole4_position" x="0.0" y="laser_gap"  z="dipole4_z"/>
 
 

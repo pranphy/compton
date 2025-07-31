@@ -59,6 +59,7 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
 
     G4String fGDMLPath;
     G4String fGDMLFile;
+    std::map<std::string,G4LogicalVolume*> fMagneticVolumes;
 
     void SetGDMLFile(G4String gdmlfile) {
       gdmlfile = comptonSearchPath::resolve(gdmlfile);

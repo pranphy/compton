@@ -218,7 +218,9 @@
         <position unit="mm" x="0" y="215" z="7800" />
       </physvol>
 
+      <!--
       &phyvols;
+      -->
 
   </volume>
 </structure>

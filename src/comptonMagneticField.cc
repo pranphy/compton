@@ -96,8 +96,8 @@ const char comptonMagneticField::kCubicMap[64][3] = {
 };
 
 
-comptonMagneticField::comptonMagneticField(const G4String& filename)
-    : fName(filename),
+comptonMagneticField::comptonMagneticField(const G4String& name, const G4String& filename)
+    : fName(name),
     fFilename(filename),
     fN{0,0,0},
     fOffset{0,0,0},

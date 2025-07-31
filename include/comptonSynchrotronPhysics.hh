@@ -10,10 +10,9 @@ protected:
     void ConstructParticle();
     void ConstructProcess();
     void ConstructSync();
-    void ConstructEM();
 private:
     comptonSynchrotronPhysics(const comptonSynchrotronPhysics& right) = delete;
     comptonSynchrotronPhysics& operator=(const comptonSynchrotronPhysics& right) = delete;
     G4bool fSRType;
-    G4DecayPhysics* fDecayPhysics;
+    //G4DecayPhysics* fDecayPhysics;
 };

@@ -50,45 +50,46 @@ comptonGlobalField::comptonGlobalField()
   fVerboseLevel(0)
 {
     // Get field propagator and managers
-    G4TransportationManager* transportationmanager = G4TransportationManager::GetTransportationManager();
-    fFieldPropagator = transportationmanager->GetPropagatorInField();
-    fFieldManager = transportationmanager->GetFieldManager();
+    //G4TransportationManager* transportationmanager = G4TransportationManager::GetTransportationManager();
+    //fFieldPropagator = transportationmanager->GetPropagatorInField();
+    //fFieldManager = transportationmanager->GetFieldManager();
 
     // Create equation, stepper, and chordfinder
-    SetEquation();
-    SetStepper();
-    SetChordFinder();
-    SetAccuracyParameters();
+    //SetEquation();
+    //SetStepper();
+    //SetChordFinder();
+    //SetAccuracyParameters();
 
     // Connect field manager to this global field
-    fFieldManager->SetDetectorField(this);
+    //fFieldManager->SetDetectorField(this);
 
     // Create generic messenger
     fMessenger.DeclareMethod("addfield",&comptonGlobalField::AddNewField,"Add magnetic field");
+    fGlobalFieldMessenger.DeclareMethod("add",&comptonGlobalField::AddNewField,"Add magnetic field");
 
     // Create global field messenger
-    fGlobalFieldMessenger.DeclareMethod("equationtype",&comptonGlobalField::SetEquationType,"Set equation type: \n 0: B-field, no spin (default); \n 2: B-field, with spin");
-    fGlobalFieldMessenger.DeclareMethod("steppertype",&comptonGlobalField::SetStepperType,"Set stepper type: \n 0: ExplicitEuler; \n 1: ImplicitEuler; \n 2: SimpleRunge; \n 3: SimpleHeum; \n 4: ClassicalRK4 (default); \n 5: CashKarpRKF45");
-    fGlobalFieldMessenger.DeclareMethod("print",&comptonGlobalField::PrintAccuracyParameters,"Print the accuracy parameters");
-    fGlobalFieldMessenger.DeclareProperty("epsmin",fEpsMin,"Set the minimum epsilon of the field propagator");
-    fGlobalFieldMessenger.DeclareProperty("epsmax",fEpsMax,"Set the maximum epsilon of the field propagator");
-    fGlobalFieldMessenger.DeclareProperty("minstep",fMinStep,"Set the minimum step of the chord finder");
-    fGlobalFieldMessenger.DeclareProperty("deltachord",fDeltaChord,"Set delta chord for the chord finder");
-    fGlobalFieldMessenger.DeclareProperty("deltaonestep",fDeltaOneStep,"Set delta one step for the field manager");
-    fGlobalFieldMessenger.DeclareProperty("deltaintersection",fMinStep,"Set delta intersection for the field manager");
-    fGlobalFieldMessenger.DeclareMethod("interpolation",&comptonGlobalField::SetInterpolationType,"Set magnetic field interpolation type");
-    //fGlobalFieldMessenger.DeclareMethod("zoffset",&comptonGlobalField::SetZOffset,"Set magnetic field z offset");
-    fGlobalFieldMessenger.DeclareMethod("scale",&comptonGlobalField::SetFieldScale,"Scale magnetic field by factor");
-    fGlobalFieldMessenger.DeclareMethod("current",&comptonGlobalField::SetMagnetCurrent,"Scale magnetic field by current");
-    fGlobalFieldMessenger.DeclareMethod("value",&comptonGlobalField::PrintFieldValue,"Print the field value at a given point (in m)");
-    fGlobalFieldMessenger.DeclareProperty("verbose",fVerboseLevel,"Set the verbose level");
+    //fGlobalFieldMessenger.DeclareMethod("equationtype",&comptonGlobalField::SetEquationType,"Set equation type: \n 0: B-field, no spin (default); \n 2: B-field, with spin");
+    //fGlobalFieldMessenger.DeclareMethod("steppertype",&comptonGlobalField::SetStepperType,"Set stepper type: \n 0: ExplicitEuler; \n 1: ImplicitEuler; \n 2: SimpleRunge; \n 3: SimpleHeum; \n 4: ClassicalRK4 (default); \n 5: CashKarpRKF45");
+    //fGlobalFieldMessenger.DeclareMethod("print",&comptonGlobalField::PrintAccuracyParameters,"Print the accuracy parameters");
+    //fGlobalFieldMessenger.DeclareProperty("epsmin",fEpsMin,"Set the minimum epsilon of the field propagator");
+    //fGlobalFieldMessenger.DeclareProperty("epsmax",fEpsMax,"Set the maximum epsilon of the field propagator");
+    //fGlobalFieldMessenger.DeclareProperty("minstep",fMinStep,"Set the minimum step of the chord finder");
+    //fGlobalFieldMessenger.DeclareProperty("deltachord",fDeltaChord,"Set delta chord for the chord finder");
+    //fGlobalFieldMessenger.DeclareProperty("deltaonestep",fDeltaOneStep,"Set delta one step for the field manager");
+    //fGlobalFieldMessenger.DeclareProperty("deltaintersection",fMinStep,"Set delta intersection for the field manager");
+    //fGlobalFieldMessenger.DeclareMethod("interpolation",&comptonGlobalField::SetInterpolationType,"Set magnetic field interpolation type");
+    ////fGlobalFieldMessenger.DeclareMethod("zoffset",&comptonGlobalField::SetZOffset,"Set magnetic field z offset");
+    //fGlobalFieldMessenger.DeclareMethod("scale",&comptonGlobalField::SetFieldScale,"Scale magnetic field by factor");
+    //fGlobalFieldMessenger.DeclareMethod("current",&comptonGlobalField::SetMagnetCurrent,"Scale magnetic field by current");
+    //fGlobalFieldMessenger.DeclareMethod("value",&comptonGlobalField::PrintFieldValue,"Print the field value at a given point (in m)");
+    //fGlobalFieldMessenger.DeclareProperty("verbose",fVerboseLevel,"Set the verbose level");
 }
 
 comptonGlobalField::~comptonGlobalField()
 {
-         delete fEquation;
-          delete fStepper;
-      delete fChordFinder;
+         //delete fEquation;
+         // delete fStepper;
+      //delete fChordFinder;
 }
 
 void comptonGlobalField::SetAccuracyParameters()
@@ -182,8 +183,9 @@ void comptonGlobalField::SetChordFinder()
   fFieldManager->SetChordFinder(fChordFinder);
 }
 
-void comptonGlobalField::AddNewField(G4String& name)
+void comptonGlobalField::AddNewField(G4String& name,G4String& filepath)
 {
+  std::cout<<"<==============================================Added field "<<name<<" From "<<filepath<<std::endl;
   // Lock mutex to ensure only 1 thread is loading a field
   G4AutoLock lock(&comptonGlobalFieldMutex);
 
@@ -191,7 +193,7 @@ void comptonGlobalField::AddNewField(G4String& name)
   if (GetFieldByName(name) != 0) return;
 
   // Load new field
-  comptonMagneticField *thisfield = new comptonMagneticField(name);
+  comptonMagneticField *thisfield = new comptonMagneticField(name,filepath);
   fFields.push_back(thisfield);
 
   if (fVerboseLevel > 0)
