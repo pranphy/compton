@@ -57,7 +57,7 @@ void comptonPrimaryGeneratorAction::SetGenerator(G4String& genname)
     // Find event generator
     auto evgen = fEvGenMap.find(genname);
     if (evgen != fEvGenMap.end()) {
-        G4cout << "Setting generator to " << genname << G4endl;
+        //G4cout << "Setting generator to " << genname << G4endl;
         fEventGen = evgen->second;
         fEventGenName = evgen->first;
         fParticleGun = fEventGen->GetParticleGun();

@@ -31,19 +31,17 @@ comptonPhysicsList::comptonPhysicsList()
   RegisterReferencePhysList("QGSP_BERT");
   G4cout << "compton: loaded reference physics list " << fReferencePhysListName << G4endl;
 
-  EnableSynchrotronPhysics();
-
   // Set and print default status of other physics
 
   AddTransportation();
-  //EnableStepLimiterPhysics();
+  EnableStepLimiterPhysics();
   //DisableStepLimiterPhysics();
   EnableParallelPhysics();
   //EnableOpticalPhysics();
   G4cout << "compton: step limiter physics is " << (fStepLimiterPhysics != nullptr? "enabled":"disabled") << G4endl;
   G4cout << "compton: parallel physics is "     << (fParallelPhysics != nullptr?    "enabled":"disabled") << G4endl;
   G4cout << "compton: optical physics is "      << (fOpticalPhysics != nullptr?     "enabled":"disabled") << G4endl;
-  G4cout << "compton: synchrotron physics is "      << (fSynchrotronPhysics != nullptr?     "enabled":"disabled") << G4endl;
+  G4cout << "compton: synchrotron physics is "  << (fSynchrotronPhysics != nullptr? "enabled":"disabled") << G4endl;
 
   // Create commands
   fPhysListMessenger.DeclareMethod( "verbose", &comptonPhysicsList::SetVerboseLevel, "Set physics list verbose level").SetStates(G4State_PreInit);
@@ -243,7 +241,7 @@ void comptonPhysicsList::EnableStepLimiterPhysics()
   fStepLimiterPhysics->SetVerboseLevel(GetVerboseLevel());
 
   // Register existing physics
-  //RegisterPhysics(fStepLimiterPhysics);
+  RegisterPhysics(fStepLimiterPhysics);
 }
 
 void comptonPhysicsList::DisableStepLimiterPhysics()

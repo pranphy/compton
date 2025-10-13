@@ -1,13 +1,15 @@
 <box lunit="mm" name="WorldSolid" x="2000" y="2000" z="20000" />
+<box lunit="mm" name="WorldLogic" x="2000-1" y="2000-1" z="20000-1" />
 <box lunit="mm" name="ParallelSolid" x="1999.99" y="1999.99" z="19999.99" />
 <box name="ChicaneWorld" lunit="mm" x="chicane_wx" y="chicane_wy" z="chicane_wz" />
 
 <!-- Dipole Box -->
-<box lunit="mm" name="dipole_magnet" x="10" y="100" z="1800"/>
+<box lunit="mm" name="magnetic_region" x="100" y="100" z="2000"/>
+<box lunit="mm" name="dipole_magnet2" x="100" y="100" z="1000"/>
 <box lunit="mm" name="magnet_bound" x="300" y="300" z="1000"/>
 <box lunit="mm" name="dipole_magnet2" x="300" y="300" z="1000"/>
 <box lunit="mm" name="magnet_gap" x="100" y="210" z="1200"/>
-<subtraction name="dipole_magnet2">
+<subtraction name="dipole_magnet">
   <first ref="magnet_bound"/>
   <second ref="magnet_gap"/>
   <position unit="mm" x="0" y="50" z="0"/>

@@ -2,22 +2,23 @@
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
 
-/physics_lists/em/SyncRadiation true
+#/physics_lists/em/SyncRadiation true
 #/compton/physlist/optical/enable
 #/compton/physlist/parallel/enable
 #/compton/physlist/synchrotron/enable
 
 /run/verbose 0
-#/tracking/verbose 3
+#/tracking/verbose 1
+#///stepping/verbose 1
 
-/compton/field/add 1 map_directory/mgf/dipole_magnetic_field_20_1.txt
-/compton/field/add 2 map_directory/mgf/dipole_magnetic_field_20_2.txt
-/compton/field/add 3 map_directory/mgf/dipole_magnetic_field_20_3.txt
-/compton/field/add 4 map_directory/mgf/dipole_magnetic_field_20_4.txt
+/compton/field/add 1 map_directory/20/dipole_magnetic_field_20_1.txt
+/compton/field/add 2 map_directory/20/dipole_magnetic_field_20_2.txt
+/compton/field/add 3 map_directory/20/dipole_magnetic_field_20_3.txt
+/compton/field/add 4 map_directory/20/dipole_magnetic_field_20_4.txt
 
 /run/initialize
 
-/compton/printgeometry false
+/compton/printgeometry 0
 
 /compton/evgen/set beam
 /compton/evgen/beam/beamene 11.0 GeV
@@ -28,7 +29,9 @@
 /compton/evgen/beam/rasx 0 um
 /compton/evgen/beam/rasy 0 um
 
+#/compton/evgen/set compton
 
+#/compton/step/killpidafterz 22 5000
 
 
 #/compton/evgen/beamPolarization +L
@@ -51,12 +54,13 @@
 /compton/SD/enable 15
 /compton/SD/detect boundaryhits 15
 
-#/process/list
+/compton/SD/enable 81
+/compton/SD/detect secondaries 81
 
 /compton/seed 42
 /compton/interval 10
 
-/compton/filename /tmp/f_23_again.root
+/compton/filename /tmp/f_20_gagain.root
 
 /run/beamOn 1000
 

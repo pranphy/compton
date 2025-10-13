@@ -1,16 +1,7 @@
-/*
- * comptonGenExternal.cc
- *
- *  Created on: Mar 17, 2017
- *      Author: wdconinc
- */
-
 #include "comptonGenExternal.hh"
 
-// Geant4 headers
 #include "G4ParticleTable.hh"
 
-// ROOT headers
 #include "TFile.h"
 #include "TTree.h"
 #include "comptonEvent.hh"
