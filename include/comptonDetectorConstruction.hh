@@ -117,6 +117,7 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
         "/compton/kryptonite/",
         "Compton kryptonite properties"};
     static G4UserLimits* fKryptoniteUserLimits;
+    static G4UserLimits* fWorldUserLimits;
     G4bool fKryptoniteEnable;
     G4int fKryptoniteVerbose;
     std::set<G4String> fKryptoniteCandidates;

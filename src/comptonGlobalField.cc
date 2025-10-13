@@ -185,7 +185,6 @@ void comptonGlobalField::SetChordFinder()
 
 void comptonGlobalField::AddNewField(G4String& name,G4String& filepath)
 {
-  std::cout<<"<==============================================Added field "<<name<<" From "<<filepath<<std::endl;
   // Lock mutex to ensure only 1 thread is loading a field
   G4AutoLock lock(&comptonGlobalFieldMutex);
 

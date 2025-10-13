@@ -50,6 +50,7 @@ namespace { G4Mutex comptonDetectorConstructionMutex = G4MUTEX_INITIALIZER; }
 G4ThreadLocal comptonGlobalField* comptonDetectorConstruction::fGlobalField = nullptr;
 
 G4UserLimits* comptonDetectorConstruction::fKryptoniteUserLimits = new G4UserLimits(0,0,0,DBL_MAX,DBL_MAX);
+G4UserLimits* comptonDetectorConstruction::fWorldUserLimits = new G4UserLimits(1*mm);
 
 comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, const G4String& gdmlfile)
 : fVerboseLevel(0),
@@ -768,6 +769,11 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
             fMagneticVolumes[field_id] = myvol;
         }
 
+        auto it_stepl = NextAuxWithType(list.begin(), list.end(), "stepl");
+        if (it_stepl != list.end()) {
+            auto field_id = it_magfield->value.data();
+            myvol->SetUserLimits(new G4UserLimits(1*mm));
+        }
   } // end of loop over volumes
 
   if (fVerboseLevel > 0)
@@ -788,21 +794,25 @@ G4VPhysicalVolume* comptonDetectorConstruction::Construct()
   UpdateCopyNo(fWorldVolume,1);
 
   // Set kryptonite user limits
-  InitKryptoniteMaterials();
-  SetKryptoniteUserLimits(fWorldVolume);
+  //InitKryptoniteMaterials();
+  //SetKryptoniteUserLimits(fWorldVolume);
 
   return fWorldVolume;
 }
 
 void comptonDetectorConstruction::LoadMagneticField()
 {
+    delete fGlobalField;
+    fGlobalField = new comptonGlobalField();
+    G4TransportationManager* transport_mgr = G4TransportationManager::GetTransportationManager();
+    auto fieldPropagator = transport_mgr->GetPropagatorInField();
+    auto field_manager = transport_mgr->GetFieldManager();
+    auto step_limit = new G4UserLimits(1*mm);
 
     for(auto& [field_id, volume] : fMagneticVolumes) {
         G4MagneticField* magnetic_field = fGlobalField->GetFieldByName(field_id);
         fMagneticVolumes[field_id] = volume;
         G4FieldManager* field_manager = new G4FieldManager(magnetic_field);
-        auto stepLimit = new G4UserLimits(1*mm);
-        volume->SetUserLimits(stepLimit);
         field_manager->SetDetectorField(magnetic_field);
         field_manager->CreateChordFinder(magnetic_field);
         volume->SetFieldManager(field_manager,true);

@@ -53,9 +53,9 @@ class comptonMagneticField : public G4MagneticField {
       return true;
     }
 
-    private:
 	G4String fName;
 	G4String fFilename;
+    private:
 
 	size_t fN[__NDIM];
 	G4double fOffset[__NDIM];

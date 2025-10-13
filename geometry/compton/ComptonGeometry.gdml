@@ -61,7 +61,7 @@
       <materialref ref="G4_Galactic" />
       <solidref ref="dipole_magnet" />
       <auxiliary auxtype="Color" auxvalue="Blue" />
-      <auxiliary auxtype="MagField" auxvalue="1" />
+      <auxiliary auxtype="stepl" auxvalue="1" />
     </volume>
 
     <volume name="dipole_magnet_2_lv" >
@@ -69,6 +69,7 @@
       <solidref ref="dipole_magnet" />
       <auxiliary auxtype="Color" auxvalue="Blue" />
       <auxiliary auxtype="MagField" auxvalue="2" />
+      <auxiliary auxtype="stepl" auxvalue="1" />
     </volume>
 
     <volume name="dipole_magnet_3_lv" >
@@ -76,6 +77,7 @@
       <solidref ref="dipole_magnet" />
       <auxiliary auxtype="Color" auxvalue="Blue" />
       <auxiliary auxtype="MagField" auxvalue="3" />
+      <auxiliary auxtype="stepl" auxvalue="1" />
     </volume>
 
     <volume name="dipole_magnet_4_lv" >
@@ -83,6 +85,52 @@
       <solidref ref="dipole_magnet" />
       <auxiliary auxtype="Color" auxvalue="Blue" />
       <auxiliary auxtype="MagField" auxvalue="4" />
+      <auxiliary auxtype="stepl" auxvalue="1" />
+    </volume>
+
+
+    <volume name="dipole_magnet_1_lv_n">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="magnetic_region"/>
+      <auxiliary auxtype="Alpha" auxvalue="0.0"/>
+      <auxiliary auxtype="stepl" auxvalue="1" />
+      <auxiliary auxtype="MagField" auxvalue="1" />
+      <physvol name="magnet_1">
+        <volumeref  ref="dipole_magnet_1_lv"/>
+      </physvol>
+    </volume>
+
+    <volume name="dipole_magnet_2_lv_n">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="magnetic_region"/>
+      <auxiliary auxtype="Alpha" auxvalue="0.0"/>
+      <auxiliary auxtype="stepl" auxvalue="1" />
+      <auxiliary auxtype="MagField" auxvalue="2" />
+      <physvol name="magnet_2">
+        <volumeref  ref="dipole_magnet_2_lv"/>
+      </physvol>
+    </volume>
+
+    <volume name="dipole_magnet_3_lv_n">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="magnetic_region"/>
+      <auxiliary auxtype="Alpha" auxvalue="0.0"/>
+      <auxiliary auxtype="stepl" auxvalue="1" />
+      <auxiliary auxtype="MagField" auxvalue="3" />
+      <physvol name="magnet_3">
+        <volumeref  ref="dipole_magnet_3_lv"/>
+      </physvol>
+    </volume>
+
+    <volume name="dipole_magnet_4_lv_n">
+      <materialref ref="G4_Galactic"/>
+      <solidref ref="magnetic_region"/>
+      <auxiliary auxtype="Alpha" auxvalue="0.0"/>
+      <auxiliary auxtype="stepl" auxvalue="1" />
+      <auxiliary auxtype="MagField" auxvalue="4" />
+      <physvol name="magnet_4">
+        <volumeref  ref="dipole_magnet_4_lv"/>
+      </physvol>
     </volume>
 
     <volume name="entry_pipe_log">
@@ -191,26 +239,56 @@
           <rotation unit="deg" x="0" y="90" z="0"/>
         </physvol>
 
+        <!--
+        <physvol name="dipole_1">
+          <volumeref ref="dipole_magnet_1_lv_n" />
+          <positionref ref="dipole1_position"/>
+        </physvol>
+        -->
+
         <!-- Begin dipoles -->
         <physvol name="dipole_1">
-          <volumeref ref="dipole_magnet_1_lv" />
+          <volumeref ref="dipole_magnet_1_lv_n" />
           <positionref ref="dipole1_position"/>
         </physvol>
 
         <physvol name="dipole_2">
-          <volumeref ref="dipole_magnet_2_lv" />
+          <volumeref ref="dipole_magnet_2_lv_n" />
           <positionref ref="dipole2_position"/>
         </physvol>
 
         <physvol name="dipole_3">
-          <volumeref ref="dipole_magnet_3_lv" />
+          <volumeref ref="dipole_magnet_3_lv_n" />
           <positionref ref="dipole3_position"/>
         </physvol>
 
         <physvol name="dipole_4">
-          <volumeref ref="dipole_magnet_4_lv" />
+          <volumeref ref="dipole_magnet_4_lv_n" />
           <positionref ref="dipole4_position"/>
         </physvol>
+
+        <!--
+        <physvol>
+          <file name="dipole_magnet/dipole_magnet_1.gdml"/>
+          <positionref ref="dipole1_position" />
+        </physvol>
+
+        <physvol>
+          <file name="dipole_magnet/dipole_magnet_2.gdml"/>
+          <positionref ref="dipole2_position" />
+        </physvol>
+
+        <physvol>
+          <file name="dipole_magnet/dipole_magnet_3.gdml"/>
+          <positionref ref="dipole3_position" />
+        </physvol>
+
+        <physvol>
+          <file name="dipole_magnet/dipole_magnet_4.gdml"/>
+          <positionref ref="dipole4_position" />
+        </physvol>
+        -->
+
         <!-- End dipoles -->
         <physvol>
           <volumeref ref="upper_flange_log"/>
@@ -228,7 +306,6 @@
           <position unit="mm" x="0" y="177.66" z="5537.69"/>
         </physvol>
 
-        <!--
         <physvol>
           <file name="electron_detector/electron_detector.gdml"/>
           <position unit="mm" x="0" y="215.4936" z="6064.66"/>
@@ -238,7 +315,6 @@
           <file name="photon_detector/photon_detector.gdml"/>
           <position unit="mm" x="0" y="0" z="5564"/>
         </physvol>
-        -->
 
         <auxiliary auxtype="Color" auxvalue="Green" />
         <auxiliary auxtype="Alpha" auxvalue="0.5" />
