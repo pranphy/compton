@@ -7,6 +7,7 @@
 #include <G4SDManager.hh>
 #include <G4VisAttributes.hh>
 #include <G4Colour.hh>
+#include <G4UserLimits.hh>
 #include "G4UnitsTable.hh"
 
 #include "comptonGenericDetector.hh"
@@ -21,7 +22,7 @@ comptonParallelConstruction::comptonParallelConstruction(const G4String& name, c
 : G4VUserParallelWorld(name),
   fGDMLPath(""),fGDMLFile(""),
   fGDMLValidate(false),
-  fGDMLOverlapCheck(true),
+  fGDMLOverlapCheck(false),
   fVerboseLevel(0),
   fWorldVolume(0),
   fWorldName(name)
@@ -321,7 +322,11 @@ void comptonParallelConstruction::ParseAuxiliarySensDetInfo()
               }
 
               myvol->SetSensitiveDetector(thisdet);
+          } else if ((*vit).type == "StepLimit") {
+              auto limit = std::atof((*vit).value.data());
+              myvol->SetUserLimits(new G4UserLimits(0.1*CLHEP::mm));
           }
+
       }
   }
 

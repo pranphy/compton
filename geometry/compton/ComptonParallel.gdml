@@ -138,15 +138,35 @@
     <auxiliary auxtype="Color" auxvalue="Green" />
     <auxiliary auxtype="Alpha" auxvalue="0.8" />
 
+    <!--
+      <physvol name="mag_inc_phy_1">
+        <volumeref ref="magnet_inclusion_log" />
+        <positionref ref="dipole1_position" />
+      </physvol>
+
+      <physvol name="mag_inc_phy_2">
+        <volumeref ref="magnet_inclusion_log" />
+        <positionref ref="dipole2_position" />
+      </physvol>
+      <physvol name="mag_inc_phy_3">
+        <volumeref ref="magnet_inclusion_log" />
+        <positionref ref="dipole3_position" />
+      </physvol>
+      <physvol name="mag_inc_phy_4">
+        <volumeref ref="magnet_inclusion_log" />
+        <positionref ref="dipole4_position" />
+      </physvol>
+
+    -->
 
       <physvol name="ZVP_phy">
         <volumeref ref="Zeroth_vp" />
-        <position  unit="mm" x="0" y="215" z="-7650" />
+        <position  unit="mm" x="0" y="215" z="-7950" />
       </physvol>
 
       <physvol name="FVP_phy">
         <volumeref ref="First_vp" />
-        <position  unit="mm" x="0" y="215" z="-7510" />
+        <position  unit="mm" x="0" y="215" z="-7549.77" />
       </physvol>
 
       <physvol name="Sync_Che_phy">
