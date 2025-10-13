@@ -21,6 +21,7 @@ class comptonSteppingAction : public G4UserSteppingAction
     G4double fKillZPos, fKillPid, fMinEnergy, fKillZErr;
 
     virtual void UserSteppingAction(const G4Step*);
+    void LimitStep(const G4Step*);
 };
 
 #endif//__COMPTONSTEPPINGACTION_HH
