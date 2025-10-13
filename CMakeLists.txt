@@ -44,13 +44,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 find_program(GIT_EXECUTABLE NAMES git)
 if(GIT_EXECUTABLE)
-    # Check if the current source directory is a Git repository.
     execute_process(
         COMMAND "${GIT_EXECUTABLE}" log -1
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
         OUTPUT_VARIABLE GIT_LOG
     )
-
     execute_process(
         COMMAND "${GIT_EXECUTABLE}" status --short --porcelain
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -83,7 +81,6 @@ ROOT_GENERATE_DICTIONARY(
     ${needsdict}          # List of header files to scan for ROOT classes
     MODULE ${PROJECT_NAME}
     LINKDEF "${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}LinkDef.hh" # Path to the LinkDef file
-
 )
 
 list(APPEND sources "${CMAKE_CURRENT_BINARY_DIR}/G__${PROJECT_NAME}.cxx")
