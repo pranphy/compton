@@ -58,7 +58,7 @@
     </volume>
 
     <volume name="dipole_magnet_1_lv" >
-      <materialref ref="G4_Galactic" />
+      <materialref ref="G4_Galactic" /> <!-- So this should be the actual material of magnet -->
       <solidref ref="dipole_magnet" />
       <auxiliary auxtype="Color" auxvalue="Blue" />
       <auxiliary auxtype="stepl" auxvalue="1" />
@@ -90,7 +90,7 @@
 
 
     <volume name="dipole_magnet_1_lv_n">
-      <materialref ref="G4_Galactic"/>
+      <materialref ref="G4_Galactic"/> <!-- This is ok vacuum because it is larger than the magnet, this is region -->
       <solidref ref="magnetic_region"/>
       <auxiliary auxtype="Alpha" auxvalue="0.0"/>
       <auxiliary auxtype="stepl" auxvalue="1" />
@@ -311,10 +311,12 @@
           <position unit="mm" x="0" y="215.4936" z="6064.66"/>
         </physvol>
 
+        <!--
         <physvol>
           <file name="photon_detector/photon_detector.gdml"/>
           <position unit="mm" x="0" y="0" z="5564"/>
         </physvol>
+        -->
 
         <auxiliary auxtype="Color" auxvalue="Green" />
         <auxiliary auxtype="Alpha" auxvalue="0.5" />
