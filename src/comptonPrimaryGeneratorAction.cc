@@ -119,6 +119,9 @@ void comptonPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
             fParticleGun->GeneratePrimaryVertex(anEvent);
         }
+
+        G4double nthrown = comptonRun::GetRunData()->GetNthrown();
+        fEvent->fRate /= nthrown;
     }
 
 }

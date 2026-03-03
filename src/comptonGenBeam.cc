@@ -204,9 +204,10 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
         evt->fBeamMomentum,
         fParticleName);
 
-    //evt->SetEffCrossSection(1.0);
-    //evt->SetAsymmetry(0.0);
+    evt->SetEffCrossSection(1.0);
 
-    //evt->SetQ2(0.0);
-    //evt->SetW2(0.0);
+    double rate = fBeamCurrent/(e_SI*coulomb);
+    //printf(" Laser The rate is %.3e  e_SI = %.3e  col = %.3e  curr = %.3e uA\n",rate,e_SI, coulomb,fBeamCurrent/microampere);
+    evt->SetRate(rate);
+
 }

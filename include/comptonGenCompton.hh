@@ -24,10 +24,14 @@ class comptonGenCompton : public comptonVEventGen {
     G4double fLaserEnergy;
     G4double fLaserWavelength;
     G4double fAParameter;
+    G4double fLuminosity;
     double get_max_k();
 
     G4double GetRandomRho();
     void SamplePhysics(comptonVertex *, comptonEvent *);
+    double cross_section(double rho);
+    double get_rate(double rho);
+    double get_luminosity();
 };
 
 #endif//__COMPTONGENCOMPTON_HH
