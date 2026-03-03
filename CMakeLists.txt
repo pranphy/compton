@@ -81,7 +81,7 @@ ROOT_GENERATE_DICTIONARY(
     ${needsdict}          # List of header files to scan for ROOT classes
     MODULE ${PROJECT_NAME}
     LINKDEF "${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}LinkDef.hh" # Path to the LinkDef file
-    OPTIONS -I${Geant4_INCLUDE_DIRS} -I${CLHEP_INCLUDE_DIRS} -I${CMAKE_CURRENT_SOURCE_DIR}/include
+    OPTIONS -I${Geant4_INCLUDE_DIRS} -I${CLHEP_INCLUDE_DIRS} -I${XercesC_INCLUDE_DIRS} -I${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 list(APPEND sources "${CMAKE_CURRENT_BINARY_DIR}/G__${PROJECT_NAME}.cxx")
