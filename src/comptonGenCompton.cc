@@ -37,23 +37,19 @@ void comptonGenCompton::Initialize(){
 
     fLaserEnergy = CLHEP::h_Planck * CLHEP::c_light / fLaserWavelength;
     fAParameter = 1 / (1 + (4*fLaserEnergy*fElectronEnergy)/ (me*me));
-    //fMaxPhotonEnergy = fElectronEnergy * (1 - fAParameter);
     fMaxPhotonEnergy = 4*fAParameter*fLaserEnergy*(gma*gma);
-    //printf("fLaserEnergy = %.2e MeV fMaxPhotonEnergy = %.2eMeV \n",fLaserEnergy,fMaxPhotonEnergy);
 
     for(int i = 0; i < 10000; i++) {
         G4double rho = G4double(i/10000.0);
-        fCXdSig_dRho[i] = cross_section(rho);
-        //of<<fCXdSig_dRho[i]<<std::endl;
+        fCXdSig_dRho[i] = GetCrossSection(rho);
     }
 
-    fLuminosity = get_luminosity();
+    fLuminosity = GetLuminosity();
     initialized = true;
 }
 
-double comptonGenCompton::cross_section(double rho){
+double comptonGenCompton::GetCrossSection(double rho){
     auto r0 = CLHEP::classic_electr_radius;
-    //printf("Laser The classic electron radius is %.3e vs %.3em\n",r0,r0/CLHEP::m);
 
     G4double am1 = fAParameter - 1.0;
     G4double ap1 = fAParameter + 1.0;
@@ -62,32 +58,22 @@ double comptonGenCompton::cross_section(double rho){
     return 2 * CLHEP::pi * r0*r0 * fAParameter*(term1 +1.0 + term3*term3);
 }
 
-const double comptonGenCompton::get_luminosity(){
-
-    //printf("CMP: The beamenergy      = %.2f GeV\n",fElectronEnergy/GeV);
-    //printf("CMP: The beamcurr        = %.2f uA\n",fBeamCurr/microampere);
-    //printf("CMP: The laserpower      = %.2f watt\n",fLaserPower/watt);
-    //printf("CMP: The crossingangle   = %.2f degree\n",fCrossingAngle/degree);
-    //printf("CMP: The laserwavelength = %.2f nm\n",fLaserWavelength/nm);
-    //printf("CMP: The lasersize       = %.2f um\n",fSigmap/um);
-    //printf("CMP: The beamsize        = %.2f um\n",fSigmae/um);
+const double comptonGenCompton::GetLuminosity(){
 
 
-    //#double c = 299'792'458*m/s; // m/s
-    double c = 3e8*m/s; // m/s
-    double e = e_SI*coulomb; // electron charge columb
+    constexpr double c = 299'792'458*m/s; // m/s
+    constexpr double e = e_SI*coulomb; // electron charge columb
 
 
     double lum = ( 1 + std::cos(fCrossingAngle) ) / std::sin(fCrossingAngle) *
-        (fElectronEnergy/e) * (fLaserPower/fLaserEnergy) * (1/c) *
-        1 / ( std::sqrt(2*CLHEP::pi) * std::hypot(fSigmae,fSigmap) ) ; //* ( 1e28);
+        (fBeamCurr/e) * (fLaserPower/fLaserEnergy) * (1/c) *
+        1 / ( std::sqrt(2*CLHEP::pi) * std::hypot(fSigmae,fSigmap) ) ;
 
-    //printf(" Laser luminosity L = %.5f (barnes-s) \n",lum*(barn*s));
     return lum;
 }
 
-double comptonGenCompton::get_rate(double rho){
-    return fLuminosity * cross_section(rho);
+double comptonGenCompton::GetRate(double rho){
+    return fLuminosity * GetCrossSection(rho);
 }
 
 
@@ -99,26 +85,9 @@ G4double comptonGenCompton::GetRandomRho()
 }
 
 
-double comptonGenCompton::get_max_k(){
-    double k = fLaserEnergy;
-    double E = fElectronEnergy;
-    double m = CLHEP::electron_mass_c2;
-    double p = std::sqrt(E*E - m*m);
-    double alpha_c = 20*1e-3*CLHEP::radian;
-    double theta_gamma = alpha_c;
-
-    double k_max = k*( ( E + p*cos(alpha_c) ) / ( E + k - p * cos(theta_gamma)  + k ) );
-    return k_max;
-}
-
 void comptonGenCompton::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
 {
-    if(!initialized) {
-        //printf("CMP Initializing   \n");
-        Initialize();
-        //printf("CMP Done Initializing   \n");
-    }
-    //printf("CMP: ++ The electron energy is %.2f GeV\n",fElectronEnergy/GeV);
+    if(!initialized) Initialize();
 
     double rho = GetRandomRho();
     double gamma_E = rho * fMaxPhotonEnergy;
@@ -129,7 +98,7 @@ void comptonGenCompton::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *ev
     double gamma_phi = CLHEP::RandFlat::shoot(2.0 * CLHEP::pi);
     gamma_direction.setRThetaPhi(1.0, gamma_theta/CLHEP::radian, gamma_phi / CLHEP::radian);
     G4ThreeVector gamma_momentum = gamma_E*gamma_direction;
-    //evt->ProduceNewParticle( G4ThreeVector(0.0,0.0,0.0), gamma_momentum, "gamma");
+
     evt->ProduceNewParticle( G4ThreeVector(0.0,0.0,0.0), gamma_momentum, "gamma");
 
 
@@ -153,15 +122,14 @@ void comptonGenCompton::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *ev
     // double L =
     // rate =  L * XS
 
-    double rate = get_rate(rho);
-    double XS = cross_section(rho);
+    double rate = GetRate(rho);
+    double XS = GetCrossSection(rho);
 
 
     evt->SetAsymmetry(0.000);
     evt->SetThCoM(0.0000);
     evt->SetEffCrossSection(XS);
-    evt->SetRate(rate); // see the rate here is in Geant4 units writing takes care of proper unit
-    //printf("Laser: The rate is rate = %.3e  in second rate=%.3e/s\n",rate, rate*CLHEP::s);
+    evt->SetRate(rate); // see the rate here is in Geant4 units, writing takes care of proper unit
 
     //evt->SetQ2( 2.0*e_com*e_com*(1.0-cos(thcom)) );
     // Q2 is not actually well defined
