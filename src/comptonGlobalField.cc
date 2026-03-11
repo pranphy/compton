@@ -299,7 +299,7 @@ void comptonGlobalField::SetFieldScale(const G4String& name, G4double scale)
 
 void comptonGlobalField::SetGlobalScale(G4double scale){
     for(auto& field: fFields){
-        field->SetFieldScale(scale);
+        field->SetFieldScale(field->GetFieldScale()*scale);
     }
 }
 

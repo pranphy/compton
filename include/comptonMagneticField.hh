@@ -37,6 +37,7 @@ class comptonMagneticField : public G4MagneticField {
 	void SetFieldScale(G4double scale) { fFieldScale = scale; }
 	void SetRefCurrent(G4double current) { fRefCurrent = current; }
 	void SetCurrent(G4double current) { SetFieldScale(current/fRefCurrent); }
+    G4double GetFieldScale() { return fFieldScale; }
 
 	void SetXOffset(G4double x) { fOffset[kX] = x; }
 	void SetYOffset(G4double y) { fOffset[kY] = y; }
