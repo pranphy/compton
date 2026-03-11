@@ -66,6 +66,7 @@ comptonGlobalField::comptonGlobalField()
     // Create generic messenger
     fMessenger.DeclareMethod("addfield",&comptonGlobalField::AddNewField,"Add magnetic field");
     fGlobalFieldMessenger.DeclareMethod("add",&comptonGlobalField::AddNewField,"Add magnetic field");
+    fGlobalFieldMessenger.DeclareMethod("globalscale",&comptonGlobalField::SetGlobalScale,"Scale factor for all fields globally");
 
     // Create global field messenger
     //fGlobalFieldMessenger.DeclareMethod("equationtype",&comptonGlobalField::SetEquationType,"Set equation type: \n 0: B-field, no spin (default); \n 2: B-field, with spin");
@@ -294,6 +295,12 @@ void comptonGlobalField::SetFieldScale(const G4String& name, G4double scale)
     G4cerr << "WARNING " << __FILE__ << " line " << __LINE__
            << ": field " << name << " scaling failed" << G4endl;
   }
+}
+
+void comptonGlobalField::SetGlobalScale(G4double scale){
+    for(auto& field: fFields){
+        field->SetFieldScale(scale);
+    }
 }
 
 void comptonGlobalField::SetMagnetCurrent(const G4String& name, G4double current)
