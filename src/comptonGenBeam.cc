@@ -16,7 +16,7 @@
 
 comptonGenBeam::comptonGenBeam()
 : comptonVEventGen("beam"),
-  fOriginMean(0.0*m,0.0*m,-19.81*m),
+  fOriginMean(0.0*m,0.0*m,0.0*m),
   fOriginSpread(0.03,0.03,0.0),
   fOriginModelX(kOriginModelFlat),
   fOriginModelY(kOriginModelFlat),
@@ -171,7 +171,7 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
 
     // Add a spread based on chosen model
     //G4ThreeVector spread = GetSpread(fOriginSpread, fOriginModelX, fOriginModelY, fOriginModelZ);
-    //G4ThreeVector spread = GetSpread(fOriginSpread, kOriginModelGauss, kOriginModelGauss, kOriginModelGauss);
+    G4ThreeVector spread = GetSpread(fOriginSpread, kOriginModelGauss, kOriginModelGauss, kOriginModelGauss);
 
     // Allow for simplistic raster/spreading in beam generator, perpendicular to direction
     //G4ThreeVector raster_perpto_direction(fRaster);
@@ -188,7 +188,7 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
 
     // Add spreads to origin
     //origin += raster; // TODO ! ReTurn Raster
-    //origin += spread;
+    origin += spread;
 
     // Add shift to origin
     //origin += fOriginShift * direction;
@@ -207,7 +207,6 @@ void comptonGenBeam::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *evt)
     evt->SetEffCrossSection(1.0);
 
     double rate = fBeamCurrent/(e_SI*coulomb);
-    //printf(" Laser The rate is %.3e  e_SI = %.3e  col = %.3e  curr = %.3e uA\n",rate,e_SI, coulomb,fBeamCurrent/microampere);
     evt->SetRate(rate);
 
 }
