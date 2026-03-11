@@ -20,18 +20,24 @@ class comptonGenCompton : public comptonVEventGen {
 
     G4double fCXdSig_dRho[10000];
     G4double fMaxPhotonEnergy;
+    G4double fBeamCurr;
+    G4double fLaserPower;
+    G4double fCrossingAngle;
+    G4double fSigmae;
+    G4double fSigmap;
     G4double fElectronEnergy;
     G4double fLaserEnergy;
     G4double fLaserWavelength;
     G4double fAParameter;
     G4double fLuminosity;
-    double get_max_k();
 
     G4double GetRandomRho();
     void SamplePhysics(comptonVertex *, comptonEvent *);
-    double cross_section(double rho);
-    double get_rate(double rho);
-    double get_luminosity();
+    double GetCrossSection(double rho);
+    double GetRate(double rho);
+    const double GetLuminosity();
+    void Initialize();
+    bool initialized;
 };
 
 #endif//__COMPTONGENCOMPTON_HH
