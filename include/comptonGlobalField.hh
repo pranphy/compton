@@ -30,6 +30,7 @@ class comptonGlobalField : public G4MagneticField {
         void SetInterpolationType(const G4String& name, const G4String& type);
         void SetZOffset(const G4String& name, G4double offset);
         void SetFieldScale(const G4String& name, G4double scale);
+        void SetGlobalScale(G4double scale);
         void SetMagnetCurrent(const G4String& name, G4double current);
 
         void PrintFieldValue(const G4ThreeVector&);
@@ -91,6 +92,7 @@ class comptonGlobalField : public G4MagneticField {
         G4double fDeltaIntersection;
         G4double fEpsMin;
         G4double fEpsMax;
+        G4double fGlobalScale;
 
         G4EquationOfMotion*     fEquation;
         G4int                   fEquationDoF;
