@@ -46,7 +46,7 @@ comptonGlobalField::comptonGlobalField()
   fEpsMin(1.0e-5*mm),fEpsMax(1.0e-4*mm),
   fEquation(0),fEquationDoF(0),
   fFieldManager(0),fFieldPropagator(0),
-  fStepper(0),fChordFinder(0),
+  fStepper(0),fChordFinder(0),fGlobalScale(1),
   fVerboseLevel(0)
 {
     // Get field propagator and managers
@@ -298,8 +298,15 @@ void comptonGlobalField::SetFieldScale(const G4String& name, G4double scale)
 }
 
 void comptonGlobalField::SetGlobalScale(G4double scale){
-    for(auto& field: fFields){
-        field->SetFieldScale(field->GetFieldScale()*scale);
+    G4AutoLock lock(&comptonGlobalFieldMutex);
+    for (auto it = fFields.begin(); it != fFields.end(); it++){
+    //for(auto& field: fFields){
+        if(*it != nullptr){
+            //G4cout<<"CMP:Setting global scale to "<<scale<<G4endl;
+            //printf("CMP: The old Scale was %.3f \n",oldscale);
+            //printf("CMP: The new scale is %.3f\n",scale*oldscale);
+            (*it)->SetGlobalFieldScale(scale);
+        }
     }
 }
 

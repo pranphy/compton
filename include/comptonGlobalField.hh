@@ -92,6 +92,7 @@ class comptonGlobalField : public G4MagneticField {
         G4double fDeltaIntersection;
         G4double fEpsMin;
         G4double fEpsMax;
+        G4double fGlobalScale;
 
         G4EquationOfMotion*     fEquation;
         G4int                   fEquationDoF;
