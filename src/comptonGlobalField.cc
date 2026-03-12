@@ -299,14 +299,8 @@ void comptonGlobalField::SetFieldScale(const G4String& name, G4double scale)
 
 void comptonGlobalField::SetGlobalScale(G4double scale){
     G4AutoLock lock(&comptonGlobalFieldMutex);
-    for (auto it = fFields.begin(); it != fFields.end(); it++){
-    //for(auto& field: fFields){
-        if(*it != nullptr){
-            //G4cout<<"CMP:Setting global scale to "<<scale<<G4endl;
-            //printf("CMP: The old Scale was %.3f \n",oldscale);
-            //printf("CMP: The new scale is %.3f\n",scale*oldscale);
-            (*it)->SetGlobalFieldScale(scale);
-        }
+    for(auto& field: fFields){
+        field->SetGlobalFieldScale(scale);
     }
 }
 
