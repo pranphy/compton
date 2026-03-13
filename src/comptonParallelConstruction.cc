@@ -7,6 +7,7 @@
 #include <G4SDManager.hh>
 #include <G4VisAttributes.hh>
 #include <G4Colour.hh>
+#include <G4UserLimits.hh>
 #include "G4UnitsTable.hh"
 
 #include "comptonGenericDetector.hh"
@@ -21,7 +22,7 @@ comptonParallelConstruction::comptonParallelConstruction(const G4String& name, c
 : G4VUserParallelWorld(name),
   fGDMLPath(""),fGDMLFile(""),
   fGDMLValidate(false),
-  fGDMLOverlapCheck(true),
+  fGDMLOverlapCheck(false),
   fVerboseLevel(0),
   fWorldVolume(0),
   fWorldName(name)
@@ -36,38 +37,16 @@ comptonParallelConstruction::comptonParallelConstruction(const G4String& name, c
   new G4UnitDefinition("inch","in","Length",25.4*CLHEP::millimeter);
 
   // Create parallel geometry messenger
-  fParallelMessenger.DeclareMethod(
-      "setfile",
-      &comptonParallelConstruction::SetGDMLFile,
-      "Set parallel geometry GDML file")
-          .SetStates(G4State_PreInit)
-          .SetDefaultValue("")
-          .command->GetParameter(0)->SetOmittable(true);
-  fParallelMessenger.DeclareProperty(
-      "verbose",
-      fVerboseLevel,
-      "Set geometry verbose level")
-          .SetStates(G4State_PreInit);
-  fParallelMessenger.DeclareProperty(
-      "validate",
-      fGDMLValidate,
-      "Set GMDL validate flag")
-          .SetStates(G4State_PreInit)
-          .SetDefaultValue("true");
-  fParallelMessenger.DeclareProperty(
-      "overlapcheck",
-      fGDMLOverlapCheck,
-      "Set GMDL overlap check flag")
-          .SetStates(G4State_PreInit)
-          .SetDefaultValue("true");
+  fParallelMessenger.DeclareMethod( "setfile", &comptonParallelConstruction::SetGDMLFile, "Set parallel geometry GDML file").SetStates(G4State_PreInit) .SetDefaultValue("") .command->GetParameter(0)->SetOmittable(true);
+  fParallelMessenger.DeclareProperty( "verbose", fVerboseLevel, "Set geometry verbose level") .SetStates(G4State_PreInit);
+  fParallelMessenger.DeclareProperty( "validate", fGDMLValidate, "Set GMDL validate flag") .SetStates(G4State_PreInit) .SetDefaultValue("true");
+  fParallelMessenger.DeclareProperty( "overlapcheck", fGDMLOverlapCheck, "Set GMDL overlap check flag") .SetStates(G4State_PreInit) .SetDefaultValue("true");
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 comptonParallelConstruction::~comptonParallelConstruction()
 {
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void comptonParallelConstruction::PrintGDMLWarning() const
 {
     G4cout << G4endl;
@@ -343,7 +322,11 @@ void comptonParallelConstruction::ParseAuxiliarySensDetInfo()
               }
 
               myvol->SetSensitiveDetector(thisdet);
+          } else if ((*vit).type == "StepLimit") {
+              auto limit = std::atof((*vit).value.data());
+              myvol->SetUserLimits(new G4UserLimits(0.1*CLHEP::mm));
           }
+
       }
   }
 

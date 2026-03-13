@@ -2,37 +2,39 @@
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
 
-#/physics_lists/em/SyncRadiationAll true
-/compton/physlist/optical/enable
-/compton/physlist/parallel/enable
-/compton/physlist/synchrotron/enable
+#/physics_lists/em/SyncRadiation true
+#/compton/physlist/optical/enable
+#/compton/physlist/parallel/enable
+#/compton/physlist/synchrotron/enable
+
+/run/verbose 0
+#/tracking/verbose 1
+#///stepping/verbose 1
+
+/compton/field/add 1 map_directory/20/dipole_magnetic_field_20_1.txt
+/compton/field/add 2 map_directory/20/dipole_magnetic_field_20_2.txt
+/compton/field/add 3 map_directory/20/dipole_magnetic_field_20_3.txt
+/compton/field/add 4 map_directory/20/dipole_magnetic_field_20_4.txt
 
 /run/initialize
-/compton/printgeometry false
-/run/verbose 0
-#/tracking/verbose 3
 
-/compton/addfield map_directory/dipole_magnetic_field_20_1.txt
-/compton/addfield map_directory/dipole_magnetic_field_20_2.txt
-/compton/addfield map_directory/dipole_magnetic_field_20_3.txt
-/compton/addfield map_directory/dipole_magnetic_field_20_4.txt
+/compton/printgeometry 0
 
-
+/compton/evgen/set beam
+/compton/evgen/beam/beamene 11.0 GeV
+/compton/evgen/beam/beamcurr 65 microampere
 /compton/evgen/beam/origin 0  215.49 -9849.76 mm
 /compton/evgen/beam/xspread 0 um
 /compton/evgen/beam/yspread 0 um
 /compton/evgen/beam/rasx 0 um
 /compton/evgen/beam/rasy 0 um
 
-/compton/beamene 11.0 GeV
-/compton/beamcurr 65 microampere
+#/compton/evgen/set compton
+
+#/compton/step/killpidafterz 22 5000
 
 
-/compton/evgen/set beam
-
-/compton/evgen/beamPolarization +L
-/compton/field/equationtype 2
-/compton/field/steppertype 2
+#/compton/evgen/beamPolarization +L
 
 #/compton/evgen/set laser
 #/compton/evgen/laser/origin 0  215.49 0 mm
@@ -40,14 +42,25 @@
 
 
 /compton/SD/disable_all
+/compton/SD/enable 41
+/compton/SD/detect boundaryhits 41
+
+/compton/SD/enable 13
+/compton/SD/detect boundaryhits 13
+
+/compton/SD/enable 16
+/compton/SD/detect boundaryhits 16
+
+/compton/SD/enable 15
+/compton/SD/detect boundaryhits 15
+
 /compton/SD/enable 81
-/compton/SD/detect lowenergyneutral 81
 /compton/SD/detect secondaries 81
 
-/process/list
-
 /compton/seed 42
-/compton/interval 1000000
+/compton/interval 10
 
-/run/beamOn 8000
+/compton/filename /tmp/f_20_gagain.root
+
+/run/beamOn 1000
 

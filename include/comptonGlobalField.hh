@@ -25,11 +25,12 @@ class comptonGlobalField : public G4MagneticField {
         comptonGlobalField();
         virtual ~comptonGlobalField();
 
-        void AddNewField(G4String& name);
+        void AddNewField(G4String& name,G4String& filepath);
 
         void SetInterpolationType(const G4String& name, const G4String& type);
         void SetZOffset(const G4String& name, G4double offset);
         void SetFieldScale(const G4String& name, G4double scale);
+        void SetGlobalScale(G4double scale);
         void SetMagnetCurrent(const G4String& name, G4double current);
 
         void PrintFieldValue(const G4ThreeVector&);
@@ -79,6 +80,7 @@ class comptonGlobalField : public G4MagneticField {
 
         /// Print the accuracy parameters
         void PrintAccuracyParameters();
+        comptonMagneticField* GetFieldByName(const G4String& name) const;
 
     private:
         G4int fEquationType;
@@ -90,6 +92,7 @@ class comptonGlobalField : public G4MagneticField {
         G4double fDeltaIntersection;
         G4double fEpsMin;
         G4double fEpsMax;
+        G4double fGlobalScale;
 
         G4EquationOfMotion*     fEquation;
         G4int                   fEquationDoF;
@@ -102,7 +105,6 @@ class comptonGlobalField : public G4MagneticField {
     private:
         static std::vector<comptonMagneticField*> fFields;
 
-        comptonMagneticField* GetFieldByName(const G4String& name) const;
 
         G4GenericMessenger fMessenger{
             this,

@@ -31,75 +31,34 @@ comptonPhysicsList::comptonPhysicsList()
   RegisterReferencePhysList("QGSP_BERT");
   G4cout << "compton: loaded reference physics list " << fReferencePhysListName << G4endl;
 
-  //EnableSynchrotronPhysics();
-
   // Set and print default status of other physics
 
   AddTransportation();
   EnableStepLimiterPhysics();
-  DisableStepLimiterPhysics();
+  //DisableStepLimiterPhysics();
   EnableParallelPhysics();
-  //DisableOpticalPhysics();
+  //EnableOpticalPhysics();
   G4cout << "compton: step limiter physics is " << (fStepLimiterPhysics != nullptr? "enabled":"disabled") << G4endl;
   G4cout << "compton: parallel physics is "     << (fParallelPhysics != nullptr?    "enabled":"disabled") << G4endl;
   G4cout << "compton: optical physics is "      << (fOpticalPhysics != nullptr?     "enabled":"disabled") << G4endl;
-  G4cout << "compton: synchrotron physics is "      << (fSynchrotronPhysics != nullptr?     "enabled":"disabled") << G4endl;
+  G4cout << "compton: synchrotron physics is "  << (fSynchrotronPhysics != nullptr? "enabled":"disabled") << G4endl;
 
   // Create commands
-  fPhysListMessenger.DeclareMethod(
-      "verbose",
-      &comptonPhysicsList::SetVerboseLevel,
-      "Set physics list verbose level")
-              .SetStates(G4State_PreInit);
-  fPhysListMessenger.DeclareMethod(
-      "register",
-      &comptonPhysicsList::RegisterReferencePhysList,
-      "Register reference physics list")
-              .SetStates(G4State_PreInit);
-  fPhysListMessenger.DeclareMethod(
-      "list",
-      &comptonPhysicsList::ListReferencePhysLists,
-      "List reference physics lists");
+  fPhysListMessenger.DeclareMethod( "verbose", &comptonPhysicsList::SetVerboseLevel, "Set physics list verbose level").SetStates(G4State_PreInit);
+  fPhysListMessenger.DeclareMethod( "register", &comptonPhysicsList::RegisterReferencePhysList, "Register reference physics list") .SetStates(G4State_PreInit);
+  fPhysListMessenger.DeclareMethod( "list", &comptonPhysicsList::ListReferencePhysLists, "List reference physics lists");
 
-  fParallelMessenger.DeclareMethod(
-      "enable",
-      &comptonPhysicsList::EnableParallelPhysics,
-      "Enable parallel physics")
-              .SetStates(G4State_PreInit);
-  fParallelMessenger.DeclareMethod(
-      "disable",
-      &comptonPhysicsList::DisableParallelPhysics,
-      "Disable parallel physics")
-              .SetStates(G4State_PreInit);
+  fParallelMessenger.DeclareMethod( "enable", &comptonPhysicsList::EnableParallelPhysics, "Enable parallel physics") .SetStates(G4State_PreInit);
+  fParallelMessenger.DeclareMethod( "disable", &comptonPhysicsList::DisableParallelPhysics, "Disable parallel physics") .SetStates(G4State_PreInit);
 
-  fOpticalMessenger.DeclareMethod(
-      "enable",
-      &comptonPhysicsList::EnableOpticalPhysics,
-      "Enable optical physics")
-              .SetStates(G4State_PreInit);
-  fOpticalMessenger.DeclareMethod(
-      "disable",
-      &comptonPhysicsList::DisableOpticalPhysics,
-      "Disable optical physics")
-              .SetStates(G4State_PreInit);
+  fOpticalMessenger.DeclareMethod( "enable", &comptonPhysicsList::EnableOpticalPhysics, "Enable optical physics") .SetStates(G4State_PreInit);
+  fOpticalMessenger.DeclareMethod( "disable", &comptonPhysicsList::DisableOpticalPhysics, "Disable optical physics") .SetStates(G4State_PreInit);
 
-  fStepLimiterMessenger.DeclareMethod(
-      "enable",
-      &comptonPhysicsList::EnableStepLimiterPhysics,
-      "Enable step limiter");
-  fStepLimiterMessenger.DeclareMethod(
-      "disable",
-      &comptonPhysicsList::DisableStepLimiterPhysics,
-      "Disable step limiter");
+  fStepLimiterMessenger.DeclareMethod( "enable", &comptonPhysicsList::EnableStepLimiterPhysics, "Enable step limiter");
+  fStepLimiterMessenger.DeclareMethod( "disable", &comptonPhysicsList::DisableStepLimiterPhysics, "Disable step limiter");
 
-  fSynchrotronMessenger.DeclareMethod(
-      "enable",
-      &comptonPhysicsList::EnableSynchrotronPhysics,
-      "Enable synchrotron physics");
-  fSynchrotronMessenger.DeclareMethod(
-      "disable",
-      &comptonPhysicsList::DisableSynchrotronPhysics,
-      "Disable synchrotron physics");
+  fSynchrotronMessenger.DeclareMethod( "enable", &comptonPhysicsList::EnableSynchrotronPhysics, "Enable synchrotron physics");
+  fSynchrotronMessenger.DeclareMethod( "disable", &comptonPhysicsList::DisableSynchrotronPhysics, "Disable synchrotron physics");
 }
 
 comptonPhysicsList::~comptonPhysicsList()
@@ -282,7 +241,7 @@ void comptonPhysicsList::EnableStepLimiterPhysics()
   fStepLimiterPhysics->SetVerboseLevel(GetVerboseLevel());
 
   // Register existing physics
-  //RegisterPhysics(fStepLimiterPhysics);
+  RegisterPhysics(fStepLimiterPhysics);
 }
 
 void comptonPhysicsList::DisableStepLimiterPhysics()
