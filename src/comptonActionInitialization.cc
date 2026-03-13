@@ -1,10 +1,3 @@
-/*
- * comptonUserActionInitialization.cc
- *
- *  Created on: May 1, 2017
- *      Author: wdconinc
- */
-
 #include "comptonActionInitialization.hh"
 
 #include "comptonRunAction.hh"

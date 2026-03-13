@@ -1,10 +1,3 @@
-/*
- * comptonGenExternal.hh
- *
- *  Created on: Mar 17, 2017
- *      Author: wdconinc
- */
-
 #ifndef __COMPTONGENEXTERNAL_HH
 #define __COMPTONGENEXTERNAL_HH
 
