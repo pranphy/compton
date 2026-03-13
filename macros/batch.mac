@@ -1,11 +1,8 @@
-/compton/setgeofile geometry/compton/ComptonGeometry.gdml
+/compton/geometry/setfile geometry/compton/ComptonGeometry.gdml
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
 
-#/physics_lists/em/SyncRadiation true
-#/compton/physlist/optical/enable
-#/compton/physlist/parallel/enable
-#/compton/physlist/synchrotron/enable
+/compton/physlist/synchrotron/enable
 
 /run/verbose 0
 #/tracking/verbose 1
@@ -18,23 +15,22 @@
 
 /run/initialize
 
-/compton/printgeometry 0
+/compton/geometry/relative_position gate_valve_phy (40,40.0,0.0)
 
-/compton/evgen/set beam
-/compton/evgen/beam/beamene 11.0 GeV
-/compton/evgen/beam/beamcurr 65 microampere
-/compton/evgen/beam/origin 0  215.49 -9849.76 mm
-/compton/evgen/beam/xspread 0 um
-/compton/evgen/beam/yspread 0 um
-/compton/evgen/beam/rasx 0 um
-/compton/evgen/beam/rasy 0 um
+/compton/printgeometry 1
+
 
 #/compton/evgen/set compton
 
 #/compton/step/killpidafterz 22 5000
 
+/compton/evgen/set beam
+/compton/evgen/beam/origin 0 215.49 -9849.76 mm
+/compton/evgen/beam/beamene 11.0 GeV
+/compton/evgen/beam/beamcurr 65 microampere
+/compton/evgen/beam/originspread 30 30 0 um
+/compton/evgen/beam/direction 0 0.0000 1
 
-#/compton/evgen/beamPolarization +L
 
 #/compton/evgen/set laser
 #/compton/evgen/laser/origin 0  215.49 0 mm
@@ -43,24 +39,15 @@
 
 /compton/SD/disable_all
 /compton/SD/enable 41
+/compton/SD/detect lowenergyneutral 41
+/compton/SD/detect secondaries 41
 /compton/SD/detect boundaryhits 41
 
-/compton/SD/enable 13
-/compton/SD/detect boundaryhits 13
-
-/compton/SD/enable 16
-/compton/SD/detect boundaryhits 16
-
-/compton/SD/enable 15
-/compton/SD/detect boundaryhits 15
-
-/compton/SD/enable 81
-/compton/SD/detect secondaries 81
 
 /compton/seed 42
 /compton/interval 10
 
 /compton/filename /tmp/f_20_gagain.root
 
-/run/beamOn 1000
+/run/beamOn 2
 

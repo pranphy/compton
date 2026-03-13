@@ -33,7 +33,7 @@ file(GLOB headers "include/compton*.hh")
 find_package(XercesC 3.2.0 REQUIRED)
 find_package(ROOT 6.36 COMPONENTS RIO Core Tree CONFIG REQUIRED)
 
-find_package(Geant4 11.3 REQUIRED ui_all vis_all )
+find_package(Geant4 11.2 REQUIRED ui_all vis_all )
 include_directories(${Geant4_INCLUDE_DIRS})
 
 set(GITINFO_CC_OUT "${CMAKE_CURRENT_BINARY_DIR}/gitinfo.cc")
@@ -81,6 +81,7 @@ ROOT_GENERATE_DICTIONARY(
     ${needsdict}          # List of header files to scan for ROOT classes
     MODULE ${PROJECT_NAME}
     LINKDEF "${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}LinkDef.hh" # Path to the LinkDef file
+    OPTIONS -I${XercesC_INCLUDE_DIRS} -I${Geant4_INCLUDE_DIRS} -I${CLHEP_INCLUDE_DIRS}  -I${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 list(APPEND sources "${CMAKE_CURRENT_BINARY_DIR}/G__${PROJECT_NAME}.cxx")
