@@ -193,7 +193,7 @@
         <position x="0" y="laser_gap" z="7841.642"/>
       </physvol>
 
-      <physvol>
+      <physvol name="gate_valve_phy">
         <volumeref ref="gate_valve_log" />
         <position x="0" y="laser_gap" z="-3950"/>
       </physvol>

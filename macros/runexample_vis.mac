@@ -6,6 +6,8 @@
 /compton/geometry/setfile geometry/compton/ComptonGeometry.gdml
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
+/compton/geometry/relative_position gate_valve_phy 0 30 0 # the units are mm
+
 #/physics_lists/em/SyncRadiationAll true
 #///compton/physlist/optical/enable
 #/compton/setphysicslist beam
@@ -24,16 +26,15 @@
 
 #/vis/scene/add/magneticField 10
 
+# valve out
+/compton/geometry/relative_position gate_valve_phy (40.0,40.0,0.0)
 
 
 /compton/evgen/set beam
 /compton/evgen/beam/origin 0 215.49 -9849.76 mm
 /compton/evgen/beam/beamene 11.0 GeV
 /compton/evgen/beam/beamcurr 65 microampere
-/compton/evgen/beam/rasx 0 um
-/compton/evgen/beam/rasy 0 um
-/compton/evgen/beam/xspread 0 um
-/compton/evgen/beam/yspread 0 um
+/compton/evgen/beam/originspread 30 30 0 um
 /compton/evgen/beam/direction 0 0.0000 1
 #
 #
