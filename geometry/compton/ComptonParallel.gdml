@@ -38,7 +38,7 @@
       <auxiliary auxtype="DetNo" auxvalue="11"/>
   </volume>
 
-  <volume name="Valve_vp" >
+  <volume name="second_vp" >
       <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
       <auxiliary auxtype="SensDet" auxvalue="planeDet" />
@@ -50,6 +50,20 @@
       <solidref ref="thin_disc" />
       <auxiliary auxtype="SensDet" auxvalue="planeDet" />
       <auxiliary auxtype="DetNo" auxvalue="41"/>
+  </volume>
+
+  <volume name="valve_ent" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="42"/>
+  </volume>
+
+  <volume name="valve_ext" >
+      <materialref ref="G4_Galactic" />
+      <solidref ref="thin_disc" />
+      <auxiliary auxtype="SensDet" auxvalue="planeDet" />
+      <auxiliary auxtype="DetNo" auxvalue="43"/>
   </volume>
 
   <volume name="dipole_three_US" >
@@ -95,7 +109,7 @@
       <auxiliary auxtype="DetNo" auxvalue="306"/>
   </volume>
 
-  <volume name="Second_vp" >
+  <volume name="orig_vp" >
       <materialref ref="G4_Galactic" />
       <solidref ref="thin_disc" />
       <auxiliary auxtype="SensDet" auxvalue="planeDet" />
@@ -175,13 +189,24 @@
       </physvol>
 
 
-      <physvol name="VVP_phy">
-        <volumeref ref="Valve_vp" />
+      <physvol name="second_phy">
+        <volumeref ref="second_vp" />
         <position  unit="mm" x="0" y="215" z="-5718.048" />
       </physvol>
 
-      <physvol name="SVP_phy">
-        <volumeref ref="Second_vp" />
+
+      <physvol name="valve_ent_phy">
+        <volumeref ref="valve_ent" />
+        <position  unit="mm" x="0" y="215" z="-3953.0" />
+      </physvol>
+
+      <physvol name="valve_ext_phy">
+        <volumeref ref="valve_ext" />
+        <position  unit="mm" x="0" y="215" z="-3947.0" />
+      </physvol>
+
+      <physvol name="orig_phy">
+        <volumeref ref="orig_vp" />
         <position  unit="mm" x="0" y="0" z="0" />
       </physvol>
 
