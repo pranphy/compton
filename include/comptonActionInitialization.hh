@@ -1,10 +1,3 @@
-/*
- * comptonUserActionInitialization.hh
- *
- *  Created on: May 1, 2017
- *      Author: wdconinc
- */
-
 #ifndef __COMPTONACTIONINITIALIZATION_HH
 #define __COMPTONACTIONINITIALIZATION_HH
 

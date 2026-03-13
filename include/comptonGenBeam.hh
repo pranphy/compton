@@ -8,13 +8,6 @@ class comptonGenBeam : public comptonVEventGen {
     comptonGenBeam();
     virtual ~comptonGenBeam();
 
-    void SetOriginXMean(double x);
-    void SetOriginYMean(double y);
-    void SetOriginZMean(double z);
-
-    void SetOriginXSpread(double x);
-    void SetOriginYSpread(double y);
-    void SetOriginZSpread(double z);
 
     enum EOriginModel {
       kOriginModelFlat,
@@ -22,13 +15,7 @@ class comptonGenBeam : public comptonVEventGen {
     };
 
     EOriginModel GetOriginModelFromString(G4String model) const;
-    void SetOriginXModel(G4String x);
-    void SetOriginYModel(G4String y);
-    void SetOriginZModel(G4String z);
 
-    void SetRasterX(double x);
-    void SetRasterY(double y);
-    void SetRasterRefZ(double z);
 
     G4double GetSpread(G4double spread, EOriginModel model);
     G4ThreeVector GetSpread(G4ThreeVector spread,
@@ -36,15 +23,8 @@ class comptonGenBeam : public comptonVEventGen {
       EOriginModel y = kOriginModelFlat,
       EOriginModel z = kOriginModelFlat);
 
-    void SetDirectionX(double dx);
-    void SetDirectionY(double dy);
-    void SetDirectionZ(double dz);
-    void SetDirectionPh(double ph);
-    void SetDirectionTh(double th);
     void SetDirectionIsotropic();
 
-    void SetCorrelationX(double cx);
-    void SetCorrelationY(double cy);
 
     void SetPolarizationX(double sx);
     void SetPolarizationY(double sy);
@@ -59,17 +39,12 @@ class comptonGenBeam : public comptonVEventGen {
     G4ThreeVector fOriginSpread;
     EOriginModel  fOriginModelX, fOriginModelY, fOriginModelZ;
     G4ThreeVector fDirection;
-    G4double      fOriginShift;
     G4bool        fIsotropic;
-    G4double      fIsotropicThetaMin;
-    G4double      fIsotropicThetaMax;
     G4ThreeVector fCorrelation;
     G4ThreeVector fPolarization;
 
     Double_t fBeamCurrent;
     Double_t fBeamEnergy;
-    G4ThreeVector fRaster;
-    Double_t fRasterRefZ;
 
     G4String fParticleName;
 };
