@@ -46,7 +46,7 @@ comptonGlobalField::comptonGlobalField()
   fEpsMin(1.0e-5*mm),fEpsMax(1.0e-4*mm),
   fEquation(0),fEquationDoF(0),
   fFieldManager(0),fFieldPropagator(0),
-  fStepper(0),fChordFinder(0),
+  fStepper(0),fChordFinder(0),fGlobalScale(1),
   fVerboseLevel(0)
 {
     // Get field propagator and managers
@@ -298,8 +298,9 @@ void comptonGlobalField::SetFieldScale(const G4String& name, G4double scale)
 }
 
 void comptonGlobalField::SetGlobalScale(G4double scale){
+    G4AutoLock lock(&comptonGlobalFieldMutex);
     for(auto& field: fFields){
-        field->SetFieldScale(field->GetFieldScale()*scale);
+        field->SetGlobalFieldScale(scale);
     }
 }
 
