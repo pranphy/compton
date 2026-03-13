@@ -1,55 +1,100 @@
-# Simulations for the Compton Polarimeter at Jefferson Lab Hall A
-## Compilation
-This compton simulation has two  major dependencies. Those are ROOT and Geant4.
+# Compton Simulation
 
-ROOT [6.32.04] can be downloaded from [https://root.cern](https://root.cern/).
+[![GitHub Workflow Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/pranphy/compton/actions)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Geant4 [11.2.2] can be downloaded from [https://geant4.web.cern.ch/geant4/](https://geant4.web.cern.ch/geant4/).
+This repository contains a simulation for the Jefferson Lab Hall A compton polarimeter, built with ROOT and Geant4. It provides tools for simulating Compton scattering events and analyzing the resulting data.
 
-Make sure those are installed and available in your system.
+[TOC]
 
-This project uses cmake build system to compile. Make sure that you have the latest version of cmake.
-clone the directory
+![](doc/img/snapshot.png)
+
+
+*   **Compton Scattering Simulation:** Simulate Compton scattering phenomena using Geant4.
+*   **ROOT Integration:** Utilize ROOT for data analysis and visualization.
+*   **Customizable Geometry:** Define and modify detector geometries.
+*   **Batch and Interactive Modes:** Run simulations with or without a graphical user interface.
+
+## Dependencies
+
+This project relies on the following major dependencies:
+
+*   **ROOT:** A data analysis framework.
+    *   Version: `6.32.04` (or higher)
+    *   Download: [https://root.cern](https://root.cern/)
+*   **Geant4:** A toolkit for simulating the passage of particles through matter.
+    *   Version: `11.2.2` (or compatible)
+    *   Download: [https://geant4.web.cern.ch/geant4/](https://geant4.web.cern.ch/geant4/)
+*   **CMake:** A cross-platform build system. Ensure you have a recent version installed.
+
+Please ensure these dependencies are installed and properly configured in your system environment.
+
+## Installation
+
+First, clone the repository:
 
 ```bash
 git clone https://github.com/pranphy/compton.git
+cd compton
 ```
 
-Compilation is just as simple as mkaing a build directory and running cmake.
+## Building the Project
+
+The project uses CMake for its build system. To compile:
+
 ```bash
-cd compton
-mkdir build
+mkdir -p build
 cd build
 cmake ..
 make -j$(nproc)
 ```
 
-This should produce `compton` executable which can be used to run simulations as well as `compoot` executable which can be used to analyze the output.
+This process will generate two executables in the `build/` directory:
+*   `compton`: For running simulations.
+*   `compoot`: For analyzing the output data.
 
+## Running Simulations
 
-## Running simulations
+The `compton` executable can be used to run simulations in both interactive and batch modes.
 
-Simulations can be run in interactive mode when not specifying arguments, or in batch mode when specifying a macro:
+### Usage
+
 ```
 Usage:
- compton [-g geometry] [-m macro] [-u session] [-r seed] [-t nthreads] [macro]
+  compton [-g geometry] [-m macro] [-u session] [-r seed] [-t nthreads] [macro]
 ```
 
-Run simulations with `compton` executable:
+### Interactive Mode
+
+To run in interactive mode with a graphical user interface:
+
 ```bash
 ./build/compton
 ```
-This will open up a GUI with the default geometry. Without argument it will start with a macro file `macros/runexample_vis.mac` which sets up the GUI and renders the default geometry.
 
+This will open a GUI, loading the default geometry and executing `macros/runexample_vis.mac`, which configures the visualization.
 
-## Batch mode
+### Batch Mode
 
-To run simulation in batch mode you can pass a macro file as an argument:
+To run a simulation in batch mode using a macro file:
+
 ```bash
 ./build/compton macros/test.mac
 ```
 
-## Analyzing the output
+## Analyzing Output
 
-You can access the output file with a regular root installation. A listing of the [output variables](README.variables.md) is available for reference.
+The simulation output files can be analyzed using a standard ROOT installation. A detailed listing of the [output variables](doc/data-structure.md) is available for reference.
 
+## Docs
+
+- [Getting Started](doc/getting-started.md)
+- [Data Structure](doc/data-structure.md)
+
+## Contributing
+
+Contributions are welcome! Please feel free to open issues or submit pull requests.
+
+## License
+
+This project is licensed under the MIT License.
