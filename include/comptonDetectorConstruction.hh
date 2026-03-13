@@ -127,11 +127,6 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
 
     void InitKryptoniteMaterials();
 
-  private:
-
-    std::vector<G4VPhysicalVolume*> fMeshPVs;
-
-    void AddMesh(const G4String& filename);
 
   public:
 
@@ -183,11 +178,7 @@ class comptonDetectorConstruction : public G4VUserDetectorConstruction
         const G4String& type)
     {
       auto icompare = [](const G4String& lhs, const G4String& rhs) {
-        #if G4VERSION_NUMBER < 1100
-          return lhs.compareTo(rhs, G4String::ignoreCase);
-        #else
           return G4StrUtil::icompare(lhs, rhs);
-        #endif
       };
       return std::find_if(begin, end,
         [icompare,type](const G4GDMLAuxStructType& element) {

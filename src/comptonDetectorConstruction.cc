@@ -97,7 +97,6 @@ comptonDetectorConstruction::comptonDetectorConstruction(const G4String& name, c
   fGeometryMessenger.DeclareMethod( "relative_position", &comptonDetectorConstruction::RelativePosition, "Position a volume relative to current position [mm]") .SetStates(G4State_PreInit,G4State_Idle);
   fGeometryMessenger.DeclareMethod( "absolute_rotation", &comptonDetectorConstruction::AbsoluteRotation, "Set the rotation of volume in parent frame [deg]") .SetStates(G4State_PreInit,G4State_Idle);
   fGeometryMessenger.DeclareMethod( "relative_rotation", &comptonDetectorConstruction::RelativeRotation, "Rotate a volume relative to current orientation [deg]") .SetStates(G4State_PreInit,G4State_Idle);
-  fGeometryMessenger.DeclareMethod( "addmesh", &comptonDetectorConstruction::AddMesh, "Add mesh file (ascii stl, ascii ply, ascii obj)") .SetStates(G4State_Idle);
 
   // Create user limits messenger
   fUserLimitsMessenger.DeclareMethod( "usermaxallowedstep", &comptonDetectorConstruction::SetUserMaxAllowedStep, "Set user limit MaxAllowedStep for logical volume") .SetStates(G4State_Idle);
@@ -246,36 +245,7 @@ void comptonDetectorConstruction::SetUserMinRange(G4String name, G4String value_
 
 comptonDetectorConstruction::~comptonDetectorConstruction()
 {
-    for (auto pv: fMeshPVs) {
-      auto lv = pv->GetLogicalVolume();
-      auto solid = lv->GetSolid();
-      delete solid;
-      delete lv;
-      delete pv;
-    }
-}
 
-void comptonDetectorConstruction::AddMesh(const G4String& filename)
-{
-  #ifdef __USE_CADMESH
-    // Read mesh
-    auto mesh = CADMesh::TessellatedMesh::FromSTL(filename);
-
-    // Extract solids
-    G4Material* material = G4NistManager::Instance()->FindOrBuildMaterial("G4_Galactic");
-    for (auto solid: mesh->GetSolids()) {
-      auto lv = new G4LogicalVolume(solid, material, filename);
-      lv->SetVisAttributes(G4Colour(0.0,1.0,0.0,1.0));
-      auto pv = new G4PVPlacement(G4Transform3D(), filename, lv, fWorldVolume, false, 0, false);
-      fMeshPVs.push_back(pv);
-    }
-
-    // Reoptimize geometry
-    G4RunManager* run_manager = G4RunManager::GetRunManager();
-    run_manager->GeometryHasBeenModified();
-  #else
-    G4cerr << __FILE__ << " line " << __LINE__ << ": Warning - meshes not supported." << G4endl;
-  #endif
 }
 
 void comptonDetectorConstruction::AbsolutePosition(G4String name, G4ThreeVector position)
@@ -504,33 +474,21 @@ void comptonDetectorConstruction::PrintAuxiliaryInfo() const
 void comptonDetectorConstruction::ParseAuxiliaryUserLimits()
 {
   const G4GDMLAuxMapType* auxmap = fGDMLParser.GetAuxMap();
-  for(G4GDMLAuxMapType::const_iterator
-      iter  = auxmap->begin();
-      iter != auxmap->end(); iter++) {
+  for(auto& [logical_volume, auxiliary] : *auxmap) {
 
     if (fVerboseLevel > 0)
-      G4cout << "Volume " << ((*iter).first)->GetName()
-             << " has the following list of auxiliary information: "<< G4endl;
+      G4cout << "Volume " << logical_volume->GetName() << " has the following list of auxiliary information: "<< G4endl;
 
     // Loop over auxiliary tags for this logical volume
-    G4LogicalVolume* logical_volume = (*iter).first;
-    for (G4GDMLAuxListType::const_iterator
-        vit  = (*iter).second.begin();
-        vit != (*iter).second.end(); vit++) {
+    for (auto& [type,value,_,__] : auxiliary) {
 
       if (fVerboseLevel > 0)
-        G4cout << "--> Type: " << (*vit).type
-	       << " Value: "   << (*vit).value << std::endl;
+        G4cout << "--> Type: " << type << " Value: "   << value << std::endl;
 
-      // Skip if not starting with "User"
-      #if G4VERSION_NUMBER < 1100
-      if (! (*vit).type.contains("User")) continue;
-      #else
-      if (! G4StrUtil::contains((*vit).type, "User")) continue;
-      #endif
+      if (! G4StrUtil::contains(type, "User")) continue;
 
       // Set user limits
-      SetUserLimits(logical_volume, (*vit).type, (*vit).value);
+      SetUserLimits(logical_volume, type, value);
     }
   }
 
@@ -542,118 +500,81 @@ void comptonDetectorConstruction::ParseAuxiliaryVisibilityInfo()
 {
   // Loop over volumes with auxiliary information
   const G4GDMLAuxMapType* auxmap = fGDMLParser.GetAuxMap();
-  for(G4GDMLAuxMapType::const_iterator
-      iter  = auxmap->begin();
-      iter != auxmap->end(); iter++) {
+  for(auto& [volume, auxiliary] : *auxmap) {
 
     if (fVerboseLevel > 0)
-      G4cout << "Volume " << ((*iter).first)->GetName()
-             << " has the following list of auxiliary information: "<< G4endl;
+      G4cout << "Volume " << volume->GetName() << " has the following list of auxiliary information: "<< G4endl;
 
     // Loop over auxiliary tags for this logical volume
-    for (G4GDMLAuxListType::const_iterator
-         vit  = (*iter).second.begin();
-         vit != (*iter).second.end(); vit++) {
+    for (auto [type,value, _,__] : auxiliary) {
 
       if (fVerboseLevel > 0)
-        G4cout << "--> Type: " << (*vit).type
-	       << " Value: "   << (*vit).value << std::endl;
+        G4cout << "--> Type: " << type << " Value: "   << value << std::endl;
 
       // Visibility = true|false|wireframe
-      if ((*vit).type == "Visibility") {
+      if (type == "Visibility") {
         G4Colour colour(1.0,1.0,1.0);
-        const G4VisAttributes* visAttribute_old = ((*iter).first)->GetVisAttributes();
+        const G4VisAttributes* visAttribute_old = volume->GetVisAttributes();
         if (visAttribute_old != nullptr)
           colour = visAttribute_old->GetColour();
         G4VisAttributes visAttribute_new(colour);
-        if ((*vit).value == "true")
+        if (value == "true")
           visAttribute_new.SetVisibility(true);
-        if ((*vit).value == "false")
+        if (value == "false")
           visAttribute_new.SetVisibility(false);
-        if ((*vit).value == "wireframe")
+        if (value == "wireframe")
           visAttribute_new.SetForceWireframe(false);
 
-        ((*iter).first)->SetVisAttributes(visAttribute_new);
+        volume->SetVisAttributes(visAttribute_new);
       }
 
       // Color = name
-      if ((*vit).type == "Color") {
+      if (type == "Color") {
         G4Colour colour(1.0,1.0,1.0);
-        if (G4Colour::GetColour((*vit).value, colour)) {
+        if (G4Colour::GetColour(value, colour)) {
 
           if (fVerboseLevel > 0)
-            G4cout << "Setting color to " << (*vit).value << "." << G4endl;
+            G4cout << "Setting color to " << value << "." << G4endl;
 
           G4VisAttributes visAttribute(colour);
-          ((*iter).first)->SetVisAttributes(visAttribute);
+          volume->SetVisAttributes(visAttribute);
 
-        } else {
-            auto val = (*vit).value;
-            double red = 1.0;
-            double green = 1.0;
-            double blue = 1.0;
-            double alpha = 1.0;
-            std::stringstream ss;
-            unsigned int temp;
-            /*
-               G4cout << " Auxiliary Information is found for Logical Volume :  "
-               << (*lvciter)->GetName() << G4endl;
-               G4cout << " Name of Auxiliary type is     :  " << str << G4endl;
-               G4cout << " Associated Auxiliary value is :  " << val << G4endl;
-               */
-            // Check to see if it's not a know color
-            if(!G4Colour::GetColour(val,colour)) {
-                val.erase(0,1); // first chacater is '#' so remove it.
-                if(val.size() >= 6 ) {
-                    ss << std::hex << val.substr(0,2);
-                    ss >> temp;
-                    red = temp/256.;
-                    ss.str("");
-                    ss.clear();
-                    ss << std::hex << val.substr(2,2);
-                    ss >> temp;
-                    green = temp/256.;
-                    ss.str("");
-                    ss.clear();
-                    ss << std::hex << val.substr(4,2);
-                    ss >> temp;
-                    blue = temp/256.;
-                    ss.str("");
-                    ss.clear();
-                    if(val.size() >= 8 ) {
-                        ss << std::hex << val.substr(6,2);
-                        ss >> temp;
-                        alpha = temp/256.;
-                        ss.str("");
-                        ss.clear();
-                    }
-                }
-                colour = G4Colour(red,green,blue,alpha);
+        } else { //parsing hex dormat #AABBCCDD
+            double red = 1.0, green = 1.0, blue = 1.0, alpha = 1.0;
+
+            // Expect formats like "#RRGGBB" or "#RRGGBBAA"
+            if (!value.empty() && value[0] == '#') value.erase(0, 1);
+
+            // Must be at least RRGGBB
+            if (value.size() >= 6) {
+                auto hexToFloat = [](const std::string& s) {
+                    return static_cast<double>(std::stoul(s, nullptr, 16)) / 255.0;
+                };
+
+                red   = hexToFloat(value.substr(0, 2));
+                green = hexToFloat(value.substr(2, 2));
+                blue  = hexToFloat(value.substr(4, 2));
+
+                if (value.size() >= 8) alpha = hexToFloat(value.substr(6, 2));
             }
+            colour = G4Colour(red, green, blue, alpha);
             G4VisAttributes visAttribute(colour);
-            ((*iter).first)->SetVisAttributes(visAttribute);
-
-          if (fVerboseLevel > 0)
-            G4cout << "Colour " << (*vit).value << " is not known." << G4endl;
-
+            volume->SetVisAttributes(visAttribute);
         }
       }
 
       // Alpha = float between 0 and 1
-      if ((*vit).type == "Alpha") {
+      if (type == "Alpha") {
         G4Colour colour(1.0,1.0,1.0);
-        const G4VisAttributes* visAttribute_old = ((*iter).first)->GetVisAttributes();
+        const G4VisAttributes* visAttribute_old = volume->GetVisAttributes();
 
         if (visAttribute_old != nullptr)
           colour = visAttribute_old->GetColour();
 
-        G4Colour colour_new(
-            colour.GetRed(),
-            colour.GetGreen(),
-            colour.GetBlue(),
-            std::atof((*vit).value.c_str()));
+        G4Colour colour_new( colour.GetRed(), colour.GetGreen(), colour.GetBlue(),
+            std::atof(value.c_str()));
         G4VisAttributes visAttribute_new(colour_new);
-        ((*iter).first)->SetVisAttributes(visAttribute_new);
+        volume->SetVisAttributes(visAttribute_new);
       }
     }
   }
@@ -677,10 +598,7 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
 
   // Loop over all volumes with auxiliary tags
   const G4GDMLAuxMapType* auxmap = fGDMLParser.GetAuxMap();
-  for (G4GDMLAuxMapType::const_iterator iter  = auxmap->begin(); iter != auxmap->end(); iter++) {
-
-      G4LogicalVolume* myvol = (*iter).first;
-      G4GDMLAuxListType list = (*iter).second;
+  for (auto& [myvol, auxiliary] : *auxmap) {
 
       if (fVerboseLevel > 0)
         G4cout << "Volume " << myvol->GetName() << G4endl;
@@ -688,14 +606,14 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
       comptonGenericDetector* comptonsd = 0;
 
       // Find first aux list entry with type SensDet
-      auto it_sensdet = NextAuxWithType(list.begin(), list.end(), "SensDet");
-      if (it_sensdet != list.end()) {
+      auto it_sensdet = NextAuxWithType(auxiliary.begin(), auxiliary.end(), "SensDet");
+      if (it_sensdet != auxiliary.end()) {
 
         G4String sens_det = it_sensdet->value;
 
         // Find first aux list entry with type DetNo
-        auto it_detno = NextAuxWithType(list.begin(), list.end(), "DetNo");
-        if (it_detno != list.end()) {
+        auto it_detno = NextAuxWithType(auxiliary.begin(), auxiliary.end(), "DetNo");
+        if (it_detno != auxiliary.end()) {
 
           int det_no = atoi(it_detno->value.data());
           bool enabled = (det_no > 0)? false : true;
@@ -751,9 +669,9 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
 
 
       // Find aux list entries with type DetType
-      for (auto it_dettype  = NextAuxWithType(list.begin(), list.end(), "DetType");
-                it_dettype != list.end();
-                it_dettype  = NextAuxWithType(++it_dettype, list.end(), "DetType")) {
+      for (auto it_dettype  = NextAuxWithType(auxiliary.begin(), auxiliary.end(), "DetType");
+                it_dettype != auxiliary.end();
+                it_dettype  = NextAuxWithType(++it_dettype, auxiliary.end(), "DetType")) {
 
         // Set detector type
         if (comptonsd != nullptr) comptonsd->SetDetectorType(it_dettype->value);
@@ -763,17 +681,17 @@ void comptonDetectorConstruction::ParseAuxiliarySensDetInfo()
           if (comptonsd != nullptr) comptonsd->PrintDetectorType();
 
       }
-        auto it_magfield = NextAuxWithType(list.begin(), list.end(), "MagField");
-        if (it_magfield != list.end()) {
-            auto field_id = it_magfield->value.data();
-            fMagneticVolumes[field_id] = myvol;
-        }
+      auto it_magfield = NextAuxWithType(auxiliary.begin(), auxiliary.end(), "MagField");
+      if (it_magfield != auxiliary.end()) {
+          auto field_id = it_magfield->value.data();
+          fMagneticVolumes[field_id] = myvol;
+      }
 
-        auto it_stepl = NextAuxWithType(list.begin(), list.end(), "stepl");
-        if (it_stepl != list.end()) {
-            auto field_id = it_magfield->value.data();
-            myvol->SetUserLimits(new G4UserLimits(1*mm));
-        }
+      auto it_stepl = NextAuxWithType(auxiliary.begin(), auxiliary.end(), "stepl");
+      if (it_stepl != auxiliary.end()) {
+          auto field_id = it_magfield->value.data();
+          myvol->SetUserLimits(new G4UserLimits(1*mm));
+      }
   } // end of loop over volumes
 
   if (fVerboseLevel > 0)
