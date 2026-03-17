@@ -30,6 +30,7 @@ class comptonGenCompton : public comptonVEventGen {
     G4double fLaserWavelength;
     G4double fAParameter;
     G4double fLuminosity;
+    G4double fInitialAngle;
 
     G4double GetRandomRho();
     void SamplePhysics(comptonVertex *, comptonEvent *);

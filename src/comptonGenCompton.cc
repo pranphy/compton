@@ -17,8 +17,8 @@ comptonGenCompton::comptonGenCompton()
     fCrossingAngle(0.0),
     fBeamCurr(0.0),
     fLaserPower(0.0),
+    fInitialAngle(0.0),
     initialized(false)
-
 {
     fThisGenMessenger.DeclarePropertyWithUnit("beamene","GeV",fElectronEnergy,"Beam electron energy");
     fThisGenMessenger.DeclarePropertyWithUnit("beamcurr","microampere",fBeamCurr,"The beam current");
@@ -45,6 +45,7 @@ void comptonGenCompton::Initialize(){
     }
 
     fLuminosity = GetLuminosity();
+    fInitialAngle = 1.2*degree;
     initialized = true;
 }
 
@@ -80,8 +81,9 @@ double comptonGenCompton::GetRate(double rho){
 
 G4double comptonGenCompton::GetRandomRho()
 {
-    G4RandGeneral GenDist(fCXdSig_dRho,10000);
-    return GenDist.shoot();
+    //G4RandGeneral GenDist(fCXdSig_dRho,10000);
+    //return GenDist.shoot();
+    return G4UniformRand();
 }
 
 
