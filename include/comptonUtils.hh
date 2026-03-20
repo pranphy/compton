@@ -615,7 +615,8 @@ namespace att{
     const __attrib_f phi  = [](const ComptonHit& hit){ return utl::atan_deg(hit.y,hit.x); };
     const __attrib_f th   = [](const ComptonHit& hit){ return utl::atan_deg(std::hypot(hit.x,hit.y),hit.z);};
     const __attrib_f pphi = [](const ComptonHit& hit){ return utl::atan_deg(hit.py,hit.px); };
-    const __attrib_f pth  = [](const ComptonHit& hit){ return utl::atan_deg(std::hypot(hit.px,hit.py),hit.pz);};
+    const __attrib_f pthd = [](const ComptonHit& hit){ return utl::atan_deg(std::hypot(hit.px,hit.py),hit.pz);};
+    const __attrib_f pth  = [](const ComptonHit& hit){ return std::atan2(std::hypot(hit.px,hit.py),hit.pz);};
 
     const __attrib_f vx   = [](const ComptonHit& hit){ return hit.vx; };
     const __attrib_f vy   = [](const ComptonHit& hit){ return hit.vy; };
@@ -634,6 +635,7 @@ typedef std::function<void(hit_list&, TH2D*)> __cbackf;
 //typedef void(*)(hit_list&, hist&) __cbackf;
 
 void fill(ROOT::RDataFrame&, std::vector<hist>&&);
+void fill_rate(ROOT::RDataFrame&, std::vector<hist>&&);
 
 struct hist{
     std::string name;
@@ -647,8 +649,8 @@ struct hist{
     int dim;
     __cbackf callback; bool calls;
 
-    hist(int dim, TObject* h,hit_cut cut, std::vector<__attrib_f> params, lookup_func lookup=identity_lookup)
-        :lookup(lookup), cut(cut), params(params), bins({}), dim(dim),calls(false)
+    hist(int dim, TObject* h, std::vector<__attrib_f> params,hit_cut cut, lookup_func lookup=identity_lookup)
+        :lookup(lookup), params(params),  cut(cut), bins({}), dim(dim),calls(false)
     {
         if(dim == 1) {
             h1 = (TH1D*) h; name = std::string(h1->GetName());
@@ -678,29 +680,29 @@ struct hist{
         obj = init_hist();
     }
 
-    hist(std::string name, lookup_func lookup, hit_cut cut, std::vector<__attrib_f> params, std::string title,  std::vector<float> bins)
-        :name(name), lookup(lookup), cut(cut), title(title), params(params), bins(bins),  calls(false)
+    hist(std::string name, lookup_func lookup, std::vector<__attrib_f> params, hit_cut cut, std::string title,  std::vector<float> bins)
+        :name(name), lookup(lookup), params(params), cut(cut), title(title), bins(bins),  calls(false)
     {
         dim = params.size();
         obj = init_hist();
     }
 
-    hist(std::string name, lookup_func lookup, hit_cut cut, __attrib_f param, std::string title,  std::vector<float> bins)
-        :name(name), lookup(lookup), cut(cut), title(title), params({param}), bins(bins), calls(false)
+    hist(std::string name, lookup_func lookup, __attrib_f param, hit_cut cut, std::string title,  std::vector<float> bins)
+        :name(name), lookup(lookup), params({param}), cut(cut), bins(bins), title(title), calls(false)
     {
         dim = params.size();
         obj = init_hist();
     }
 
-    hist(std::string name, hit_cut cut, __attrib_f param, std::string title,  std::vector<float> bins)
-        :name(name), cut(cut), title(title), params({param}), bins(bins),  calls(false)
+    hist(std::string name, __attrib_f param, hit_cut cut, std::string title,  std::vector<float> bins)
+        :name(name), params({param}), cut(cut), title(title), bins(bins),  calls(false)
     {
         dim = params.size();
         obj = init_hist();
         lookup = identity_lookup;
     }
-    hist(std::string name, hit_cut cut, std::vector<__attrib_f> params, std::string title,  std::vector<float> bins)
-        :name(name), cut(cut), title(title), params(params), bins(bins), calls(false)
+    hist(std::string name, std::vector<__attrib_f> params, hit_cut cut, std::string title,  std::vector<float> bins)
+        :name(name), params(params), cut(cut), title(title), bins(bins), calls(false)
     {
         dim = params.size();
         lookup = identity_lookup;
@@ -760,7 +762,7 @@ struct hist{
     }
 
     hist loop(ROOT::RDataFrame& df){
-        fill(df,{*this});
+        fill_rate(df,{*this});
         return *this;
     }
 
