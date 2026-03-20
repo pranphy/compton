@@ -1,6 +1,7 @@
 # Getting Started
 Say you want to simulate 1000 beam events.
 
+
 ##  Create a macro
 Then create a macro `macros/batch.mac` with the following content.
 ```mac
