@@ -1,12 +1,14 @@
+#include <math.h>
+
+#include <comptonEvent.hh>
+#include <comptonVertex.hh>
+#include <G4tgbRotationMatrix.hh>
+
+#include <Randomize.hh>
+#include <G4SystemOfUnits.hh>
+
 #include "comptonGenCompton.hh"
 
-#include "comptonEvent.hh"
-#include "comptonVertex.hh"
-
-#include "Randomize.hh"
-#include "G4SystemOfUnits.hh"
-
-#include <math.h>
 
 
 comptonGenCompton::comptonGenCompton()
@@ -17,14 +19,17 @@ comptonGenCompton::comptonGenCompton()
     fCrossingAngle(0.0),
     fBeamCurr(0.0),
     fLaserPower(0.0),
+    fInitialAngleMin(0.0),
+    fInitialAngleMax(0.0),
     initialized(false)
-
 {
     fThisGenMessenger.DeclarePropertyWithUnit("beamene","GeV",fElectronEnergy,"Beam electron energy");
     fThisGenMessenger.DeclarePropertyWithUnit("beamcurr","microampere",fBeamCurr,"The beam current");
     fThisGenMessenger.DeclarePropertyWithUnit("laserwavelength","nm",fLaserWavelength,"The wavelength of laser photon");
     fThisGenMessenger.DeclarePropertyWithUnit("laserpower","watt",fLaserPower,"The power of laser");
     fThisGenMessenger.DeclarePropertyWithUnit("crossingangle","deg",fCrossingAngle,"The crossing angle");
+    fThisGenMessenger.DeclarePropertyWithUnit("ethmin","milliradian",fInitialAngleMin,"The minimum polar agnle of beam");
+    fThisGenMessenger.DeclarePropertyWithUnit("ethmax","milliradian",fInitialAngleMax,"The maximum polar angle of beam");
     fThisGenMessenger.DeclarePropertyWithUnit("sigmae","micrometer",fSigmae,"The beam spot size");
     fThisGenMessenger.DeclarePropertyWithUnit("sigmap","micrometer",fSigmap,"The photon spot size");
 }
@@ -80,8 +85,9 @@ double comptonGenCompton::GetRate(double rho){
 
 G4double comptonGenCompton::GetRandomRho()
 {
-    G4RandGeneral GenDist(fCXdSig_dRho,10000);
-    return GenDist.shoot();
+    //G4RandGeneral GenDist(fCXdSig_dRho,10000);
+    //return GenDist.shoot();
+    return G4UniformRand();
 }
 
 
@@ -89,28 +95,39 @@ void comptonGenCompton::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *ev
 {
     if(!initialized) Initialize();
 
+    double theta0 = std::acos(CLHEP::RandFlat::shoot(std::cos(fInitialAngleMin), std::cos(fInitialAngleMax)));
+    double phi0   = 0.0;
+
+    G4RotationMatrix R_to_ez;
+    R_to_ez.rotateZ(-phi0);
+    R_to_ez.rotateY(-theta0);
+
+    // Inverse rotation (back to lab)
+    G4RotationMatrix R_to_lab = R_to_ez.inverse();
+
+
     double rho = GetRandomRho();
-    double gamma_E = rho * fMaxPhotonEnergy;
-    G4ThreeVector gamma_direction;
-    G4ThreeVector direction_e;
-    G4double gma =  fElectronEnergy/CLHEP::electron_mass_c2;
-    double gamma_theta = std::sqrt( 4 * fLaserEnergy/gamma_E - 1/( fAParameter*gma*gma));
+    double E_gamma = rho * fMaxPhotonEnergy;
+    G4double gma = fElectronEnergy / CLHEP::electron_mass_c2;
+
+    double gamma_theta = std::sqrt( 4.0 * fLaserEnergy/E_gamma - 1.0/(fAParameter * gma * gma) );
     double gamma_phi = CLHEP::RandFlat::shoot(2.0 * CLHEP::pi);
-    gamma_direction.setRThetaPhi(1.0, gamma_theta/CLHEP::radian, gamma_phi / CLHEP::radian);
-    G4ThreeVector gamma_momentum = gamma_E*gamma_direction;
+    G4ThreeVector gamma_dir_ez;
+    gamma_dir_ez.setRThetaPhi(1.0, gamma_theta/CLHEP::radian, gamma_phi/CLHEP::radian);
+    G4ThreeVector momentum_gamma_ez = E_gamma * gamma_dir_ez;
+    G4ThreeVector momentum_gamma_lab = R_to_lab * momentum_gamma_ez;
+    evt->ProduceNewParticle(G4ThreeVector(0,0,0), momentum_gamma_lab, "gamma");
 
-    evt->ProduceNewParticle( G4ThreeVector(0.0,0.0,0.0), gamma_momentum, "gamma");
 
-
-    double electronE = (fElectronEnergy + fLaserEnergy) - gamma_E; // E cons
-    double momentum_e = std::sqrt(std::pow(electronE, 2) - std::pow(CLHEP::electron_mass_c2, 2)); // Actually this is to satisfy the ProduceNewParticle function.
-    double theta_e = std::asin(gamma_E * std::sin(gamma_theta) / momentum_e);
+    double E_e = (fElectronEnergy + fLaserEnergy) - E_gamma;
+    double momentum_e = std::sqrt(E_e*E_e - CLHEP::electron_mass_c2*CLHEP::electron_mass_c2);
+    double theta_e = std::asin(E_gamma / momentum_e * std::sin(gamma_theta) );
     double phi_e = -gamma_phi;
-    direction_e.setRThetaPhi(1.0, theta_e/CLHEP::radian, phi_e / CLHEP::radian);
-    G4ThreeVector momentum_vec_e = momentum_e*direction_e;
-
-    evt->ProduceNewParticle( G4ThreeVector(0.0,0.0,0.0), momentum_vec_e, "e-");
-
+    G4ThreeVector e_dir_ez;
+    e_dir_ez.setRThetaPhi(1.0, theta_e/CLHEP::radian, phi_e/CLHEP::radian);
+    G4ThreeVector momentum_e_ez = momentum_e * e_dir_ez;
+    G4ThreeVector momentum_e_lab = R_to_lab * momentum_e_ez;
+    evt->ProduceNewParticle(G4ThreeVector(0,0,0), momentum_e_lab, "e-");
 
 
     // So basically I have to calculate luminosity first, which is
@@ -131,8 +148,5 @@ void comptonGenCompton::SamplePhysics(comptonVertex * /*vert*/, comptonEvent *ev
     evt->SetEffCrossSection(XS);
     evt->SetRate(rate); // see the rate here is in Geant4 units, writing takes care of proper unit
 
-    //evt->SetQ2( 2.0*e_com*e_com*(1.0-cos(thcom)) );
-    // Q2 is not actually well defined
-    //evt->SetQ2( 0.0 );
-
 }
+

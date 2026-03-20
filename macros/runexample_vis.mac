@@ -6,11 +6,6 @@
 /compton/geometry/setfile geometry/compton/ComptonGeometry.gdml
 /compton/parallel/setfile geometry/compton/ComptonParallel.gdml
 
-/compton/geometry/relative_position gate_valve_phy 0 30 0 # the units are mm
-
-#/physics_lists/em/SyncRadiationAll true
-#///compton/physlist/optical/enable
-#/compton/setphysicslist beam
 /compton/physlist/synchrotron/enable
 
 /compton/field/add 1 map_directory/20/dipole_magnetic_field_20_1.txt
@@ -47,22 +42,6 @@
 /compton/SD/detect lowenergyneutral 41
 /compton/SD/detect secondaries 41
 /compton/SD/detect boundaryhits 41
-/compton/SD/enable 13
-/compton/SD/detect lowenergyneutral 13
-/compton/SD/detect secondaries 13
-/compton/SD/detect boundaryhits 13
-/compton/SD/enable 14
-/compton/SD/detect lowenergyneutral 14
-/compton/SD/detect secondaries 14
-/compton/SD/detect boundaryhits 14
-/compton/SD/enable 15
-/compton/SD/detect lowenergyneutral 15
-/compton/SD/detect secondaries 15
-/compton/SD/detect boundaryhits 15
-/compton/SD/enable 16
-/compton/SD/detect lowenergyneutral 16
-/compton/SD/detect secondaries 16
-/compton/SD/detect boundaryhits 16
 
 
 /compton/filename comptonout2.root
