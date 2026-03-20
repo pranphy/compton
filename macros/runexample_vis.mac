@@ -31,13 +31,9 @@
 /compton/evgen/beam/beamcurr 65 microampere
 /compton/evgen/beam/originspread 30 30 0 um
 /compton/evgen/beam/direction 0 0.0000 1
+
 #
-#
-#
-##/compton/step/killminenergy 1 MeV
-/compton/step/killpidafterz 11 5000
-#
-#/compton/SD/disable_all
+/compton/SD/disable_all
 /compton/SD/enable 41
 /compton/SD/detect lowenergyneutral 41
 /compton/SD/detect secondaries 41

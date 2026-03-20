@@ -1,0 +1,51 @@
+/compton/geometry/setfile geometry/compton/ComptonGeometry.gdml
+/compton/parallel/setfile geometry/compton/ComptonParallel.gdml
+
+
+/compton/physlist/synchrotron/enable
+
+/run/verbose 0
+#/tracking/verbose 1
+#///stepping/verbose 1
+
+/compton/field/add 1 map_directory/20/dipole_magnetic_field_20_1.txt
+/compton/field/add 2 map_directory/20/dipole_magnetic_field_20_2.txt
+/compton/field/add 3 map_directory/20/dipole_magnetic_field_20_3.txt
+/compton/field/add 4 map_directory/20/dipole_magnetic_field_20_4.txt
+
+/run/initialize
+
+# put the valve away from the beamline to run no valve simulation
+# to have the valve either remove this or put it at (0,0,0), relative position
+/compton/geometry/relative_position gate_valve_phy (40,40.0,0.0)
+
+/compton/printgeometry 1
+
+/compton/evgen/compton/beamene 11.0 GeV
+/compton/evgen/compton/beamcurr 65.0 microampere
+/compton/evgen/compton/laserwavelength 532.0 nm
+/compton/evgen/compton/crossingangle 1.15 deg
+/compton/evgen/compton/laserpower 2000.0 watt
+/compton/evgen/compton/ethmin 0.100 milliradian
+/compton/evgen/compton/ethmax 0.200 milliradian
+/compton/evgen/compton/sigmae 60.0 um
+/compton/evgen/compton/sigmap 45.0 um
+
+#/compton/evgen/set laser
+#/compton/evgen/laser/origin 0  215.49 0 mm
+#/compton/evgen/laser/energy 1 MeV
+
+
+/compton/SD/disable_all
+/compton/SD/enable 301
+/compton/SD/detect boundaryhits 301
+
+
+/compton/seed 42
+
+/compton/interval 10
+
+/compton/filename /tmp/f_20_compton.root
+
+/run/beamOn 2
+

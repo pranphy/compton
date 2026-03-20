@@ -5,8 +5,6 @@
 /compton/physlist/synchrotron/enable
 
 /run/verbose 0
-#/tracking/verbose 1
-#///stepping/verbose 1
 
 /compton/field/add 1 map_directory/20/dipole_magnetic_field_20_1.txt
 /compton/field/add 2 map_directory/20/dipole_magnetic_field_20_2.txt
@@ -15,14 +13,13 @@
 
 /run/initialize
 
+# put the valve away from the beamline to run no valve simulation
+# to have the valve either remove this or put it at (0,0,0), relative position
 /compton/geometry/relative_position gate_valve_phy (40,40.0,0.0)
 
 /compton/printgeometry 1
 
 
-#/compton/evgen/set compton
-
-#/compton/step/killpidafterz 22 5000
 
 /compton/evgen/set beam
 /compton/evgen/beam/origin 0 215.49 -9849.76 mm
@@ -38,16 +35,16 @@
 
 
 /compton/SD/disable_all
-/compton/SD/enable 41
-/compton/SD/detect lowenergyneutral 41
-/compton/SD/detect secondaries 41
-/compton/SD/detect boundaryhits 41
+/compton/SD/enable1 16
+/compton/SD/detect lowenergyneutral 16
+/compton/SD/detect secondaries 16
+/compton/SD/detect boundaryhits 16
 
 
 /compton/seed 42
 /compton/interval 10
 
-/compton/filename /tmp/f_20_gagain.root
+/compton/filename /tmp/f_20_beam.root
 
 /run/beamOn 2
 
